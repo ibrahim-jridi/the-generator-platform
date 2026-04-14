@@ -1,0 +1,450 @@
+<div class="glass-profile-card">
+  <!-- Header with actions -->
+  <div class="card-header-glass">
+    <div class="header-actions">
+      <app-custom-button
+        class="ms-2"
+        [buttonText]="'button.EDIT' | translate"
+        [buttonClass]="'btn custom-btn-primary'"
+        [buttonIcon]="'icon-style icon-Edit'"
+        [buttonType]="'button'"
+        [buttonDisabled]="false"
+        [tooltip]="'button.EDIT' | translate"
+        (clicked)="updateUser()">
+      </app-custom-button>
+    </div>
+  </div>
+
+  <!-- Form Content -->
+  <div class="card-body-glass">
+    <form id="user-form" [formGroup]="userForm">
+      <!-- Row 1: Username & Last Name -->
+      <div class="form-row">
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "login.NOM_UTILISATEUR" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              class="glass-input"
+              [value]="user?.username"
+              [placeholder]="'login.NOM_UTILISATEUR' | translate"
+              formControlName="username" />
+          </div>
+        </div>
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.LAST_NAME" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              class="glass-input"
+              [value]="user?.lastName"
+              [placeholder]="'users.fields.INSERT_LAST_NAME' | translate"
+              formControlName="lastName"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: First Name & Email -->
+      <div class="form-row">
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.FIRST_NAME" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              class="glass-input"
+              [value]="user?.firstName"
+              [placeholder]="'users.fields.INSERT_FIRST_NAME' | translate"
+              formControlName="firstName" />
+          </div>
+        </div>
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.EMAIL" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="email"
+              class="glass-input"
+              [value]="user?.email"
+              [placeholder]="'users.fields.INSERT_EMAIL' | translate"
+              formControlName="email"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: Birthdate & Gender -->
+      <div class="form-row">
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.BIRTHDATE" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="date"
+              class="glass-input date-input"
+              formControlName="birthDate" />
+            <div *ngIf="userForm.get('birthdate')?.touched && userForm.get('birthdate')?.hasError('required')"
+                 class="error-message">{{'users.errors.REQUIRED_BIRTHDATE' | translate}}</div>
+            <div *ngIf="userForm.get('birthdate')?.touched && userForm.get('birthdate')?.hasError('invalidDateFormat')"
+                 class="error-message">
+              {{ 'users.errors.INVALID_BIRTHDATE_FORMAT' | translate }}
+            </div>
+          </div>
+        </div>
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.GENDER" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              class="glass-input disabled-input"
+              formControlName="gender"
+              disabled="true" />
+            <span *ngIf="userForm.get('gender')!.touched && userForm.get('gender')!.hasError('required')"
+                  class="error-message">{{ 'users.errors.REQUIRED_gender' | translate }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 4: Role -->
+      <div class="form-row">
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.ROLE" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              class="glass-input disabled-input"
+              formControlName="role"
+              disabled="true" />
+            <span *ngIf="userForm.get('role')!.touched && userForm.get('role')!.hasError('required')"
+                  class="error-message">{{ 'users.errors.REQUIRED_ROLE' | translate }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 5: Country & Passport/CIN -->
+      <div class="form-row">
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.COUNTRY" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              class="glass-input"
+              formControlName="country"
+              [value]="userCountry?.label" />
+            <div *ngIf="userForm.get('country')?.touched && userForm.get('country')?.hasError('required')"
+                 class="error-message">
+              {{ 'users.errors.REQUIRED_COUNTRY' | translate }}
+            </div>
+          </div>
+        </div>
+        <div class="form-col" *ngIf="userCountry?.code !== Constants.TUNISIE.toUpperCase()">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.PASSPORT" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              class="glass-input"
+              [placeholder]="'users.fields.INSERT_PASSPORT' | translate"
+              formControlName="passport" />
+            <div *ngIf="userForm.get('passport')?.touched && userForm.get('passport')?.hasError('required')"
+                 class="error-message">{{'users.errors.PASSPORT_REQUIRED' | translate}}</div>
+            <div *ngIf="passport.invalid && (passport.dirty || passport.touched)" class="error-message">
+              <span>passport invalid</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-col" *ngIf="userCountry?.code === Constants.TUNISIE.toUpperCase()">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.fields.CIN" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              class="glass-input"
+              [placeholder]="'users.fields.CIN' | translate"
+              formControlName="cin" />
+            <div *ngIf="userForm.get('cin')?.touched && userForm.get('cin')?.hasError('required')"
+                 class="error-message">{{'users.errors.REQUIRED_CIN' | translate}}</div>
+            <div *ngIf="cin.invalid && (cin.dirty || cin.touched)" class="error-message">
+              <div *ngIf="cin.errors?.pattern">
+                {{'users.errors.INVALID_CIN' | translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 6: Phone Number & Address -->
+      <div class="form-row">
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.PHONE_NUMBER" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <div class="phone-input-wrapper">
+              <ngx-intl-tel-input
+                [cssClass]="'glass-input phone-input'"
+                [enableAutoCountrySelect]="true"
+                formControlName="phoneNumber"
+                [selectedCountryISO]="selectedCountry"
+                [enablePlaceholder]="true"
+                [phoneValidation]="true">
+              </ngx-intl-tel-input>
+            </div>
+            <div *ngIf="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.hasError('required')"
+                 class="error-message">{{'users.errors.PHONE_REQUIRED' | translate}}</div>
+            <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="error-message">
+              <div *ngIf="phoneNumber.errors?.pattern">
+                {{'users.errors.INVALID_PHONE' | translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-col">
+          <div class="input-group-glass">
+            <label class="input-label">
+              <span class="label-text">{{ "users.ADDRESS" | translate }}</span>
+              <span class="required-star">*</span>
+            </label>
+            <input
+              type="text"
+              class="glass-input"
+              [placeholder]="'users.fields.INSERT_ADDRESS' | translate"
+              formControlName="address" />
+            <div *ngIf="userForm.get('address')?.touched && userForm.get('address')?.hasError('required')"
+                 class="error-message">{{'users.errors.REQUIRED_ADDRESS' | translate}}
+              <div *ngIf="address.errors?.pattern">
+                {{'users.errors.INVALID_ADDRESS_PATTERN' | translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  /* Glassmorphism Card Design */
+  .glass-profile-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(139, 92, 246, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  /* Card Header */
+  .card-header-glass {
+    padding: 20px 28px;
+    background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .header-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  /* Card Body */
+  .card-body-glass {
+    padding: 32px 28px;
+  }
+
+  /* Form Layout */
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .form-col {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  /* Input Groups */
+  .input-group-glass {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .input-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #4A5568;
+  }
+
+  .label-text {
+    color: #2D3748;
+  }
+
+  .required-star {
+    color: #E53E3E;
+    font-size: 14px;
+  }
+
+  /* Glass Inputs */
+  .glass-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+    color: #1A202C;
+  }
+
+  .glass-input:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  }
+
+  .glass-input:hover:not(:disabled) {
+    border-color: #A78BFA;
+  }
+
+  .glass-input:disabled,
+  .disabled-input {
+    background: #F7FAFC;
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  /* Date Input Styling */
+  .date-input {
+    color-scheme: light;
+  }
+
+  /* Phone Input Wrapper */
+  .phone-input-wrapper {
+    width: 100%;
+  }
+
+  .phone-input {
+    width: 100% !important;
+  }
+
+  /* Error Messages */
+  .error-message {
+    font-size: 12px;
+    color: #E53E3E;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .error-message::before {
+    content: "⚠";
+    font-size: 10px;
+  }
+
+  /* Custom Button Override */
+  .custom-btn-primary {
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+    border: none;
+    border-radius: 40px;
+    padding: 10px 24px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .custom-btn-primary:hover {
+    background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .card-header-glass {
+      padding: 16px 20px;
+    }
+
+    .card-body-glass {
+      padding: 24px 20px;
+    }
+
+    .form-row {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-col {
+      min-width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .glass-profile-card {
+      border-radius: 16px;
+    }
+
+    .glass-input {
+      padding: 10px 14px;
+      font-size: 13px;
+    }
+
+    .input-label {
+      font-size: 11px;
+    }
+  }
+
+  /* Animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .glass-profile-card {
+    animation: fadeInUp 0.4s ease-out;
+  }
+
+  /* Focus Visible for Accessibility */
+  .glass-input:focus-visible {
+    outline: 2px solid #8B5CF6;
+    outline-offset: 2px;
+  }
+</style>

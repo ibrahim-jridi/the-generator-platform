@@ -1,0 +1,434 @@
+<div *ngIf="this.costService">
+  <div class="scrollable-section">
+
+    <div class="action d-flex justify-content-between align-items-center ps-3 pe-3">
+      <button class="btn-return" (click)="back()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+        </svg>
+      </button>
+
+      <div class="d-flex">
+        <app-custom-button *ngIf="viewMode" class="ms-2" [buttonText]="'button.EDIT' | translate"
+                           [buttonClass]="'btn custom-btn-primary'"
+                           [buttonType]="'submit'"
+                           [buttonIcon]="'icon-style icon-Edit'"
+                           [tooltip]="'button.EDIT' | translate"
+                           (clicked)="this.editCostService()"></app-custom-button>
+        <app-custom-button *ngIf="viewMode" class="ms-2" [buttonText]="'button.DELETE'  | translate"
+                           [buttonClass]="'btn custom-btn-secondary'"
+                           [buttonIcon]="'icon-delete-style icon-delete'"
+                           [buttonType]="'button'" [buttonDisabled]="false"
+                           (clicked)="deleteCostServiceModal.show()"></app-custom-button>
+      </div>
+    </div>
+    <div class="card-body-collapse">
+
+      <form [formGroup]="serviceConfigForm">
+
+
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label required-label">
+                    <span
+                      class="custom-label">{{ "configuration.cost.fields.service_name_availale" | translate }}</span><span
+                class="text-danger">*</span>
+              </label>
+              <app-custom-select
+                [items]="serviceNameList"
+                bindValue="id"
+                bindLabel="label"
+                [multiple]="false"
+                placeholder="{{selectedServiceName?.label}}"
+                formControlName="serviceName"
+                [showCheckbox]="false"
+                [disabled] =true
+
+              >
+              </app-custom-select>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="mb-3" *ngIf="showCostType">
+              <label class="form-label required-label">
+                    <span
+                      class="custom-label">{{ "configuration.cost.fields.type_cost_service" | translate }}</span><span
+                class="text-danger">*</span>
+              </label>
+              <app-custom-select
+                [items]="costServiceTypeList"
+                bindValue="id"
+                bindLabel="label"
+                [multiple]="false"
+                placeholder="{{selectedCostType?.label}}"
+                formControlName="coastType"
+                [showCheckbox]="false"
+                (selectionChange)="handleCoastType($event)"
+                [disabled] =this.viewMode
+              >
+                >
+              </app-custom-select>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="card-body-collapse">
+      <form [formGroup]="coastForm">
+        <div *ngIf="fixe">
+          <div><h5 class="cost-subtitle">{{ "configuration.cost.pricing_information" | translate }}</h5>
+            <div class="row">
+              <div class="col-6">
+                <div class="mb-3">
+                  <label class="form-label required-label">
+                    <span class="custom-label">{{ "configuration.cost.fields.prix_ht" | translate }}</span><span
+                    class="text-danger">*</span>
+                  </label>
+                  <div class="form-group">
+                    <input type="text" class="form-control custom-placeholder-input"
+                           (keydown)="validateNumberInput($event)"
+                           placeholder="{{ 'configuration.cost.fields.insert_prix_ht' | translate }}"
+                           formControlName="prixHt"/>
+                    <div *ngIf="coastForm.get('prixHt')?.touched && coastForm.get('prixHt')?.hasError('required')"
+                         class="text-danger">{{ 'configuration.error.required_prixHt' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="mb-3">
+                  <label class="form-label required-label">
+                    <span class="custom-label">{{ "configuration.cost.fields.tva" | translate }}</span><span
+                    class="text-danger">*</span>
+                  </label>
+                  <div class="form-group">
+                    <input type="text" class="form-control custom-placeholder-input"
+                           (keydown)="validateNumberInput($event)"
+                           placeholder="{{ 'configuration.cost.fields.insert_tva' | translate }}"
+                           formControlName="tva"/>
+                    <div
+                      *ngIf="coastForm.get('tva')?.touched && coastForm.get('tva')?.hasError('required')"
+                      class="text-danger">{{ 'configuration.error.required_tva' | translate }}
+                    </div>
+                    <div
+                      *ngIf="coastForm.get('tva')?.touched && coastForm.get('tva')?.hasError('pattern')"
+                      class="text-danger">{{ 'configuration.error.tva_between_1_100' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="mb-3">
+                  <label class="form-label required-label">
+                    <span class="custom-label">{{ "configuration.cost.fields.prix_ttc" | translate }}</span><span
+                    class="text-danger">*</span>
+                  </label>
+                  <div class="form-group">
+                    <input type="text" class="form-control custom-placeholder-input"
+                           placeholder="{{ 'configuration.cost.insert_prix_ttc '| translate }}"
+                           formControlName="prixTtc"/>
+                    <div *ngIf="coastForm.get('prixTtc')?.touched && coastForm.get('prixTtc')?.hasError('required')"
+                         class="text-danger">{{ 'configuration.error.required_prixTTC' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!fixe">
+          <div class="row">
+            <div class="col-6">
+                <label class="form-label required-label title-radio">
+                      <span
+                        class="custom-label">{{ "configuration.cost.fields.frequence_type" | translate }}</span><span
+                  class="text-danger">*</span>
+                </label>
+              <div class="radio-group" *ngFor="let frequence of frequenceTypeList">
+                <label class="form-label custom-radio">
+                  <input type="radio" id="{{ frequence.id }}" [value]="frequence.id"
+                         formControlName="frequenceType">
+                  {{ frequence.label }}
+                </label>
+                <div
+                  *ngIf="coastForm.get('frequenceType')?.touched && coastForm.get('frequenceType')?.hasError('required')"
+                  class="text-danger">
+                  {{ 'configuration.error.required_frequenceType' | translate }}
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label class="form-label required-label">
+                  <span class="custom-label">{{ "configuration.cost.fields.date_start" | translate }}</span><span
+                  class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="date" class="form-control custom-placeholder-input"
+                         formControlName="dateStart" (change)="updateDateEndMin()"/>
+                  <div
+                    *ngIf="coastForm.get('dateStart')?.touched && coastForm.get('dateStart')?.hasError('required')"
+                    class="text-danger">{{ 'configuration.error.required_dateStart' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label class="form-label required-label">
+                  <span class="custom-label">{{ "configuration.cost.fields.date_end" | translate }}</span><span
+                  class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="date" class="form-control custom-placeholder-input"
+                         formControlName="dateEnd" [min]="minDateEnd"/>
+                  <div *ngIf="coastForm.get('dateEnd')?.touched && coastForm.get('dateEnd')?.hasError('required')"
+                       class="text-danger">{{ 'configuration.error.required_dateEnd' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div><h5 class="cost-subtitle">{{ "configuration.cost.pricing_information" | translate }}</h5>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label class="form-label required-label">
+                  <span class="custom-label">{{ "configuration.cost.fields.prix_ht" | translate }}</span><span
+                  class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control custom-placeholder-input"
+                         placeholder="{{ 'configuration.cost.fields.insert_prix_ht' | translate }}"
+                         formControlName="prixHt"/>
+                  <div
+                    *ngIf="coastForm.get('prixHt')?.touched && coastForm.get('prixHt')?.hasError('required')"
+                    class="text-danger">{{ 'configuration.error.required_prixHt' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label class="form-label required-label">
+                  <span class="custom-label">{{ "configuration.cost.fields.tva" | translate }}</span><span
+                  class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control custom-placeholder-input"
+                         (keydown)="validateNumberInput($event)"
+                         placeholder="{{ 'configuration.cost.fields.insert_tva '| translate }}"
+                         formControlName="tva"/>
+                  <div *ngIf="coastForm.get('tva')?.touched && coastForm.get('tva')?.hasError('required')"
+                       class="text-danger">{{ 'configuration.error.required_tva' | translate }}
+                  </div>
+                  <div *ngIf="coastForm.get('tva')?.touched && coastForm.get('tva')?.hasError('pattern')"
+                       class="text-danger">{{ 'configuration.error.tva_between_1_100' | translate }}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label class="form-label required-label">
+                            <span
+                              class="custom-label">{{ "configuration.cost.fields.prix_ttc" | translate }}</span><span
+                  class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control custom-placeholder-input"
+                         (keydown)="validateNumberInput($event)"
+                         placeholder="{{ 'configuration.cost.fields.insert_prix_ht '| translate }}"
+                         formControlName="prixTtc"/>
+                  <div
+                    *ngIf="coastForm.get('prixTtc')?.touched && coastForm.get('prixTtc')?.hasError('required')"
+                    class="text-danger">{{ 'configuration.error.required_prixTTC' |translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div>
+          <div *ngIf="showRenewalSection">
+          <h5 class="cost-subtitle">{{ "configuration.cost.renewal_cost" | translate }}</h5>
+          <div>
+            <label class="form-label required-label title-radio">
+              <span class="custom-label">{{ "configuration.cost.renewal_type_cost" | translate }}</span><span
+              class="text-danger">*</span>
+            </label>
+            <div class="radio-group" *ngFor="let renewalType of renewalTypeList">
+              <label class="form-label custom-radio">
+                <input type="radio" id="{{ renewalType.id }}" [value]="renewalType.id"
+                       formControlName="renewal">
+                {{ renewalType.label }}
+              </label>
+              <div *ngIf="coastForm.get('renewal')?.touched && coastForm.get('renewal')?.hasError('required')"
+                   class="text-danger">
+                {{ 'configuration.error.required_renewal' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+          <div *ngIf="this.isRenewable">
+            <label class="form-label required-label title-radio">
+              <span class="custom-label">{{ "configuration.cost.renewal_amount_choice" | translate }}</span><span
+              class="text-danger">*</span>
+            </label>
+            <div class="radio-group" *ngFor="let renewalAmountChoice of renewalAmountChoiceList">
+              <label class="form-label custom-radio">
+                <input type="radio" id="{{ renewalAmountChoice.id }}"
+                       [value]="renewalAmountChoice.id" formControlName="renewalAmountChoice">
+                {{ renewalAmountChoice.label }}
+              </label>
+              <div
+                *ngIf="coastForm.get('renewalAmountChoice')?.touched && coastForm.get('renewalAmountChoice')?.hasError('required')"
+                class="text-danger">
+                {{ 'configuration.error.required_renewal_amount_choice' | translate }}
+              </div>
+            </div>
+
+            <div *ngIf="!this.keepAmount">
+              <div><h5 class="cost-subtitle">{{ "configuration.cost.pricing_information" | translate }}</h5>
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label required-label">
+                      <span class="custom-label">{{ "configuration.cost.fields.prix_ht" | translate }}</span><span
+                      class="text-danger">*</span>
+                    </label>
+                    <div class="form-group">
+                      <input type="text" class="form-control custom-placeholder-input"
+                             placeholder="{{ 'configuration.cost.fields.insert_prix_ht' | translate }}"
+                             formControlName="renewalPrixHt" (keydown)="validateNumberInput($event)"/>
+                      <div
+                        *ngIf="coastForm.get('renewalPrixHt')?.touched && coastForm.get('renewalPrixHt')?.hasError('required')"
+                        class="text-danger">{{ 'configuration.error.required_prixHt' | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label required-label">
+                      <span class="custom-label">{{ "configuration.cost.fields.tva" | translate }}</span><span
+                      class="text-danger">*</span>
+                    </label>
+                    <div class="form-group">
+                      <input type="text" class="form-control custom-placeholder-input"
+                             (keydown)="validateNumberInput($event)"
+                             placeholder="{{ 'configuration.cost.fields.insert_tva'| translate }}"
+                             formControlName="renewalTva"/>
+                      <div
+                        *ngIf="coastForm.get('renewalTva')?.touched && coastForm.get('renewalTva')?.hasError('required')"
+                        class="text-danger">{{ 'configuration.error.required_tva' | translate }}
+                      </div>
+                      <div
+                        *ngIf="coastForm.get('renewalTva')?.touched && coastForm.get('renewalTva')?.hasError('pattern')"
+                        class="text-danger">{{ 'configuration.error.tva_between_1_100' | translate }}
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label required-label">
+                      <span class="custom-label">{{ "configuration.cost.fields.prix_ttc" | translate }}</span><span
+                      class="text-danger">*</span>
+                    </label>
+                    <div class="form-group">
+                      <input type="text" class="form-control custom-placeholder-input"
+                             (keydown)="validateNumberInput($event)"
+                             placeholder="{{ 'configuration.cost.fields.insert_prix_ht '| translate }}"
+                             formControlName="renewalPrixTtc"/>
+                      <div
+                        *ngIf="coastForm.get('renewalPrixTtc')?.touched && coastForm.get('renewalPrixTtc')?.hasError('required')"
+                        class="text-danger">{{ 'configuration.error.required_prixTTC' | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div>
+              <div *ngIf="showRenewalSection">
+              <h5 class="cost-subtitle">{{ "configuration.cost.renewal_frequence_periode" | translate }}</h5>
+              <label class="form-label required-label title-radio">
+                <span class="custom-label">{{ "configuration.cost.renewal_frequence" | translate }}</span><span
+                class="text-danger">*</span>
+              </label>
+              <div class="radio-group" *ngFor="let frequence of frequenceTypeList">
+                <label class="form-label custom-radio">
+                  <input type="radio" id="{{ frequence.id }}"  [value]="frequence.id"
+                         formControlName="renewalFrequenceType">
+                  {{ frequence.label }}
+                </label>
+                <div
+                  *ngIf="coastForm.get('renewalFrequenceType')?.touched && coastForm.get('renewalFrequenceType')?.hasError('required')"
+                  class="text-danger">
+                  {{ 'configuration.error.required_frequenceType' | translate }}
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="action d-flex justify-content-end">
+            <app-custom-button *ngIf="!viewMode" class="ms-2" [buttonText]="'button.SAVE' | translate"
+                               [buttonClass]="'btn custom-btn-primary'"
+                               [buttonType]="'submit'"
+                               [tooltip]="'button.SAVE' | translate"
+                               (clicked)="this.updateCostService()" ></app-custom-button>
+            <app-custom-button  *ngIf="!viewMode" class="ms-2" [buttonText]="'button.CANCEL'  | translate"
+                                [buttonClass]="'btn custom-btn-secondary'"
+                                [buttonType]="'button'" [buttonDisabled]="false"
+                                (clicked)="back()"></app-custom-button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <app-ui-modal #deleteCostServiceModal id="deleteCostServiceModal" dialogClass="modal-dialog-centered" [hideHeader]="true">
+      <div class="app-modal-body delete-modal">
+        <div class="d-flex justify-content-end pb-4">
+          <i class="icon-delete-modal feather icon-x" (click)="deleteCostServiceModal.hide()"></i>
+        </div>
+        <div class="col-12 text-center">
+          <img src="/assets/images/supprimer.svg" class="delete-img">
+          <p class="text-modal-big">
+            {{ 'button.CONFIRM_DELETE' | translate }}  {{'configuration.cost.delete_cost_service'| translate}} {{ this.costService?.serviceName  }} ?
+          </p>
+          <p class="text-modal-big">
+            {{ 'button.DELETE_ACTION' | translate }}
+          </p>
+        </div>
+        <br>
+        <div class="action d-flex justify-content-center button-space">
+          <app-custom-button class="ms-2" [buttonText]="'button.DELETE' | translate"
+                             [buttonClass]="'btn custom-btn-primary'" [buttonType]="'button'"
+                             [buttonIcon]="'icon-delete-style icon-delete'" [buttonDisabled]="false"
+                             (clicked)="deleteCostService(); deleteCostServiceModal.hide()"></app-custom-button>
+          <app-custom-button class="ms-2" [buttonText]="'button.CANCEL'  | translate"
+                             [buttonClass]="'btn custom-btn-secondary'"
+                             [buttonType]="'button'"
+                             [buttonDisabled]="false" (clicked)="deleteCostServiceModal.hide()"></app-custom-button>
+        </div>
+      </div>
+    </app-ui-modal>
+  </div>
+</div>
+

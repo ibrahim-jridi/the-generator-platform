@@ -1,0 +1,18 @@
+.bootstrap-maxlength {
+  background: map-get($theme-colors,'primary');
+  border-radius: $card-border-radius;
+  padding: 5px 10px;
+  color: #fff;
+
+  &.label-danger {
+    background: map-get($theme-colors,'danger');
+  }
+
+  &.label-success {
+    background: map-get($theme-colors,'success');
+  }
+
+  &.label-warning {
+    background: map-get($theme-colors,'warning');
+  }
+}

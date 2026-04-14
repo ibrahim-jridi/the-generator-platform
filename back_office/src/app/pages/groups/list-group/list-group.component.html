@@ -1,0 +1,111 @@
+<div class="dpm-group-section">
+    <div *ngIf="viewGroupsOfUser===false"  class="action d-flex justify-content-end">
+
+      <app-custom-button [buttonText]="'button.ADD' | translate" [buttonClass]="'btn custom-btn-primary'"
+        [buttonIcon]="'icon-style icon-Add'" [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.ADD' | translate"
+        (clicked)="redirectToAddGroup()"></app-custom-button>
+
+    </div>
+    <br>
+    <app-custom-table [hidHeader]="true" [customHeader]="true" [columnsClass]="'toll-table-style'"
+      [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true" [activeExport]="false"
+      [tollTableData]="groups" [colonnesName]="tableColumns" [actionListButton]="actionButton" [activeFilter]="false"
+                    [actionActiveButton]="true" [lazyLoading]="true" [pageSize]="pageSize"
+                    (loadingNewPage)="nextPage($event)"
+                    [totalSize]="totalCount" (buttonAction)="buttonAction($event)"
+                    [Tablename]="'menu.LIST_OF_GROUPS' | translate"
+                    (pageSizeChange)="onPageSizeChange($event)"></app-custom-table>
+
+  <app-ui-modal #deleteGroupModal id="deleteGroupModal"
+                dialogClass="modal-dialog-centered custom-large-modal"
+                [hideHeader]="true">
+    <div class="app-modal-body delete-modal text-center">
+
+      <div class="justify-content-end">
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                (click)="deleteGroupModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="col-12">
+        <div>
+          <img src="assets/images/user/warning.svg" alt="Warning Sign" class="warning-icon">
+        </div>
+        <p *ngIf="groupSelected.numberOfUsers > 0"
+           class="font-weight-bold mt-3 text-delete-warning">
+          {{ 'groups.CONTAINS_USERS' | translate }}
+        </p>
+
+        <p *ngIf="groupSelected.numberOfUsers == 0"
+           class="font-weight-bold mt-3 text-delete-warning">
+          {{ 'groups.DELETE_WARNING_ALERT' | translate }}
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p *ngIf="groupSelected.numberOfUsers > 0"  class="text-muted" style="font-size: 1rem;">
+          {{ 'groups.DELETE_WARNING' | translate }}
+        </p>
+        <p *ngIf="groupSelected.numberOfUsers == 0" class="text-muted" style="font-size: 1rem;">
+          {{ 'groups.DELETE_MESSAGE' | translate }}
+        </p>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+
+        <app-custom-button
+          class="mx-2"
+          *ngIf="groupSelected.numberOfUsers > 0"
+          [buttonText]="'groups.REASSIGN_USERS' | translate"
+          [buttonClass]="'btn btn-primary huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="reassignUsers(groupSelected.id, groupSelected.label); deleteGroupModal.hide();">
+        </app-custom-button>
+
+        <app-custom-button
+          *ngIf="groupSelected.numberOfUsers == 0"
+          class="mx-2"
+          [buttonText]="'button.CANCEL' | translate"
+          [buttonClass]="'btn btn-secondary  mr-3'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="deleteGroupModal.hide()">
+        </app-custom-button>
+
+        <app-custom-button
+          class="mx-2"
+          *ngIf="groupSelected.numberOfUsers > 0"
+          [buttonText]="'groups.DELETE_ANYWAY' | translate"
+          [buttonClass]="'btn btn-danger huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="permanentlyDeleteGroup(); deleteGroupModal.hide()">
+        </app-custom-button>
+
+        <app-custom-button
+          class="mx-2"
+          *ngIf="groupSelected.numberOfUsers == 0"
+          [buttonText]="'groups.CONFIRM_DELETE_ACTION' | translate"
+          [buttonClass]="'btn btn-danger huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="safeDeleteGroup(); deleteGroupModal.hide()">
+        </app-custom-button>
+      </div>
+      <div *ngIf="groupSelected.numberOfUsers > 0"
+           class="d-flex justify-content-center mt-4 align-items-center">
+        <app-custom-button
+          class="mx-2"
+          [buttonText]="'button.CANCEL' | translate"
+          [buttonClass]="'btn btn-secondary  mr-3'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="deleteGroupModal.hide()">
+        </app-custom-button>
+      </div>
+    </div>
+  </app-ui-modal>
+
+  </div>

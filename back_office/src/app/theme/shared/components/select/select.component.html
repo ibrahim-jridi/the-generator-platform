@@ -1,0 +1,15 @@
+<div class="select-container">
+  <div class="select-box" (click)="toggleOptions()" (keydown)="handleKeyPress($event)">
+    <span class="select-text" [attr.aria-expanded]="showOptions" [ngClass]="ngClass">
+      {{ selectedItem ? displayFn(selectedItem) : placeholder }}
+    </span>
+    <div class="select-icon">
+      <i class="fa" [ngClass]="{'fa-caret-up': showOptions, 'fa-caret-down': !showOptions}"></i>
+    </div>
+  </div>
+  <div class="options-container" *ngIf="showOptions">
+    <div class="option" *ngFor="let item of items" (click)="selectItem(item)" (keydown)="handleKeyPress($event)">
+      {{ displayFn(item) }}
+    </div>
+  </div>
+</div>

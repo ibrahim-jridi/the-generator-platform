@@ -1,0 +1,40 @@
+entity File {
+    id UUID required,
+    name String required,
+    path String required,
+    createdBy String required,
+    creationDate Instant required,
+    version String required,
+    active Boolean required,
+    extension String required,
+    type String required,
+    size String required,
+    inWorkflow Boolean required,
+}
+
+entity Folder {
+    id UUID required,
+    name String required,
+    path String required,
+    creationDate Instant required,
+    recurrence Long,
+    userId UUID
+}
+
+entity UserBucket {
+    id Long required,
+    idUser Long required
+}
+
+relationship OneToMany {
+    UserBucket{folders} to Folder{userBucket}
+}
+
+relationship OneToMany {
+    Folder{files} to File{folder}
+}
+
+relationship ManyToOne {
+    Folder{parent} to Folder,
+//    File{folder} to Folder
+}

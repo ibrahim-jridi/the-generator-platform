@@ -1,0 +1,42 @@
+<ng-container *ngIf="!item.hidden">
+  <li class="nav-item glass-nav-caption">
+    <label class="glass-caption-label">
+      <span class="caption-text">{{ item.title | translate }}</span>
+      <span class="caption-decoration"></span>
+    </label>
+  </li>
+  <ng-container *ngFor="let childItem of item?.children">
+    <app-nav-group *ngIf="childItem.type == 'group'" [item]="childItem"></app-nav-group>
+    <app-nav-collapse *ngIf="childItem.type == 'collapse'" [item]="childItem"></app-nav-collapse>
+    <app-nav-item *ngIf="childItem.type == 'item'" [item]="childItem"></app-nav-item>
+  </ng-container>
+</ng-container>
+
+<style>
+  .glass-nav-caption {
+    padding: 16px 20px 8px 20px;
+    list-style: none;
+  }
+
+  .glass-caption-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(139, 92, 246, 0.8);
+    margin: 0;
+  }
+
+  .caption-text {
+    position: relative;
+  }
+
+  .caption-decoration {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(139, 92, 246, 0.3), transparent);
+  }
+</style>

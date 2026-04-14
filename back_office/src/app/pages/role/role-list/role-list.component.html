@@ -1,0 +1,110 @@
+<div class="dpm-group-section">
+    <div class="action d-flex justify-content-end">
+
+      <app-custom-button [buttonText]="'button.ADD' | translate" [buttonClass]="'custom-button'"
+                         [buttonIcon]="'icon-style icon-Add'" [buttonType]="'button'" [buttonDisabled]="false"
+                         (clicked)="redirectToAddRole()"></app-custom-button>
+    </div>
+    <br>
+  <app-custom-table [hidHeader]="true" [idTable]="'listRole'" [customHeader]="true" [tollTableData]="roles"
+                  [colonnesName]="tableColumns" [actionListButton]="actionButton" [activeExport]="false"
+                  (loadingNewPage)="nextPage($event)" [actionActiveButton]="true" [pageSize]="pageSize" [lazyLoading]="false"
+                  [options]="true" [columnsClass]="'toll-table-style'" [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true" [totalSize]="totalElements"
+                  [activeFilter]="false" (buttonAction)="buttonAction($event)" [Tablename]="'menu.LIST_OF_ROLE' | translate">
+  </app-custom-table>
+
+  <app-ui-modal #deleteRoleModal id="deleteRoleModal"
+                dialogClass="modal-dialog-centered custom-large-modal"
+                [hideHeader]="true">
+    <div class="app-modal-body delete-modal text-center">
+
+      <div class="justify-content-end">
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                (click)="deleteRoleModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="col-12">
+        <div>
+          <img src="assets/images/user/warning.svg" alt="Warning Sign" class="warning-icon">
+        </div>
+        <p *ngIf="hasUsers"
+           class="font-weight-bold mt-3 text-delete-warning">
+          {{ 'role.CONTAINS_USERS' | translate }}
+        </p>
+
+        <p *ngIf="!hasUsers"
+           class="font-weight-bold mt-3 text-delete-warning">
+          {{ 'role.DELETE_WARNING_ALERT' | translate }}
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p *ngIf="hasUsers"  class="text-muted" style="font-size: 1rem;">
+          {{ 'role.DELETE_WARNING' | translate }}
+        </p>
+        <p *ngIf="!hasUsers" class="text-muted" style="font-size: 1rem;">
+          {{ 'role.DELETE_MESSAGE' | translate }}
+        </p>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+
+        <app-custom-button
+          class="mx-2"
+          *ngIf="hasUsers"
+          [buttonText]="'role.REASSIGN_USERS' | translate"
+          [buttonClass]="'btn btn-primary huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="reassignUsers(roleId, roleName); deleteRoleModal.hide();">
+        </app-custom-button>
+
+        <app-custom-button
+          *ngIf="!hasUsers"
+          class="mx-2"
+          [buttonText]="'button.CANCEL' | translate"
+          [buttonClass]="'btn btn-secondary  mr-3'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="deleteRoleModal.hide()">
+        </app-custom-button>
+
+        <app-custom-button
+          class="mx-2"
+          *ngIf="hasUsers"
+          [buttonText]="'role.DELETE_ANYWAY' | translate"
+          [buttonClass]="'btn btn-danger huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="permanentlyDeleteRole(); deleteRoleModal.hide()">
+        </app-custom-button>
+
+        <app-custom-button
+          class="mx-2"
+          *ngIf="!hasUsers"
+          [buttonText]="'role.CONFIRM_DELETE_ACTION' | translate"
+          [buttonClass]="'btn btn-danger huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="safeDeleteRole(); deleteRoleModal.hide()">
+        </app-custom-button>
+      </div>
+      <div *ngIf="hasUsers"
+           class="d-flex justify-content-center mt-4 align-items-center">
+        <app-custom-button
+          class="mx-2"
+          [buttonText]="'button.CANCEL' | translate"
+          [buttonClass]="'btn btn-secondary  mr-3'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="deleteRoleModal.hide()">
+        </app-custom-button>
+      </div>
+    </div>
+  </app-ui-modal>
+
+
+  </div>
+

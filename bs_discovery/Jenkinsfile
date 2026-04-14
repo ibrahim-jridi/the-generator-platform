@@ -1,0 +1,83 @@
+environment {
+    SONARSERVER = 'sonar-server'
+    SONARSCANNNER = 'sonar-scanner'
+    DEV_SERVER_Credentials = credentials('')
+}
+
+//test
+pipeline {
+    agent any
+
+
+    stages {
+        stage('checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build and Push Docker Image') {
+            steps {
+                script {
+                    def dpm_discovery
+                    def pom = readMavenPom()
+
+                    docker.image('jdk17node18:1.0.0').inside("-u root -v $HOME/.m2:/root/.m2 --entrypoint=''") {
+                        withMaven(maven: 'maven') {
+                            stage('check java') {
+                                sh "java -version"
+                                sh "mvn -version"
+                            }
+
+                            stage('clean') {
+                                sh "chmod +x mvnw"
+                                sh "./mvnw clean"
+                            }
+
+                            stage('install') {
+                                sh "./mvnw clean install"
+                            }
+
+                            stage('Code Quality Check via SonarQube') {
+                              project=dpm_discovery
+                              def scannerHome = tool 'sonarqube-scanner';
+                               withSonarQubeEnv("sonarqube-scanner") {
+                                 sh "${tool("sonarqube-scanner")}/bin/sonar-scanner \
+                                 -Dsonar.projectKey='dpm_discovery' \
+                                 -Dsonar.projectName='dpm_discovery' \
+                                 -Dsonar.java.binaries=target/classes \
+                                 -Dsonar.sources=. \
+                                 -Dsonar.css.node=. \
+                                 -Dsonar.host.url=${sonar_url} \
+                                 -Dsonar.login=${sonarkey_dpm_discovery}"
+                               }
+                            }
+                            
+                        } // withMaven
+                    } // docker.image
+                } // script
+            } // steps
+        } // stage
+
+               
+    }
+
+    post {
+        failure {
+            echo "An exception occurred during pipeline execution."
+            echo "${smtp_username}"
+            echo "${currentBuild.fullDisplayName}"
+            emailext(
+                subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
+                body: "An exception occurred during pipeline execution. Please check the Jenkins console output for more details.",
+                to: "ibrahim.jridi@esprit.tn",
+                from: "${smtp_username}",
+                replyTo: "${smtp_username}",
+                mimeType: 'text/html',
+                attachLog: true,
+                compressLog: true,
+                recipientProviders: [[$class: 'RequesterRecipientProvider']]
+            )
+            }// failure
+        } // post
+} // pipeline

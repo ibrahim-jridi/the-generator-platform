@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0w3br0k" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.23.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn">
+  <decision id="Decision_0jdyk4a" name="test" camunda:historyTimeToLive="150">
+    <decisionTable id="DecisionTable_13o7gql">
+      <input id="InputClause_0srpb6e">
+        <inputExpression id="LiteralExpression_1yt9b9o" typeRef="string"/>
+      </input>
+      <output id="OutputClause_0gjc83z" typeRef="string"/>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="DMNShape_0zzyx9t" dmnElementRef="Decision_0jdyk4a">
+        <dc:Bounds height="80" width="180" x="360" y="210"/>
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

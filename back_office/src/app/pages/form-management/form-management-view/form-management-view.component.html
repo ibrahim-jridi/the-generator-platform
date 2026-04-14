@@ -1,0 +1,48 @@
+<form [formGroup]="myForm">
+  <div *ngIf="formData">
+    <!-- <p><strong>Nom:</strong> {{ formData.label }}</p>
+    <p><strong>Description:</strong> {{ formData.description }}</p> -->
+
+    <div class="row">
+      <div class="col">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span class="custom-label">Nom</span>
+
+          </label>
+          <div class="form-group">
+            <input type="text" class="form-control form-control-solid pl-2" formControlName="label" />
+            <span
+              *ngIf="myForm.get('label')!.touched && myForm.get('label')!.hasError('required')"
+              class="text-danger">{{ 'users.errors.REQUIRED_FIRST_NAME' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span class="custom-label">Description</span>
+
+          </label>
+          <div class="form-group">
+            <input type="text" class="form-control form-control-solid pl-2" formControlName="description" />
+            <span
+              *ngIf="myForm.get('description')!.touched && myForm.get('description')!.hasError('required')"
+              class="text-danger">{{ 'users.errors.REQUIRED_DESCRIPTION' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row bg-white">
+      <div class="col" class="builder-form-control">
+        <div *ngIf="isFormReady">
+          <formio #formio id="formio" [form]="templateForm" [renderOptions]="renderOptions" [refresh]="refreshForm" [language]="currentLanguage"></formio>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

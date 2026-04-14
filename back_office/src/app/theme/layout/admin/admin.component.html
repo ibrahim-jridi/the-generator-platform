@@ -1,0 +1,33 @@
+<app-navigation
+    (onNavMobCollapse)="navMobClick()"
+    [ngClass]="{
+        'navbar-collapsed': navCollapsed,
+        'theme-horizontal': this.nextConfig['layout'] === 'horizontal',
+        'mob-open': navCollapsedMob
+    }"
+    class="pcoded-navbar menu-light position-fixed"
+    [navCollapsed]="navCollapsed"
+></app-navigation>
+<app-nav-bar
+    (onNavCollapse)="changeValueCollapsed()"
+    (onNavHeaderMobCollapse)="navMobClick()"
+    class="navbar pcoded-header navbar-expand-lg navbar-light header-blue"
+    [hideLogo]="hideLogo"
+    [navCollapsed]="navCollapsed"
+    [ngClass]="addClassFixedAndBg()"
+></app-nav-bar>
+<div class="pcoded-main-container">
+  <div
+      class="pcoded-content"
+      [ngClass]="{ container: this.nextConfig.layout === 'horizontal' && this.nextConfig.subLayout === 'horizontal-2' }"
+  >
+    <app-breadcrumb [type]="'theme1'"></app-breadcrumb>
+    <div class="page-content" [ngClass]="{'card border-0 shadow-none': !isDashboard}">
+      <div [ngClass]="{'card-body': !isDashboard}">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+<!--  <app-footer></app-footer>-->
+</div>
+<app-configuration></app-configuration>

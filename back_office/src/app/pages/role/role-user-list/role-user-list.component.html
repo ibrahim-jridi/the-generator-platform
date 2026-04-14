@@ -1,0 +1,167 @@
+<div class="dpm-group-section">
+
+  <div class="action d-flex justify-content-end mb-3">
+    <app-custom-button [buttonText]="'button.REASSIGN' | translate"
+                       [buttonClass]="'btn custom-btn-primary'"
+                       [buttonIcon]="'icon-style icon-refrech'"
+                       [buttonType]="'button'"
+                       [buttonDisabled]="selectedUsers.length == 0" [tooltip]="'button.ADD' | translate"
+                       (clicked)="reassignUsersModal.show()"></app-custom-button>
+  </div>
+
+  <app-custom-table [hidHeader]="true" [banner]="false" [idTable]="'listUsers'" [customHeader]="true"
+                  [tollTableData]="users"
+                  [colonnesName]="tableColumns" [actionListButton]="actionButton"
+                  (buttonAction)="buttonAction($event)"
+                  [activeExport]="false"
+                  [actionActiveButton]="true" [lazyLoading]="false"
+                  [options]="false" [columnsClass]="'toll-table-style'"
+                  [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true"
+                  [activeFilter]="false" [Tablename]="'menu.LIST_OF_USERS' | translate"
+                  (checkAllAction)="onAllCheckedChange($event)"
+                  (itemChecked)="onItemChecked($event)"
+                  (itemUnChecked)="onItemUnChecked($event)">
+  </app-custom-table>
+
+  <app-ui-modal #reassignUsersModal id="reassignUsersModal"
+                dialogClass="modal-dialog-centered custom-large-modal"
+                [hideHeader]="true">
+    <div class="app-modal-body text-center">
+
+      <div class="justify-content-end">
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                (click)="reassignUsersModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="col-12">
+        <h5 class="font-weight-bold mt-3">{{ "role.REASSIGN_USERS" | translate }}</h5>
+        <p class="text-muted">
+          {{ "role.SELECT_ROLE_TO_REASSIGN_USERS" | translate }}
+        </p>
+      </div>
+
+      <div class="col">
+        <div class="fv-row mb-5">
+          <label class="form-label required-label">
+            <span class="required"><span class="custom-label">{{ "users.ROLE" | translate }}</span></span>
+            <span class="text-danger">*</span>
+          </label>
+          <form [formGroup]="form">
+            <div class="form-group">
+              <app-custom-select
+                [items]="roles"
+                bindValue="id"
+                bindLabel="label"
+                [multiple]="true"
+                placeholder="{{ 'users.fields.SELECT_ROLE' | translate }}"
+                formControlName="selectedRoles"
+              >
+              </app-custom-select>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+        <app-custom-button
+          class="mx-2"
+          [buttonText]="'button.CANCEL' | translate"
+          [buttonClass]="'btn btn-secondary mr-3'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="
+              reassignUsersModal.hide()">
+        </app-custom-button>
+
+        <app-custom-button
+          class="mx-2"
+          [buttonText]="'button.REASSIGN' | translate"
+          [buttonClass]="'btn btn-primary huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="selectedRoles.length == 0"
+          (clicked)="reassignUsersToRoles();reassignUsersModal.hide(); ">
+        </app-custom-button>
+      </div>
+    </div>
+  </app-ui-modal>
+
+  <app-ui-modal #deleteUserModal id="deleteUserModal" dialogClass="modal-dialog-centered"
+                [hideHeader]="true">
+    <div class="app-modal-body delete-modal">
+      <div class="d-flex justify-content-end pb-4">
+        <i class="icon-delete-modal feather icon-x" (click)="deleteUserModal.hide()"></i>
+      </div>
+      <div class="col-12 text-center">
+        <img src="/assets/images/supprimer.svg" class="delete-img">
+        <p class="text-modal-big">
+          {{ 'button.CONFIRM_DELETE' | translate }} {{ userName }} ?
+        </p>
+        <p class="text-modal-big">
+          {{ 'button.DELETE_ACTION' | translate }}
+        </p>
+      </div>
+      <br>
+      <div class="action d-flex justify-content-center button-space">
+        <app-custom-button class="ms-2" [buttonText]="'button.DELETE' | translate"
+                           [buttonClass]="'btn custom-btn-primary'"
+                           [buttonType]="'button'" [buttonDisabled]="false"
+                           [buttonIcon]="'icon-delete-style icon-delete'"
+                           (clicked)="handleOnDeleteUser(); "></app-custom-button>
+        <app-custom-button class="ms-2" [buttonText]="'button.CANCEL'  | translate"
+                           [buttonClass]="'btn custom-btn-secondary'"
+                           (clicked)="deleteUserModal.hide()" [buttonType]="'button'"
+                           [buttonDisabled]="false"></app-custom-button>
+      </div>
+    </div>
+  </app-ui-modal>
+
+  <app-ui-modal #deleteRoleModal id="deleteRoleModal"
+                dialogClass="modal-dialog-centered custom-large-modal"
+                [hideHeader]="true">
+    <div class="app-modal-body delete-modal text-center">
+
+
+      <div class="col-12">
+        <div class="col-12 text-center mt-3">
+          <img src="/assets/images/supprimer.svg" class="delete-img">
+        </div>
+
+        <p class="font-weight-bold mt-1 text-delete-warning">
+          {{ 'role.DELETE_ALERT' | translate }} {{roleName}}
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p class="text-muted" style="font-size: 1rem;">
+          {{ 'role.DELETE_MESSAGE_REASSIGNED_PART_ONE' | translate }} {{roleName}} {{ 'role.DELETE_MESSAGE_REASSIGNED_PART_TWO' | translate }}
+        </p>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+
+        <app-custom-button
+          class="mx-2"
+          [buttonText]="'button.CANCEL' | translate"
+          [buttonClass]="'btn custom-btn-secondary  mr-3'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="deleteRoleModal.hide()">
+        </app-custom-button>
+
+        <app-custom-button
+          class="mx-2"
+          [buttonText]="'button.DELETE' | translate"
+          [buttonClass]="'btn custom-btn-primary mr-3'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="safeDeleteRole(); deleteRoleModal.hide()">
+        </app-custom-button>
+      </div>
+    </div>
+  </app-ui-modal>
+
+
+</div>

@@ -1,0 +1,29 @@
+<div
+  *ngIf="visible"
+  (click)="onContainerClicked($event)"
+  class="basic modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+  [ngClass]="{ in: visibleAnimate }"
+  [ngStyle]="{ display: visible ? 'block' : 'none', opacity: visibleAnimate ? 1 : 0 }"
+>
+  <div class="modal-dialog" role="document" [ngClass]="dialogClass">
+    <div class="modal-content">
+      <div *ngIf="!hideHeader" class="modal-header">
+        <h5 class="modal-title">{{ header }}</h5>
+          <i class="icon-close-modal close feather icon-x" (click)="hide()"></i>
+      </div>
+      <div class="modal-body">
+        <div class="col-12 d-flex flex-column align-items-center">
+          <img *ngIf="!hideIcon" src="/assets/images/{{ icon }}" class="icon-body-modal">
+          <span class="text-body">{{ body }}</span>
+        </div>
+
+      </div>
+      <div *ngIf="!hideFooter" class="modal-footer">
+        <p>{{ footer }}</p>
+      </div>
+    </div>
+  </div>
+</div>

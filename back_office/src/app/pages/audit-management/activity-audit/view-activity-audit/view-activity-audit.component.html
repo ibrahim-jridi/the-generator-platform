@@ -1,0 +1,64 @@
+<div class="section-audit">
+  <div class="row">
+    <div class="col-md-12">
+        <div class="row">
+          <div class="col">
+            <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span class="custom-label">{{ "audit.DATE" | translate }}</span>
+              </label>
+              <div class="form-group">
+                <input type="text" disabled class="form-control form-control-solid pl-2" [value]="formattedDate(activityAudit?.submissionDate)" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span class="custom-label">{{ "audit.USERS" | translate }}</span>
+              </label>
+              <div class="form-group">
+                <input type="text" disabled class="form-control form-control-solid pl-2" value="{{activityAudit?.userFullName}}" />
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="row">
+        <div class="col">
+          <div class="fv-row mb-5">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "audit.ENTITY" | translate }}</span>
+            </label>
+            <div class="form-group">
+              <input type="text" disabled class="form-control form-control-solid pl-2" value="{{ translateEntity(activityAudit?.entity) }}" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="fv-row mb-5">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "audit.ACTION" | translate }}</span>
+            </label>
+            <div class="form-group">
+              <input type="text" disabled class="form-control form-control-solid pl-2" value="{{ translateAction(activityAudit?.action) }}" />
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row" *ngIf="activityAudit?.action === OperationType.UPDATE" >
+          <div class="col-12">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span class="custom-label">{{ "audit.DESCRIPTION" | translate }}</span>
+              </label>
+              <div class="form-group">
+                <textarea class="form-control" disabled rows="4" cols="50">{{ getTranslatedAuditDetails() }}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

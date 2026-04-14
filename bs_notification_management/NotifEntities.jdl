@@ -1,0 +1,16 @@
+entity EventNotification {
+    id UUID,
+    notificationId UUID required,
+    taskId String required,
+    status Status required
+}
+
+enum Status {
+    STARTED,
+    STOPPED
+}
+
+paginate all with pagination
+dto * with mapstruct
+service all with serviceImpl
+filter all

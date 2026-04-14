@@ -1,0 +1,191 @@
+<div class="section-internal-user">
+    <div class="row">
+      <div class="col-md-12">
+        <form id="user-form" [formGroup]="userForm">
+
+          <div class="row">
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span>{{ "users.FIRST_NAME" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2"
+                         placeholder="{{ 'users.fields.INSERT_FIRST_NAME' | translate }}" formControlName="firstName" />
+                  <span
+                    *ngIf="this.userForm.get('firstName')!.touched && this.userForm.get('firstName')!.hasError('required')"
+                    class="text-danger">{{'users.errors.REQUIRED_FIRST_NAME' | translate}}</span>
+                  <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="error"
+                       class="text-danger">
+                    <div *ngIf="firstName.errors?.pattern">
+                      {{'users.errors.INVALID_FIRST_NAME' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span>{{ "users.LAST_NAME" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2"
+                         placeholder="{{ 'users.fields.INSERT_LAST_NAME' | translate }}" formControlName="lastName" />
+                  <span
+                    *ngIf="this.userForm.get('lastName')!.touched && this.userForm.get('lastName')!.hasError('required')"
+                    class="text-danger">{{'users.errors.REQUIRED_LAST_NAME' | translate}}</span>
+                  <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="error"
+                       class="text-danger">
+                    <div *ngIf="lastName.errors?.pattern">
+                      {{'users.errors.INVALID_LAST_NAME' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span>{{ "users.PHONE" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="tel" class="form-control form-control-solid pl-2" inputmode="numeric"
+                         (input)="onPhoneNumberInput($event)" placeholder="{{ 'users.fields.INSERT_PHONE_NUMBER' | translate }}"
+                         formControlName="phoneNumber" />
+                  <span
+                    *ngIf="this.userForm.get('phoneNumber')!.touched && this.userForm.get('phoneNumber')!.hasError('required')"
+                    class="text-danger">{{'users.errors.REQUIRED_PHONE_NUMBER' | translate}}</span>
+                  <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="error"
+                       class="text-danger">
+                    <div *ngIf="phoneNumber.errors?.pattern">
+                      {{'users.errors.INVALID_PHONE' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span>{{ "users.EMAIL" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="email" class="form-control form-control-solid pl-2"
+                         placeholder="{{ 'users.fields.INSERT_EMAIL' | translate }}" formControlName="email" />
+                  <span *ngIf="this.userForm.get('email')!.touched && this.userForm.get('email')!.hasError('required')"
+                        class="text-danger">{{'users.errors.REQUIRED_EMAIL' | translate}}</span>
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error" class="text-danger">
+                    <div *ngIf="email.errors?.pattern">
+                      {{'users.errors.INVALID_EMAIL' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span>{{ "users.CIN" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2"
+                         placeholder="XXXX-XXX-XXXX" formControlName="cin" (input)="onCinInput($event)" />
+                  <span *ngIf="this.userForm.get('cin')!.touched && this.userForm.get('cin')!.hasError('required')"
+                        class="text-danger">{{'users.errors.REQUIRED_CIN' | translate}}</span>
+                  <div *ngIf="cin.invalid && (cin.dirty || cin.touched)" class="error"
+                       class="text-danger">
+                    <div *ngIf="cin.errors?.pattern">
+                      {{'users.errors.INVALID_CIN_FORMAT' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span>{{ "users.address" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2"
+                         placeholder="{{ 'users.fields.INSERT_ADDRESS' | translate }}" formControlName="address" />
+                  <span
+                    *ngIf="this.userForm.get('address')!.touched && this.userForm.get('address')!.hasError('required')"
+                    class="text-danger">{{'users.errors.REQUIRED_ADDRESS' | translate}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div *ngIf="!isAdmin" class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="required">{{ "users.STATUS" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="w-100">
+                  <select class="form-control" id="status" formControlName="status">
+                    <option [value]="null" hidden>{{"users.fields.SELECT_STATUS" | translate}} </option>
+                    <option value="true">{{"users.ACTIF" | translate}} </option>
+                    <option value="false">{{"users.NOT_ACTIF" | translate}} </option>
+                  </select>
+                  <span *ngIf="this.userForm.get('status')!.touched && this.userForm.get('status')!.hasError('required')"
+                        class="text-danger">{{'users.errors.REQUIRED_STATUS' | translate}}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="required">{{ "users.STATUS" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="w-100">
+                  <select class="form-control" id="status" formControlName="status">
+                    <option [value]="null" hidden>{{"users.fields.SELECT_STATUS" | translate}} </option>
+                    <option value="true">{{"users.ACTIF" | translate}} </option>
+                    <option value="false">{{"users.NOT_ACTIF" | translate}} </option>
+                  </select>
+                  <span *ngIf="this.userForm.get('status')!.touched && this.userForm.get('status')!.hasError('required')"
+                        class="text-danger">{{'users.errors.REQUIRED_STATUS' | translate}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="action d-flex justify-content-end">
+            <app-custom-button class="ms-2" [buttonText]="'button.CANCEL' | translate" [buttonClass]="'btn custom-btn-secondary'"
+                               [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.CANCEL' | translate"
+                               (clicked)="back()"></app-custom-button>
+            <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary'"
+                               [buttonType]="'submit'" [buttonDisabled]="userForm?.invalid" [tooltip]="'button.SAVE' | translate"
+                               (clicked)="addUser()"></app-custom-button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

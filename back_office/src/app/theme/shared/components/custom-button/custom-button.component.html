@@ -1,0 +1,14 @@
+<button class="generic-button" (click)="onClick()" [ngClass]="[buttonClass, isRtl ? 'rtl' : '']" type="button" [disabled]="buttonDisabled">
+  <ng-container *ngIf="showIcon(); else noIcon">
+    <ng-container *ngIf="isFontAwesomeIcon(); else customIcon">
+      <em [ngClass]="buttonIcon"></em>
+    </ng-container>
+    <ng-template #customIcon>
+      <img [src]="buttonIcon" [alt]="buttonIconAlt || buttonText" [ngClass]="buttonIconClass" />
+    </ng-template>
+  </ng-container>
+  <ng-template #noIcon>
+    <!-- No icon -->
+  </ng-template>
+  <span>{{ buttonText }}</span>
+</button>

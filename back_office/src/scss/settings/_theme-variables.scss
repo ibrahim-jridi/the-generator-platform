@@ -1,0 +1,233 @@
+// =======================================
+//     List of variables for layout
+// =======================================
+/*
+    description Of variables for build for theme layouts
+        1) menu-caption-color
+            List of color for sidebar menu caption
+
+        2) brand-background
+            List of color for logo background
+
+        3) header-dark-background
+            List of color for Dark Header
+
+        4) header-light-background
+            List of color for light Header
+
+        5) menu-dark-background
+            List of color for Dark sidebar menu
+
+        6) menu-light-background
+            List of color for light sidebar menu
+
+        7) menu-active-color
+            List of color for Active item highliter
+
+        8) menu-icon-color
+            List of color for sidebar menu items icon colors
+*/
+// Main violet shades
+$theme-vibrant-violet: #8B5CF6;     // Vibrant violet (primary accent)
+$theme-violet-darken: #6D28D9;      // Darker violet for buttons
+$theme-violet-medium: #7C3AED;      // Medium violet for headings and hover states
+
+// Primary violet color (unified)
+$primary-violet-color: #8B5CF6;     // Main vibrant violet (replaces $primary-color)
+
+// Button variants
+$primary-violet-green: #7C3AED;     // Violet variant for buttons (replaces $primary-green)
+$violet-mint: #6D28D9;              // Violet hover state (replaces $green-mint)
+
+// Success indicators
+$success-primary-violet: #7C3AED;   // Violet variant for success indicators
+
+// Footer gradient
+$footer-gradient-violet: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+$violet-gradient-color: linear-gradient(135deg, $theme-violet-darken, $violet-mint);
+
+$header-height: 50px;
+// $Menu-width: 250px;
+$Menu-width: 252px;
+$Menu-collapsed-width: 70px;
+
+// =====================================================
+// CHANGED: All primary colors updated to VIOLET
+// =====================================================
+$primary-color: $primary-violet-color;  // Changed from #023773 to violet
+$warning-color: #FFC177;
+$danger-color: #F66E6E;
+$success-color: #A2DFBB;
+$purple-color: #536dfe;
+$info-color: #5BADDC;
+$blue-color: #0D6EFD;
+$secondary-color: #64748B;
+$default-color: #d6d6d6;
+$light-color: #F5F6FA;
+$dark-color: #B0B0BA;
+$inverse-color: $dark-color;
+$theme-border: #e2e5e8;
+$theme-dark-charcoal:#333;
+$theme-green-darken: $theme-violet-darken;  // Changed from #2e7d32 to violet
+$theme-Jungle-green: $theme-violet-medium;  // Changed from #008f28 to violet
+$theme-vibrant-blue: $theme-vibrant-violet; // Changed from #1e88e5 to violet
+$theme-medium-gray:#757575;
+$green-color: #1f8f11;
+$red-color: #de1111;
+$mintcream-color: #f1f8ef;
+$royalblue-color: #0056b3;
+$whitesmoke-color: #f5f9f7;
+$lightgray-color: #cccccc;
+$dimgray-color: #555;
+$seagreen-color: #1e9258;
+$forestgreen-color: #145a3b;
+$silvergray-color:#ccc;
+$light-steel-blue: #94A8B2;
+$light-gray-color: #f9fafc;
+$soft-gray-color: #e2e8f0;
+$medium-gray-color: #D3D3D3;
+$cool-gray-color: #b8c0cc;
+$blue-dark-color: #032953;
+$blue-charbon-color: #212B36;
+$color-light: rgba(245, 246, 250, 1);
+$dark-blue: #2D3748;
+$medium-green: #48BB78;
+$light-gray: #A0AEC0;
+$transparent-black: #00000005;
+$orange-color: #E15F02;
+$cool-blue-color: #0A52A3;
+$color-light-gray: #e9e9e9;
+$color-dark-gray: #282828;
+$color-border-gray: #989898;
+$color-highlight-blue: #00aeef;
+$primary-green: $primary-violet-green;  // Changed from #009640 to violet
+$gris-subtil: #686868;
+$green-mint: $violet-mint;  // Changed from #A7CC97 to violet
+$green-gradient-color: $violet-gradient-color;  // Changed from green gradient to violet
+$gray-medium: #999;
+$white-smoke: #f7f7f7;
+$gray-light: #c1c1c1;
+$gray-medium-color: #b8b8b8;
+$green-dark: $theme-violet-darken;  // Changed from #2e7d32 to violet
+$light-neutral-gray: #ddd;
+$success-primary-green: $success-primary-violet;  // Changed from #28a745 to violet
+$transparent-dark-blue: rgba(13, 41, 78, 0.76);
+$red-dark: #C70000;
+$semi-transparent-black: rgb(0 0 0 / 60%);
+
+// header
+$header-dark-background: $primary-violet-color;  // Changed from #009640 to violet
+$header-dark-text-color: #fff;
+$header-light-background: #fff;
+$header-light-text-color: #101b33;
+$header-background: linear-gradient(84deg, #8B5CF6 0%, #A78BFA 100%);  // Changed to violet gradient
+
+// notify color
+$color-notify-info: #2196F3;
+$color-notify-success: $primary-violet-green;  // Changed from #96C481 to violet
+$color-notify-error: #F04349;
+$color-notify-body: rgba(40, 40, 40, 0.62);
+$color-notify-title: #282828;
+$color-notify-shadow: #00000033;
+$color-notify-progress-bg: #e0e0e0;
+$color-notify-progress-percentage: white;
+$color-notify-icon-success: $primary-violet-green;  // Changed from #009640 to violet
+$color-notify-icon-error: #F04248;
+$color-notify-icon-info: #2196F3;
+
+
+// Menu
+$menu-dark-background: $primary-violet-color;  // Changed from #009640 to violet
+$menu-dark-text-color: #e0e0e0;  // Made lighter for better contrast on violet
+$menu-light-background: #fff;
+$menu-light-text-color: #535763;
+$menu-active-color: $primary-violet-color;  // Changed from #009640 to violet
+
+$dark-layout: darken(#101b33, 8%);
+$dark-layout-font: #adb7be;
+
+// footer
+$footer-color: $primary-violet-color;  // Changed from #009640 to violet
+$footer-gradient-background: $footer-gradient-violet;  // Changed to violet gradient
+
+// User card
+$card-text: #023773FF;
+
+// Menu icon
+$menu-icon-color: $primary-violet-color, #ff5252, #01a9ac, #536dfe, #00bcd4, $warning-color;  // Changed first to violet
+
+// Header background
+$color-header-name: 'blue', 'red', 'purple', info, 'green', dark, 'violet';
+$color-header-color: $header-background, $danger-color, $purple-color, $info-color, $success-color, #101b33, $primary-violet-color;
+// Header gradient
+$color-header-grd-name: grd-blue, grd-red, grd-purple, grd-info, grd-green, grd-dark, grd-violet;
+$color-header-grd-color: linear-gradient(to right, $primary-color 0%, #00f2fe 100%),
+linear-gradient(to right, $danger-color 0%, #ff9a44 100%),
+linear-gradient(to right, $purple-color 0%, #00adff 100%),
+linear-gradient(to right, $info-color 0%, #22e1ff 100%),
+linear-gradient(to right, $success-color 0%, #00e3ae 100%),
+linear-gradient(to right, #101b33 0%, #1f3054 100%),
+linear-gradient(to right, $primary-violet-color 0%, $violet-mint 100%);  // Added violet gradient
+
+// =====================================================
+// CHANGED: Active background color to VIOLET
+// =====================================================
+$color-active-name: 'violet', 'blue', 'red', 'purple', 'info', 'dark';
+$color-active-color: $primary-violet-color, $primary-violet-color, #ff5252, #536dfe, #00bcd4, $dark-color;  // First is violet
+
+// Menu title color
+$color-title-name: blue, red, 'purple', info, dark, 'violet';
+$color-title-color: #4680ff, #ff5252, #536dfe, #00bcd4, $dark-color, $primary-violet-color;
+
+$theme-font-family: 'Roboto', sans-serif;
+$theme-font-size: 14px;
+$theme-background: #ecf0f5;
+$theme-font-color: #373a3c;
+$theme-heading-color: #37474f;
+
+$color-name: c-blue, c-red, c-green, c-yellow, c-purple;
+$color-color: $primary-color, $danger-color, $success-color, $warning-color, $purple-color;
+$color-bt-name: primary, danger, success, warning, info, 'purple';
+$color-bt-color: $primary-color, $danger-color, $success-color, $warning-color, $info-color, $purple-color;
+
+// form-control variables
+$form-bg: #ecf0f5;
+
+// social color variables
+$social-name: facebook, twitter, dribbble, pinterest, youtube, googleplus, instagram, viber, behance, dropbox, linkedin;
+$social-color: #3c5a99, #42c0fb, #ec4a89, #bf2131, #e0291d, #c73e2e, #aa7c62, #7b519d, #0057ff, #3380ff, #0077b5;
+
+// =====================================================================
+// ==================   Bootstrap Extra Variable  ======================
+// =====================================================================
+
+// Color contrast
+$yiq-contrasted-threshold: 200;
+$yiq-dark-color: #37474f;
+$yiq-light-color: #fff;
+$theme-color-interval: 8%;
+$alert-bg-level: -10;
+$alert-border-level: -9;
+$alert-color-level: 6;
+
+// card block css
+$card-shadow: 0 2px 10px -1px rgba(69, 90, 100, 0.3);
+$card-header-border: 1px solid #e2e5e8;
+
+// Définition des variables ng.select
+$white-color: #ffffff;
+$blue-color: #007bff;
+$gray-color: #6c757d;
+$secondary-color: #6c757d;
+$placeholder-color: #6c757d;
+$custom-border-color: $primary-violet-color;  // Changed to violet
+$selected-background-color: #ecf0f5;
+
+:root {
+  --medium-green: #{$medium-green};
+  --cool-blue-color: #{$cool-blue-color};
+  --orange-color: #{$orange-color};
+  --color-dark-gray: #{$color-dark-gray};
+  --theme-vibrant-blue: #{$theme-vibrant-blue};
+  --light-gray-color: #{$light-gray-color};
+}

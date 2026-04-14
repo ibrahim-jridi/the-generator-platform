@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+    stages {
+        stage('checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage(' Run NPM tasks') {
+            steps {
+                script {
+                    docker.image('jdk17node18:1.0.0').inside("-u root -v /var/jenkins_home/.ssh:/var/jenkins_home/.ssh") {
+                        stage('check npm') {
+                            sh "npm --version"
+                        }
+                        stage('install') {
+                            sh "npm install -g @angular/cli"
+                            sh "npm install @angular-devkit/build-angular"
+                            sh "ng version"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Code Quality Check via SonarQube') {
+            steps {
+                script {
+                    def scannerHome = tool 'sonarqube-scanner';
+                    withSonarQubeEnv("sonarqube-scanner") {
+                        sh "${tool("sonarqube-scanner")}/bin/sonar-scanner \
+                        -Dsonar.projectKey=dpm_back_office \
+                        -Dsonar.projectName='dpm_back_office' \
+                        -Dsonar.sources=. \
+                        -Dsonar.css.node=. \
+                        -Dsonar.host.url=${sonar_url} \
+                        -Dsonar.login=${sonarkey_dpm_back_office}"
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            emailext(
+                subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
+                body: "An exception occurred during pipeline execution. Please check the Jenkins console output for more details.",
+                to: "ibrahim.jridi@esprit.tn",
+                from: "${smtp_username}",
+                replyTo: "${smtp_username}",
+                mimeType: 'text/html',
+                attachLog: true,
+                compressLog: true,
+                recipientProviders: [[$class: 'RequesterRecipientProvider']]
+            )
+        }
+    }
+}

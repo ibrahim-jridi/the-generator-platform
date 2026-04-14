@@ -1,0 +1,93 @@
+<div class="card config-card report-section">
+  <div class="card-body">
+    <div class="row form-group max-width justify-content-end">
+      <button class="btn reset-button" (click)="this.reportForm.reset()">
+        <div class="reset-icon"></div>
+      </button>
+    </div>
+    <h5 class="card-title text-left">{{ 'configuration.report.template-report' | translate }}</h5>
+    <div>
+    <p class="config-card-text text-left">{{ 'configuration.report.description-template-report' | translate }}</p>
+    <form [formGroup]="reportForm">
+      <div class="row">
+        <div class="col">
+          <div class="card-body pl-0">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "configuration.report.document-name" | translate }}</span>
+              <span style="color: red;">*</span>
+            </label>
+            <div class="form-group d-flex d-inline-block mb-0">
+              <input type="text" class="form-control form-control-solid" formControlName="report"
+                     placeholder="{{ 'configuration.report.add-document' | translate }}"/>
+            </div>
+            <span
+              *ngIf="this.reportForm.get('report')!.touched && this.reportForm.get('report')!.hasError('required')">
+              <div class="alert alert-danger mt-2" role="alert">{{
+                'configuration.report.validation.report_required' |
+                  translate
+                }}</div>
+             </span>
+          </div>
+        </div>
+        <div class="col px-0">
+          <div class="card-body">
+            <strong>{{ 'configuration.report.model' | translate }}</strong>
+            <app-file-upload formControlName="file" title="{{'configuration.report.path' | translate}}"
+              displayPanelPhotoPlaceholder="{{'configuration.report.displayPanelJrxmlPlaceholder' | translate}}"
+              displayPanelPhoto="{{'configuration.report.chooseFile' | translate}}"
+              [allowedExtensions]="allowedExtensions"></app-file-upload>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="action d-flex justify-content-end mr-3 mb-3">
+      <app-custom-button class="ml-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'generic-button custom-button'"
+                         [buttonType]="'submit'" [tooltip]="'button.SAVE' | translate"
+                         (clicked)="handleSavePanelMessage()"
+                         [buttonDisabled]="isDisabled()">
+      </app-custom-button>
+    </div>
+    </div>
+
+    <app-custom-table [hidHeader]="true" [customHeader]="true"  [noBorder]="true"
+                    [activeExport]="false" [tollTableData]="reportTemplates" [colonnesName]="colonnesName"
+                    [actionListButton]="actionButton" [activeFilter]="false" [actionActiveButton]="true" [lazyLoading]="true"
+                    [columnsClass]="'toll-table-style'"
+                    [tableClass]="'table table-striped mt-3 toll-table-style'"
+                    [pageSize]="pageSize" (loadingNewPage)="nextPage($event)" [totalSize]="totalCount"
+                    [Tablename]="'configurartion.report.reportList' | translate"
+                    (buttonAction)="buttonAction($event)" (pageSizeChange)="onPageSizeChange($event)"></app-custom-table>
+  </div>
+</div>
+
+<app-ui-modal #deleteTemplateReportModal id="deleteTemplateReportModal" dialogClass="modal-dialog-centered"
+              [hideHeader]="true">
+  <div class="app-modal-body delete-modal">
+    <div class="d-flex justify-content-end pb-4">
+      <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+              (click)="deleteTemplateReportModal.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="col-12 text-center">
+      <img src="/assets/images/supprimer.svg" class="delete-img">
+      <p class="text-modal-big">
+        {{ 'button.CONFIRM_DELETE' | translate }} {{ reportTemplateName }} ?
+      </p>
+      <p class="text-modal-big">
+        {{ 'button.DELETE_ACTION' | translate }}
+      </p>
+    </div>
+    <br>
+    <div class="action d-flex justify-content-center button-space">
+      <app-custom-button class="ml-2" [buttonText]="'button.DELETE' | translate" [buttonClass]="'btn custom-btn-primary'"
+                         [buttonType]="'button'" [buttonDisabled]="false"
+                         (clicked)="handleOnDeleteReportTemplate(); deleteTemplateReportModal.hide()"></app-custom-button>
+      <app-custom-button class="ml-2" [buttonText]="'button.CANCEL' |translate" [buttonClass]="'btn custom-btn-secondary'"
+                         [buttonType]="'button'" [buttonDisabled]="false"
+                         (clicked)="deleteTemplateReportModal.hide()"></app-custom-button>
+    </div>
+  </div>
+</app-ui-modal>

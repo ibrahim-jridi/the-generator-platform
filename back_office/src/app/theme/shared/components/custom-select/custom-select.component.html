@@ -1,0 +1,28 @@
+<ng-select [items]="items"
+           class="form-control form-control-solid ngSelect pl-2"
+           bindLabel="{{ bindLabel }}"
+           bindValue="{{ bindValue }}"
+           [multiple]="multiple"
+           [clearable]="true"
+           placeholder="{{ placeholder }}"
+           [formControl]="control"
+           [disabled]="control.disabled || disabled"
+           (change)="onValueChange($event)"
+           (blur)="onTouched()">
+
+  <ng-template ng-option-tmp let-item="item">
+    <div class="d-flex align-items-center">
+      <ng-container *ngIf="showCheckbox">
+        <input type="checkbox"
+               class="form-check-input me-2"
+               [checked]="control.value?.includes(item[bindValue])"
+               [disabled]="item.disabled">
+      </ng-container>
+      {{ item[bindLabel]}}
+    </div>
+  </ng-template>
+  <ng-template ng-notfound-tmp>
+    {{ 'notif.NO_ITEMS_FOUND' | translate }}
+  </ng-template>
+
+</ng-select>

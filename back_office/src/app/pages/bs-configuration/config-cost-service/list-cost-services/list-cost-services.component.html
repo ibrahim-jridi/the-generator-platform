@@ -1,0 +1,14 @@
+<div class="station-section">
+  <br>
+
+
+  <app-custom-table [hidHeader]="true" [idTable]="'listRapport'" [customHeader]="true" [tollTableData]="costServices"
+                  [colonnesName]="tableColumns" [actionListButton]="actionButton" [activeExport]="false"
+                  (loadingNewPage)="nextPage($event)" [actionActiveButton]="true" [pageSize]="pageSize" [lazyLoading]="true"
+                  [options]="true" [columnsClass]="'toll-table-style'" [tableClass]="'table table-striped mt-3 toll-table-style'"
+                  [activeFilter]="false" (buttonAction)="buttonAction($event)" [noBorder]="true" [totalSize]="totalCount"
+                  [Tablename]="'menu.LIST_OF_COST_SERVICE' | translate" (pageSizeChange)="onPageSizeChange($event)">
+  </app-custom-table>
+
+
+</div>

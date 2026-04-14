@@ -1,0 +1,10 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="202508211639" author="mariem neji">
+        <sqlFile path="config/liquibase/sql/2025/202508211639_add_authority_grossiste_to_pharmacy.sql"
+                 relativeToChangelogFile="false"/>
+    </changeSet>
+</databaseChangeLog>

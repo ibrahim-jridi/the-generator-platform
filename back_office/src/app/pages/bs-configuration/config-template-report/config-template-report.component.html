@@ -1,0 +1,6 @@
+<ng-container *ngIf="editReport; else defaultTemplate">
+  <app-edit-config-template-report [reportTemplateId]="reportTemplateId" (back)="toggleDetails(false)"></app-edit-config-template-report>
+</ng-container>
+<ng-template #defaultTemplate>
+  <app-list-config-template-report (viewDetails)="toggleDetails(true, $event)"></app-list-config-template-report>
+</ng-template>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+    <style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+    <style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+    <style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+    <style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+            <style mode="Opaque" backcolor="#EEEFF0"/>
+        </conditionalStyle>
+    </style>
+    <parameter name="address" class="java.lang.String"/>
+    <parameter name="phone" class="java.lang.String"/>
+    <parameter name="email" class="java.lang.String"/>
+    <parameter name="details" class="java.lang.String"/>
+    <parameter name="title_report" class="java.lang.String"/>
+    <parameter name="logo" class="java.io.InputStream"/>
+    <parameter name="footer" class="java.lang.String"/>
+    <parameter name="alignment" class="java.lang.String"/>
+    <parameter name="textField" class="java.lang.String"/>
+    <title>
+        <band height="120" splitType="Stretch">
+            <textField isBlankWhenNull="true">
+                <reportElement x="280" y="15" width="275" height="15" isRemoveLineWhenBlank="true" forecolor="#2C292A" uuid="1c31de43-761b-4ee8-a81a-c1e62b2eb5a0">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" pdfFontName="Arial" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="280" y="30" width="275" height="15" isRemoveLineWhenBlank="true" forecolor="#2C292A" uuid="d47bc5ae-b2f8-4f16-9d89-0891279b0e4b">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" pdfFontName="Arial" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{phone}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="280" y="45" width="275" height="15" isRemoveLineWhenBlank="true" forecolor="#2C292A" uuid="3aab195e-c459-40da-b5b1-fb360b5ad7d8">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" pdfFontName="Arial" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{email}]]></textFieldExpression>
+            </textField>
+            <image hAlign="Left">
+                <reportElement x="0" y="0" width="555" height="56" uuid="f7ab8a93-7de8-40cb-8d78-f78941573dd9">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <imageExpression><![CDATA[$P{logo}]]></imageExpression>
+            </image>
+            <textField>
+                <reportElement x="0" y="70" width="555" height="25" forecolor="#2B519F" uuid="bf961de1-a04e-43f1-9d60-0815693ba206"/>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" size="16" pdfFontName="Arial" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{title_report}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="280" y="0" width="275" height="15" isRemoveLineWhenBlank="true" forecolor="#2C292A" uuid="ec444fb8-a018-4da6-80ce-39414d29dede">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" pdfFontName="Arial" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{details}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="9"/>
+    </columnHeader>
+    <detail>
+        <band height="77">
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="0" width="554" height="60" isRemoveLineWhenBlank="true" forecolor="#2C292A" uuid="bf961de1-a04e-43f1-9d60-0815693ba105">
+                    <printWhenExpression><![CDATA[$P{alignment}.equals("Right")]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Left">
+                    <font fontName="Arial" pdfFontName="Arial" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{textField}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="0" width="554" height="60" isRemoveLineWhenBlank="true" forecolor="#2C292A" uuid="bf961de1-a04e-43f1-9d60-0815693ba963">
+                    <printWhenExpression><![CDATA[$P{alignment}.equals("Left")]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" pdfFontName="Arial" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{textField}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <pageFooter>
+        <band height="84">
+            <staticText>
+                <reportElement x="493" y="50" width="62" height="13" forecolor="#94A8B2" uuid="c8f88836-1f09-43b2-aed4-57ad4f6a1086">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Right">
+                    <font fontName="Arial" pdfFontName="Arial" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <text><![CDATA[Page]]></text>
+            </staticText>
+            <textField evaluationTime="Report">
+                <reportElement mode="Transparent" x="540" y="64" width="15" height="15" forecolor="#023773" backcolor="#FFFFFF" uuid="99f8ee51-294f-4ebf-a8b9-47b480732ce3"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement mode="Transparent" x="0" y="64" width="540" height="15" forecolor="#023773" backcolor="#FFFFFF" uuid="5c3a4029-b578-4d8f-8ce8-4c0938e214b9"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="1" y="20" width="554" height="30" isRemoveLineWhenBlank="true" forecolor="#2C292A" uuid="b70d5476-cfa7-41d1-8764-19913f525203"/>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" pdfFontName="Arial" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{footer}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+</jasperReport>

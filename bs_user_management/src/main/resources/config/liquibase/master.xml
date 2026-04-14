@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="floatType" value="float4" dbms="postgresql"/>
+    <property name="clobType" value="clob" dbms="postgresql"/>
+    <property name="blobType" value="blob" dbms="postgresql"/>
+    <property name="uuidType" value="uuid" dbms="postgresql"/>
+    <property name="datetimeType" value="datetime" dbms="postgresql"/>
+
+    <!--    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="/config/liquibase/changelog/20240924102115_added_entity_InternalUser.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240520135817_added_entity_Role.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240520135818_added_entity_Authority.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240814105625_added_entity_Group.xml" relativeToChangelogFile="false"/>-->
+    <!--    &lt;!&ndash; jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here &ndash;&gt;-->
+    <!--    <include file="config/liquibase/changelog/20240515104115_added_entity_constraints_InternalUser.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240520135817_added_entity_constraints_Role.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240520135818_added_entity_constraints_Authority.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240814105625_added_entity_constraints_Group.xml" relativeToChangelogFile="false"/>-->
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
+
+    <include file="/config/liquibase/changelog/2024/20241007164102_init_db_schema.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/20241007174102_init_authority.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/20241106160001_insert_role.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/20241011174103_add_audit_authority.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/202411111100_add_hibernate_sequence.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/20241114174104_add_users_group_authority.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/202411151448_update_global_group.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/20241212095701_add_authority_to_default_role.xml"
+      relativeToChangelogFile="false"/>
+
+    <include file="/config/liquibase/changelog/2024/20241127114800_update_user_column_db.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/20241211083510_add_company_user_columns.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/202412161921_add_missing_columns.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2024/20241216161200_init_activity_type_db.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250109082800_add_pm_authorities.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202501102025_add_authority_pp.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202501211437_add_default_pm_pp.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202501221547_add_pm_activity_type.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250304093155_add_permissions_roles.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250304103355_update_column_labels.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202502181409_init_waiting_list.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250226010125_add_designations_list.xml"
+             relativeToChangelogFile="false"/>
+
+ <include file="/config/liquibase/changelog/2025/20250306092020_update_user_interne.xml"
+      relativeToChangelogFile="false"/>
+
+    <include file="/config/liquibase/changelog/2025/20250306121414_add_role.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250306141814_insert_designation.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250310030000_add_authority_users_designations.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202504041400_add_pm_authorities.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250306114848_update_user_role.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250317113030_update_user_role.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250529122100_add_export_import_roles.xml"
+      relativeToChangelogFile="false"/>
+
+
+    <include file="/config/liquibase/changelog/2025/202502181114105_add_users_profile.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202503120563211_add_role_designations.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/20250312132100_add_users_industrie.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250319011409_add_permission_user.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202503180948_add_new_roles_import_export.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250319120500_add_keycloak_cloumn.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250319144400_modif_pm_column.xml"
+      relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250326155300_add_ectd_role.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202503261045_add_new_permissions.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202503281200_add_role_import_export.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202504080080_add_intervene_roles.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20251504040202_update_intervene_roles.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202505151000_update_roles_label.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202505201009_delete_duplicated_roles.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250612105800_modify_responsable_agence.xml"
+              relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250604104300_add_column_type.xml"
+              relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250610144000_add_role_types.xml"
+              relativeToChangelogFile="false"/>
+  <include file="/config/liquibase/changelog/2025/202507021104_add_role.xml"
+    relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202506201010_add_role_admin_pct.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/20250612102900_add_pm_authorities_designations.xml"
+             relativeToChangelogFile="false"/>
+  <include file="/config/liquibase/changelog/2025/070720251105_update_role_pct.xml"
+    relativeToChangelogFile="false"/>
+  <include file="config/liquibase/changelog/2025/202504231034_add_pp_to_user.xml"
+    relativeToChangelogFile="false"/>
+  <include file="config/liquibase/changelog/2025/202504231034_add_pm_to_user.xml"
+    relativeToChangelogFile="false"/>
+  <include file="config/liquibase/changelog/2025/20250512_insert_role.xml"
+    relativeToChangelogFile="false"/>
+  <include file="/config/liquibase/changelog/2025/20251405_update_pp_and_pm_role.xml"
+    relativeToChangelogFile="false"/>
+  <include file="config/liquibase/changelog/2025/202507051551_insert_designationList.xml"
+    relativeToChangelogFile="false"/>
+
+    <include file="/config/liquibase/changelog/2025/20250709141500_add_authority.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202531073402_add_pm_users_account.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202508019632_add_role_to_pm_users.xml"
+             relativeToChangelogFile="false"/>
+    <include file="/config/liquibase/changelog/2025/202508051200_update_role_lab.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202508113648_update_account_pm_users.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202508201438_add_role_grossiste.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202508211639_add_authority_grossiste_to_pharmacy.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202508251122_aad_role_officine.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202509019865_update_locale_role.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/2025090399852_update_delete_user_designation.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/070920259863_update_roles_in_designations.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/090920256541_add_role_type_internal_users.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/090920259821_add_authority_to_pp_profile.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/090920256542_fix_pp_pm_agence.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/100920256481_add_description_role_agence.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/110920256932_update_role_actpharma.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202509151120_update_role_import_export.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/20250912172300_add_users_industrie.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/20250918085400_fix_denomination_pm.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/20250919162600_fix_denomination_pm_agence.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/230920259863_add_membre_to_designationList.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/290920259324_update_denominationPm.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/2025100208000-delete_users_agences.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202510061105_insert_authority_add_designation.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202510079632_update_phoneNumber_defaultPP.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202511120905_add_pm_and_pp_users_industry.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/202511181051_delete_pm_from_designationList.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/261120256398_correct_pp_pm_industry.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/091220253625_add_pm_users_etr_role.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/181220259678_add_locale_role_to_pm.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/161220256369_add_labo_designated_rep_column .xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2025/251220256365_add_laboUser.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2026/140120269636_correct_user_national_id.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2026/220120266547_correct_tax-registration.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2026/280220269654_update_and_delete_user_labo.xml"
+             relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/2026/170220263265_update_labo_etr.xml"
+             relativeToChangelogFile="false"/>
+</databaseChangeLog>

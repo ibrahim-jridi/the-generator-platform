@@ -1,0 +1,42 @@
+<div class="chart-container">
+  <div class="chart-column">
+    <apx-chart
+      [series]="barChartOptions.series"
+      [chart]="barChartOptions.chart"
+      [plotOptions]="barChartOptions.plotOptions"
+      [xaxis]="barChartOptions.xaxis"
+      [yaxis]="barChartOptions.yaxis"
+      [colors]="barChartOptions.colors"
+      [dataLabels]="barChartOptions.dataLabels"
+      [legend]="barChartOptions.legend"
+      [grid]="barChartOptions.grid"
+    ></apx-chart>
+    <div class="d-flex flex-column">
+      <span class="chart-title mt-4 mb-1">{{ 'dashboard.ACTIVE_USERS' | translate }}</span>
+      <div>
+        <span class="chart-number">(+23)</span>
+        <span class="chart-subtitle">{{ 'dashboard.LAST_MONTH' | translate }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="chart-spline">
+    <div class="d-flex flex-column mb-3">
+      <span class="chart-title mt-2 mb-1">{{ 'dashboard.CONNECTION_RATE' | translate }}</span>
+      <div>
+        <span class="chart-number">{{ 'dashboard.MORE' | translate }}</span>
+        <span class="chart-subtitle">{{ 'dashboard.THAT' | translate }}</span>
+      </div>
+    </div>
+    <apx-chart
+      [series]="splineChartOptions.series"
+      [chart]="splineChartOptions.chart"
+      [xaxis]="splineChartOptions.xaxis"
+      [yaxis]="splineChartOptions.yaxis"
+      [fill]="splineChartOptions.fill"
+      [stroke]="splineChartOptions.stroke"
+      [grid]="splineChartOptions.grid"
+      [dataLabels]="splineChartOptions.dataLabels"
+      [legend]="splineChartOptions.legend"
+    ></apx-chart>
+  </div>
+</div>

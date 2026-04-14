@@ -1,0 +1,16 @@
+<div class="container_welcome">
+  <div class="left-section">
+    </div>
+  <div class="right-section">
+    <div class="text-center">
+    <h1>{{ 'LOGIN.BIENVENUE_ESPACE_PRIVE' | translate }}</h1>
+    <h5>{{ 'LOGIN.VERIFIEZ_VOTRE_MAIL' | translate }}</h5>
+    <h5>{{ 'LOGIN.VERIFIEZ_BOITE_MAIL' | translate }}</h5>
+    </div>
+    <div class="button-container">
+      <button mat-button  (click)="resendVerificationMail()" class="next-button">
+        {{ 'LOGIN.REENVOYER_MAIL_VERIFICATION' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

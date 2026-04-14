@@ -1,0 +1,32 @@
+{
+  "annotations": {
+    "changelogDate": "20240812143735"
+  },
+  "applications": "*",
+  "clientRootFolder": "bsFileManagement",
+  "databaseType": "sql",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "idUser",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "bsFileManagement",
+  "name": "UserBucket",
+  "relationships": [
+    {
+      "otherEntityName": "folder",
+      "otherEntityRelationshipName": "userBucket",
+      "relationshipName": "folders",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no"
+}

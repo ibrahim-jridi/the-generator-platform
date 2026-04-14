@@ -1,0 +1,41 @@
+<jasperReport name="Blank_A4_2" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="45bdcae2-b3ce-4a38-84dc-55bcdd62d141">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <query language="sql"><![CDATA[]]></query>
+    <field name="id" class="java.lang.Integer"/>
+    <field name="name" class="java.lang.String"/>
+    <background splitType="Stretch"/>
+    <title height="153" splitType="Stretch">
+        <element kind="rectangle" uuid="ad9ec891-f82c-4a1d-bafd-21e36f637531" x="0" y="0" width="555" height="79" forecolor="#81278A" backcolor="#D3F5EA">
+            <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+        </element>
+        <element kind="staticText" uuid="834525cf-5b60-4c7b-bb62-1ed49bf878af" x="0" y="0" width="555" height="79">
+            <text><![CDATA[Rapport DBPM]]></text>
+        </element>
+    </title>
+    <pageHeader height="57" splitType="Stretch"/>
+    <columnHeader height="30" splitType="Stretch">
+        <element kind="staticText" uuid="82feb17e-3ad4-49ec-afd8-d059f12ae7ff" x="29" y="0" width="100" height="30" bold="true" hTextAlign="Center">
+            <text><![CDATA[ID]]></text>
+        </element>
+        <element kind="staticText" uuid="3d9bac31-ba91-4329-978c-3afbba1f812d" x="129" y="0" width="100" height="30" bold="true" hTextAlign="Center">
+            <text><![CDATA[Name]]></text>
+        </element>
+
+
+    </columnHeader>
+    <detail>
+        <!-- The height attribute should be applied to the <band> element inside <detail> -->
+        <band height="30" splitType="Stretch">
+            <element kind="textField" uuid="00404d8b-a5ed-426e-ad05-20ac8a874a37" x="29" y="0" width="100" height="30" hTextAlign="Center">
+                <expression><![CDATA[$F{id}]]></expression>
+            </element>
+            <element kind="textField" uuid="b7fdb3da-41dc-4a35-aaeb-a45548d9fc18" x="129" y="0" width="100" height="30" hTextAlign="Center">
+                <expression><![CDATA[$F{name}]]></expression>
+            </element>
+
+        </band>
+    </detail>
+    <columnFooter height="45" splitType="Stretch"/>
+    <pageFooter height="54" splitType="Stretch"/>
+    <summary height="42" splitType="Stretch"/>
+</jasperReport>

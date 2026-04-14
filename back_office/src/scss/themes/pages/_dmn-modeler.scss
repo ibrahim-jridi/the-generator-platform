@@ -1,0 +1,44 @@
+
+.import-error {
+    color: red;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+
+app-dmn-modeler {
+  display: flex;
+  flex-direction: column;
+  height: 1000px;
+  background-color: $white;
+  padding: 20px 20px;
+
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    background-color: $white;
+  }
+
+  .bio-properties-panel-header {
+    background-color: $white;
+  }
+
+
+    mat-tab-group {
+      height: 100%;
+
+      .mat-mdc-tab-body-wrapper {
+        flex-grow: 1;
+      }
+
+      .mat-mdc-tab-body-content {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+
+
+  }

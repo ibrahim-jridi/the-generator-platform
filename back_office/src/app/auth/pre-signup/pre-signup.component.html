@@ -1,0 +1,672 @@
+<div class="container_welcome welcome-content auto-height" >
+  <div class="left-section">
+    <img src="" alt="Logo" class="logo"/>
+  </div>
+  <div class="right-section" *ngIf="!isTokenExpired">
+    <p> {{ 'signup.POUR_CREER_VOTRE_COMPTE' | translate }}</p>
+    <div class="stepper-content-style">
+      <mat-horizontal-stepper [linear]="true" #stepper>
+        <mat-step [completed]="selectedNationality !== null">
+          <form [formGroup]="nationalityFormGroup" class="form-content">
+            <ng-template matStepLabel>{{ 'signup.NATIONALITE' | translate }}</ng-template>
+            <div class="step-content">
+              <p><b>{{ 'signup.VOUS_ÊTES_DE_QUELLE_NATIONALITE' | translate }} </b></p>
+              <div class="buttons-margin">
+                <div class="checkbox-group">
+                  <div
+                    class="custom-checkbox"
+                    (click)="onNationalityChange('tunisienne')"
+                  >
+                    <input
+                      type="checkbox"
+                      class="native-checkbox"
+                      formControlName="tunisienne"
+                      [checked]="selectedNationality === 'tunisienne'"
+                    />
+                    <div class="tile" [ngClass]="{ selected: selectedNationality === 'tunisienne' }">
+                      <div class="tile-text">{{ 'signup.TUNISIENNE' | translate }}</div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="custom-checkbox"
+                    (click)="onNationalityChange('etrangere')"
+                  >
+                    <input
+                      type="checkbox"
+                      class="native-checkbox"
+                      formControlName="etrangere"
+                      [checked]="selectedNationality === 'etrangere'"
+                    />
+                    <div class="tile" [ngClass]="{ selected: selectedNationality === 'etrangere' }">
+                      <div class="tile-text">{{ 'signup.ETRANGERE' | translate }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="step-actions">
+              <button mat-button (click)="onCancel()"
+                      class="previous-button">{{ 'signup.PRECEDENT' | translate }}
+              </button>
+              <button mat-button matStepperNext [disabled]="selectedNationality == null"
+                      class="next-button">{{ 'signup.SUIVANT' | translate }}
+                <i class="fa fa-arrow-right ms-2"></i>
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step [completed]="subscriptionMethodFormGroup.valid">
+          <form [formGroup]="subscriptionMethodFormGroup" class="form-content">
+            <ng-template matStepLabel>{{'signup.METHODE_INSCRIPTION' | translate}}</ng-template>
+            <div class="step-content" *ngIf="selectedNationality !== 'tunisienne'">
+              <p><b> {{'signup.CONNEXION_PASSEPORT' | translate}}</b></p>
+              <div>
+                <div class="row">
+                  <mat-form-field appearance="outline" class="fix-right-input">
+                    <mat-label class="rtl-label"> {{'signup.NUMERO_PASSEPORT' | translate}}</mat-label>
+                    <input  matInput class="error-fields" formControlName="passportNumber" placeholder="{{'signup.ENTRER_NUMERO_PASSEPORT' | translate}}" required>
+                    <mat-error *ngIf="subscriptionMethodFormGroup.get('passportNumber').hasError('required')" class="error-fields">
+                      {{'signup.PASSEPORT_REQUIS' | translate}}
+                    </mat-error>
+                    <mat-error class="error-fields"
+                               *ngIf="subscriptionMethodFormGroup.get('passportNumber').hasError('maxlength') ||subscriptionMethodFormGroup.get('passportNumber').hasError('minlength')  ">
+                      {{'signup.PASSEPORT_TAILLE' | translate}}
+                    </mat-error>
+                    <mat-error class="error-fields"
+                               *ngIf="subscriptionMethodFormGroup.get('passportNumber').hasError('specialCharactersNotAllowed')">
+                      {{ 'signup.CARACTERE_SPECIALE' | translate }}
+                    </mat-error>
+                    <mat-error class="error-fields"
+                               *ngIf="subscriptionMethodFormGroup.get('passportNumber')?.hasError('notAlphanumeric') &&
+                   !subscriptionMethodFormGroup.get('passportNumber')?.hasError('specialCharactersNotAllowed')">
+                      {{ 'signup.NOT_ALPHANUMERIC' | translate }}
+                    </mat-error>
+                    <mat-error class="error-fields"
+                               *ngIf="subscriptionMethodFormGroup.get('passportNumber')?.hasError('onlyLetters') &&
+                   !subscriptionMethodFormGroup.get('passportNumber')?.hasError('specialCharactersNotAllowed')">
+                      {{ 'signup.ONLY_LETTERS' | translate }}
+                    </mat-error>
+                    <mat-error class="error-fields"
+                               *ngIf="informationFormGroup.get('passportNumber').touched && informationFormGroup.get('passportNumber').errors?.pattern">
+                      {{ 'users.errors.INVALID_PASSPORT_PATTERN' | translate }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <br>
+              <mat-checkbox formControlName="checkbox" id="checkbox" required>
+                {{ 'signup.CONNAISSANCE' | translate }}
+                <a href="assets/politique-confidentialite.pdf" target="_blank" rel="noopener noreferrer">
+                  {{ 'signup.POLITIQUE' | translate }}
+                </a>
+                {{ 'signup.PROTECTION' | translate }}
+                <mat-error *ngIf="subscriptionMethodFormGroup.get('checkbox')?.touched && !subscriptionMethodFormGroup.get('checkbox')?.value" class="error-fields">
+                  {{ 'signup.ACCEPT_TERMS_REQUIRED' | translate }}
+                </mat-error>
+              </mat-checkbox>
+            </div>
+            <div class="step-content" *ngIf="selectedNationality === 'tunisienne'">
+              <p><b>{{'signup.METHODE_CONNEXION' | translate}}</b></p>
+              <div class="buttons-margin">
+                <div class="checkbox-group">
+                  <div
+                    class="custom-checkbox"
+                    (click)="onRegistrationMethodChange('ehouwiya')"
+                  >
+                    <input
+                      type="checkbox"
+                      class="native-checkbox"
+                      formControlName="ehouwiya"
+                      [checked]="selectedRegistrationMethod === 'ehouwiya'"
+                    />
+                    <div class="tile" [ngClass]="{ selected: selectedRegistrationMethod === 'ehouwiya' }">
+                      <div class="tile-text">{{ 'signup.EHOUWIYA' | translate }}</div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="custom-checkbox"
+                    (click)="onRegistrationMethodChange('nationalId')"
+                  >
+                    <input
+                      type="checkbox"
+                      class="native-checkbox"
+                      formControlName="nationalId"
+                      [checked]="selectedRegistrationMethod === 'nationalId'"
+                    />
+                    <div class="tile" [ngClass]="{ selected: selectedRegistrationMethod === 'nationalId' }">
+                      <div class="tile-text">{{ 'signup.CIN' | translate }}</div>
+                    </div>
+                  </div>
+                  <app-ui-modal
+                      #cinVerificationModal
+                      id="cinVerificationModal"
+                      dialogClass="modal-dialog-centered custom-large-modal"
+                      [hideHeader]="true">
+
+                    <div class="app-modal-body modal-generic p-4">
+                      <div class="text-center modal-header-section">
+                        <div class="justify-content-end">
+                          <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                                  (click)="cinVerificationModal.hide()">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+
+                        <div>
+                          <h4 class="fw-bold text-white left-section">{{ 'modals.cinVerification.TITLE' | translate }}</h4>
+                          <br>
+                          <p class="modal-description text-muted">
+                            {{ 'modals.cinVerification.MESSAGE' | translate }}<br>
+                            {{ 'modals.cinVerification.INFO' | translate }}
+                          </p>
+                        </div>
+                      </div>
+
+                      <form [formGroup]="subscriptionMethodFormGroups" class="modal-form">
+                        <div class="form-group mb-4">
+                          <label for="loginInput" class="form-label fw-semibold mb-3">
+                            {{ 'modals.cinVerification.FIELD_LABEL' | translate }}
+                          </label>
+                          <input
+                              id="loginInput"
+                              type="text"
+                              class="form-control modal-input"
+                              formControlName="username"
+                              placeholder="{{ 'modals.cinVerification.PLACEHOLDER' | translate }}">
+                          <mat-error
+                              *ngIf="subscriptionMethodFormGroups.get('username')?.touched && subscriptionMethodFormGroups.get('username')?.hasError('pattern')"
+                              class="error-fields mt-2">
+                            {{ 'modals.cinVerification.INVALID_FORMAT' | translate }}
+                          </mat-error>
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-4 gap-3 modal-actions">
+                          <app-custom-button
+                              [buttonText]="'button.CONFIRM' | translate"
+                              [buttonClass]="'btn custom-btn-primary btn-lg px-4'"
+                              [buttonType]="'button'"
+                              (clicked)="cinVerification(stepper)"
+                              [buttonDisabled]="subscriptionMethodFormGroups.invalid">
+                          </app-custom-button>
+
+                          <app-custom-button
+                              [buttonText]="'button.CANCEL' | translate"
+                              [buttonClass]="'btn custom-btn-outline-secondary btn-lg px-4'"
+                              [buttonType]="'button'"
+                              (clicked)="cinVerificationModal.hide()">
+                          </app-custom-button>
+                        </div>
+                      </form>
+                    </div>
+                  </app-ui-modal>
+                  <div
+                    class="custom-checkbox"
+                    (click)="onRegistrationMethodChange('evax')"
+                  >
+                    <input
+                      type="checkbox"
+                      class="native-checkbox"
+                      formControlName="evax"
+                      [checked]="selectedRegistrationMethod === 'evax'"
+                    />
+                    <div class="tile" [ngClass]="{ selected: selectedRegistrationMethod === 'evax' }">
+                      <div class="tile-text">{{ 'EVAX' | translate }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                  *ngIf="this.selectedRegistrationMethod === 'ehouwiya'">
+                <br>
+                <br>
+                <mat-checkbox formControlName="checkbox" id="checkbox" required>
+                  {{ 'signup.CONNAISSANCE' | translate }}
+                  <a href="assets/politique-confidentialite.pdf" target="_blank" rel="noopener noreferrer">
+                    {{ 'signup.POLITIQUE' | translate }}
+                  </a>
+                  {{ 'signup.PROTECTIONS' | translate }}
+                  <mat-error *ngIf="subscriptionMethodFormGroup.get('checkbox')?.touched && !subscriptionMethodFormGroup.get('checkbox')?.value" class="error-fields">
+                    {{ 'signup.ACCEPT_TERMS_REQUIRED' | translate }}
+                  </mat-error>
+                </mat-checkbox>
+              </div>
+              <div
+                *ngIf="this.selectedRegistrationMethod === 'nationalId'">
+                <div class="row e-houwiya-input">
+                  <p><b>{{'signup.CONNEXION_CIN' | translate}} </b></p>
+                  <span class="label-title">{{ 'signup.NUMERO_CIN' | translate }} <span
+                    class="text-danger">*</span></span>
+                  <mat-form-field appearance="outline" class="fix-right-input">
+                    <input matInput class="error-fields" formControlName="cin"
+                           placeholder="{{'signup.ENTRER_NUMERO_CIN' | translate}}"
+                           (keypress)="keypress_charNum($event)" required>
+                    <mat-error *ngIf="subscriptionMethodFormGroup.get('cin').hasError('required')">
+                      {{'signup.CIN_OBLIGATOIRE' | translate}}
+                    </mat-error>
+                    <mat-error class="error-fields"
+                               *ngIf="subscriptionMethodFormGroup.get('cin').hasError('maxlength') ||subscriptionMethodFormGroup.get('cin').hasError('minlength')  ">
+                      {{'signup.CIN_TAILLE' | translate}}
+                    </mat-error>
+                    <mat-error class="error-fields"
+                               *ngIf="subscriptionMethodFormGroup.get('cin').hasError('cinStartWithError')">
+                      {{ 'signup.CIN_START_WITH_ERROR' | translate }}
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-checkbox formControlName="checkbox" id="checkbox" required>
+                    {{ 'signup.CONNAISSANCE' | translate }}
+                    <a href="assets/politique-confidentialite.pdf" target="_blank" rel="noopener noreferrer">
+                      {{ 'signup.POLITIQUE' | translate }}
+                    </a>
+                    {{ 'signup.PROTECTIONS' | translate }}
+                    <mat-error *ngIf="subscriptionMethodFormGroup.get('checkbox')?.touched && !subscriptionMethodFormGroup.get('checkbox')?.value" class="error-fields">
+                      {{ 'signup.ACCEPT_TERMS_REQUIRED' | translate }}
+                    </mat-error>
+                  </mat-checkbox>
+
+                </div>
+              </div>
+            </div>
+            <div class="step-actions">
+              <button mat-button matStepperPrevious class="previous-button" >{{'signup.PRECEDENT' | translate}}</button>
+              <button mat-button
+                      [disabled]="!subscriptionMethodFormGroup.valid || (selectedRegistrationMethod == null && nationalityFormGroup.get('tunisienne').value === 'tunisienne')"
+                      class="next-button" (click)="checkNationId(stepper)">
+                {{'signup.SUIVANT' | translate}}
+                <i class="fa fa-arrow-right ms-2"></i>
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>{{'signup.INFORMATIONS' | translate}}</ng-template>
+          <form [formGroup]="informationFormGroup" class="form-content">
+            <div class="step-content" *ngIf="selectedNationality === 'etrangere'">
+              <div class="row">
+                  <span class="label-title">{{ 'signup.NOM' | translate }} <span
+                    class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput class="error-fields"   formControlName="lastName" placeholder="{{'signup.ENTRER_NOM' | translate}}"
+                         (keypress)="keypress_char($event)" required>
+                  <mat-error *ngIf="informationFormGroup.get('lastName').hasError('required')" class="error-fields">
+                    {{'signup.NOM_REQUIS' | translate}}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('lastName').hasError('maxlength') || informationFormGroup.get('lastName').hasError('minlength') ">
+                    {{'signup.NOM_TAILLE' | translate}}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.PRENOM' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput class="error-fields"  formControlName="firstName" placeholder="{{'signup.ENTRER_PRENOM' | translate}}"
+                         (keypress)="keypress_char($event)" required>
+                  <mat-error  class="error-fields" *ngIf="informationFormGroup.get('firstName').hasError('required')">
+                    {{'signup.PRENOM_REQUIS' | translate}}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('firstName').hasError('maxlength') || informationFormGroup.get('firstName').hasError('minlength') ">
+                    {{'signup.PRENOM_TAILLE' | translate}}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.DATE_NAISSANCE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field class="custom-date-field">
+
+                  <input matInput [max]="maxBirthDate" [min]="minBirthDate" [matDatepicker]="picker"
+                         placeholder="{{ 'signup.DATE_NAISSANCE' | translate }}"
+                         formControlName="birthDate" readonly>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('birthDate').hasError('required')">
+                    {{ 'signup.DATE_NAISSANCE_REQUIS' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.GENRE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <mat-select formControlName="gender" placeholder="{{ 'signup.SELECT_GENDER' | translate }}">
+                    <mat-option *ngFor="let gender of genders" [value]="gender" >{{ 'users.' + gender | translate }}</mat-option>
+                  </mat-select>
+                  <mat-error  class="error-fields"  *ngIf="informationFormGroup.get('gender').hasError('required')">
+                    {{ 'signup.GENRE_REQUIS' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.PAYS_ORIGINE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <mat-select formControlName="country">
+                    <mat-option *ngFor="let country of countries" [value]="country.countryISO">
+                      <span class="fi {{ country.flagClass }}" ></span>
+                      {{ country.label }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error class="error-fields" *ngIf="informationFormGroup.get('country')?.touched && informationFormGroup.get('country')?.hasError('required')">
+                    {{ 'signup.errors.REQUIRED_COUNTRY' | translate }}
+                  </mat-error>
+
+                </mat-form-field>
+
+                <span class="label-title">{{ 'signup.NUMERO_TELEPHONE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                    <span *ngIf="userCountry" class="fi {{ selectedNationalityy.flagClass }}" ></span>
+                    <span *ngIf="userCountry" >{{ phoneNumberPrefix }}</span>
+                    <input
+                        matInput
+                        class="error-fields"
+                        formControlName="phoneNumber"
+                        placeholder="{{ 'signup.ENTRER_NUMERO_TELEPHONE' | translate }}"
+                        (keypress)="keypress_charNum($event)"
+                        (keydown)="preventPrefixRemoval($event)"
+                        (focusout)="restorePrefix()"
+                        required
+                    />
+                  <mat-error class="error-fields" *ngIf="informationFormGroup.get('phoneNumber')?.touched && informationFormGroup.get('phoneNumber')?.hasError('required')">
+                    {{ 'signup.TELEPHONE_REQUIS' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('phoneNumber').hasError('maxlength') || informationFormGroup.get('phoneNumber').hasError('minlength')">
+                    {{'signup.TELEPHONE_TAILLE_fr' | translate}}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.ADRESSE' | translate }} <span
+                    class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput class="error-fields" formControlName="address" placeholder="{{ 'signup.SAISIR_ADRESSE' | translate }}">
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('address').touched &&informationFormGroup.get('address').hasError('whitespace') ">
+                    {{'signup.INVALID_WHITE_SPACE' | translate}}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.EMAIL' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields" formControlName="email" placeholder="{{'signup.ENTRER_EMAIL' | translate}}" required>
+                  <mat-error class="error-fields"  *ngIf="informationFormGroup.get('email').hasError('required')">
+                    {{'signup.EMAIL_REQUIS' | translate}}
+                  </mat-error>
+                  <mat-error  class="error-fields"  *ngIf="informationFormGroup.get('email').hasError('email') || informationFormGroup.get('email').hasError('pattern')">
+                    {{'signup.EMAIL_INVALIDE' | translate}}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.NUMERO_PASSEPORT' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input"  [ngClass]="{ 'readonly-field': true }">
+                  <input matInput formControlName="passportNumber"
+                         placeholder="{{this.subscriptionMethodFormGroup.get('passportNumber').value}}"
+                         readonly >
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="step-content"
+                 *ngIf="selectedNationality === 'tunisienne' && selectedRegistrationMethod === 'ehouwiya'">
+              <div class="row" style="overflow-x: auto;">
+                  <span class="label-title">{{ 'signup.NOM' | translate }} <span
+                    class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields" formControlName="lastName" placeholder="{{'signup.ENTRER_NOM' | translate}}"
+                         (keypress)="keypress_char($event)" required>
+                  <mat-error class="error-fields"   *ngIf="informationFormGroup.get('lastName').hasError('required')">
+                    {{ 'signup.NOM_REQUIS' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('lastName').hasError('maxlength') || informationFormGroup.get('lastName').hasError('minlength') ">
+                    {{ 'signup.NOM_TAILLE' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.PRENOM' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields" formControlName="firstName" placeholder="{{'signup.ENTRER_PRENOM' | translate}}"
+                         (keypress)="keypress_char($event)" required>
+                  <mat-error class="error-fields"  *ngIf="informationFormGroup.get('firstName').hasError('required')">
+                    {{ 'signup.PRENOM_REQUIS' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('firstName').hasError('maxlength') || informationFormGroup.get('firstName').hasError('minlength') ">
+                    {{ 'signup.PRENOM_TAILLE' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.GENRE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <mat-select formControlName="gender" placeholder="{{ 'signup.SELECT_GENDER' | translate }}">
+                    <mat-option *ngFor="let gender of genders" [value]="gender" >{{ 'users.' + gender | translate }}</mat-option>
+                  </mat-select>
+                  <mat-error  class="error-fields"  *ngIf="informationFormGroup.get('gender').hasError('required')">
+                    {{ 'signup.GENRE_REQUIS' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.DATE_NAISSANCE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field class="custom-date-field">
+
+                  <input matInput [max]="maxBirthDate" [matDatepicker]="picker"
+                         placeholder="{{ 'signup.DATE_NAISSANCE' | translate }}"
+                         formControlName="birthDate" readonly>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('birthDate').hasError('required')">
+                    {{ 'signup.DATE_NAISSANCE_REQUIS' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.AGE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields" formControlName="age" placeholder="{{ 'signup.AGE_PLACEHOLDER' | translate }}" readonly required>
+                  <mat-error  class="error-fields"  *ngIf="informationFormGroup.get('age').hasError('required')">
+                    {{ 'signup.AGE_REQUIS' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.NUMERO_TELEPHONE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields"  formControlName="phoneNumber" placeholder="{{ 'signup.SAISIR_TELEPHONE' | translate }}"
+                         (keypress)="keypress_charNum($event)" required>
+                  <mat-error class="error-fields"  *ngIf="informationFormGroup.get('phoneNumber').hasError('required')">
+                    {{ 'signup.TELEPHONE_OBLIGATOIRE' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('phoneNumber').hasError('maxlength') || informationFormGroup.get('phoneNumber').hasError('minlength')">
+                    {{ 'signup.TELEPHONE_TAILLE_TN' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('phoneNumber').hasError('invalidRegionalCode')">{{ 'signup.INVALID_REGIONAL_CODE' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.ADRESSE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput class="error-fields" formControlName="address" placeholder="{{ 'signup.SAISIR_ADRESSE' | translate }}">
+                  <mat-error class="error-fields" *ngIf="informationFormGroup.get('address').touched && informationFormGroup.get('address').errors?.pattern">
+                    {{ 'users.errors.INVALID_ADDRESS_PATTERN' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.E_BARID' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields" formControlName="eBarid" placeholder="{{ 'signup.SAISIR_E_BARID' | translate }}">
+                  <mat-error class="error-fields"  *ngIf="informationFormGroup.get('eBarid').hasError('email') || informationFormGroup.get('email').hasError('pattern')">
+                    {{ 'signup.E_BARID_INVALIDE' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.EMAIL' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput class="error-fields"  formControlName="email" placeholder="{{ 'signup.SAISIR_EMAIL' | translate }}" required>
+                  <mat-error class="error-fields"   *ngIf="informationFormGroup.get('email').hasError('required')">
+                    {{ 'signup.EMAIL_REQUIS' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"  *ngIf="informationFormGroup.get('email').hasError('email') || informationFormGroup.get('email').hasError('pattern')">
+                    {{ 'signup.EMAIL_INVALIDE' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.NUMERO_CIN' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields"  formControlName="cin"  placeholder="{{ 'signup.SAISIR_NUMERO_CIN' | translate }}"
+                         (keypress)="keypress_charNum($event)" required>
+                  <mat-error class="error-fields"  *ngIf="informationFormGroup.get('cin').hasError('required')">
+                    {{ 'signup.CIN_OBLIGATOIRE' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('cin').hasError('maxlength') ||informationFormGroup.get('cin').hasError('minlength') ">
+                    {{ 'signup.CIN_TAILLE' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="subscriptionMethodFormGroup.get('cin').hasError('cinStartWithError')">
+                    {{ 'signup.CIN_START_WITH_ERROR' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="step-content"
+                 *ngIf="selectedNationality === 'tunisienne' && selectedRegistrationMethod === 'nationalId'">
+              <div class="row">
+                  <span class="label-title">{{ 'signup.NUMERO_CIN' | translate }} <span
+                    class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input"
+                                [ngClass]="{ 'readonly-field': true }">
+                  <input matInput class="error-fields" formControlName="cin"
+                         placeholder="{{ 'signup.SAISIR_NUMERO_CIN' | translate }}"
+                         (keypress)="keypress_charNum($event)" required readonly>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.NOM' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields" formControlName="lastName" placeholder="{{ 'signup.SAISIR_NOM' | translate }}"
+                         (keypress)="keypress_char($event)" required>
+                  <mat-error class="error-fields"  *ngIf="informationFormGroup.get('lastName').hasError('required')">
+                    {{ 'signup.NOM_REQUIS' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('lastName').hasError('maxlength') || informationFormGroup.get('lastName').hasError('minlength') ">
+                    {{ 'signup.NOM_TAILLE' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.PRENOM' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields" formControlName="firstName" placeholder="{{ 'signup.SAISIR_PRENOM' | translate }}"
+                         (keypress)="keypress_char($event)" required>
+                  <mat-error class="error-fields"   *ngIf="informationFormGroup.get('firstName').hasError('required')">
+                    {{ 'signup.PRENOM_REQUIS' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('firstName').hasError('maxlength') || informationFormGroup.get('firstName').hasError('minlength') ">
+                    {{ 'signup.PRENOM_TAILLE' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.GENRE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <mat-select formControlName="gender" placeholder="{{ 'signup.SELECT_GENDER' | translate }}">
+                    <mat-option *ngFor="let gender of genders" [value]="gender" >{{ 'users.' + gender | translate }}</mat-option>
+                  </mat-select>
+                  <mat-error  class="error-fields"  *ngIf="informationFormGroup.get('gender').hasError('required')">
+                    {{ 'signup.GENRE_REQUIS' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.DATE_NAISSANCE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field class="custom-date-field">
+                  <input matInput [max]="maxBirthDate" [matDatepicker]="picker"
+                         placeholder="{{ 'signup.DATE_NAISSANCE' | translate }}"
+                         formControlName="birthDate" readonly>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('birthDate').hasError('required')">
+                    {{ 'signup.DATE_NAISSANCE_REQUIS' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.AGE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields" formControlName="age" placeholder="{{ 'signup.AGE_PLACEHOLDER' | translate }}" readonly required>
+                  <mat-error class="error-fields"  *ngIf="informationFormGroup.get('age').hasError('required')">
+                    {{ 'signup.AGE_REQUIS' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.NUMERO_TELEPHONE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput  class="error-fields" formControlName="phoneNumber" placeholder="{{ 'signup.SAISIR_TELEPHONE' | translate }}"
+                         (keypress)="keypress_charNum($event)" required>
+                  <mat-error class="error-fields"   *ngIf="informationFormGroup.get('phoneNumber').hasError('required')">
+                    {{ 'signup.TELEPHONE_REQUIS' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('phoneNumber').hasError('maxlength') || informationFormGroup.get('phoneNumber').hasError('minlength')">
+                    {{ 'signup.TELEPHONE_TAILLE_TN' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('phoneNumber').hasError('invalidRegionalCode')">{{ 'signup.INVALID_REGIONAL_CODE' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.ADRESSE' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input matInput class="error-fields" formControlName="address"
+                         placeholder="{{ 'signup.SAISIR_ADRESSE' | translate }}" required>
+                  <mat-error class="error-fields" *ngIf="informationFormGroup.get('address').hasError('required')">
+                    {{ 'signup.ADDRESSE_REQUIS' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields"
+                             *ngIf="informationFormGroup.get('address').hasError('minlength')">
+                    {{ 'signup.ADDRESSE_TAILLE' | translate }}
+                  </mat-error>
+                  <mat-error class="error-fields" *ngIf="informationFormGroup.get('address').touched && informationFormGroup.get('address').errors?.pattern">
+                    {{ 'users.errors.INVALID_ADDRESS_PATTERN' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <span class="label-title">{{ 'signup.EMAIL' | translate }} <span
+                  class="text-danger">*</span></span>
+                <mat-form-field appearance="outline" class="fix-right-input">
+                  <input  matInput  class="error-fields" formControlName="email" placeholder="{{ 'signup.SAISIR_EMAIL' | translate }}" required>
+                  <mat-error class="error-fields"  *ngIf="informationFormGroup.get('email').hasError('required')">
+                    {{ 'signup.EMAIL_REQUIS' | translate }}
+                  </mat-error>
+                  <mat-error  class="error-fields"  *ngIf="informationFormGroup.get('email').hasError('email') || informationFormGroup.get('email').hasError('pattern') ">
+                    {{ 'signup.EMAIL_INVALIDE' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="step-actions">
+              <button  mat-button matStepperPrevious class="previous-button" > {{ 'signup.PRECEDENT' | translate }}</button>
+              <button mat-button [disabled]="informationFormGroup.invalid" (click)="submit()" class="next-button">
+                {{ 'signup.SINSCRIRE' | translate }}
+                <i class="fa fa-arrow-right ms-2"></i>
+              </button>
+            </div>
+          </form>
+        </mat-step>
+        <ng-template matStepperIcon="edit" let-index="index">
+          <span>{{ index + 1 }}</span>
+        </ng-template>
+        <ng-template matStepperIcon="number" let-index="index">
+          <span>{{ index + 1 }}</span>
+        </ng-template>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+
+  <div class="right-section" *ngIf="isTokenExpired">
+    <div class="right-section">
+      <div class="text-center">
+        <p *ngIf="isTokenExpired">{{ 'mailActivation.TOKEN_EXPIRED'| translate }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-row" [ngClass]=" language == 'Ar' ? 'language-rtl' : 'language' ">
+    <app-language-switcher (languageChanged)="onLanguageChanged($event)"></app-language-switcher>
+    <span class="text-language">{{ language }}</span>
+  </div>
+</div>

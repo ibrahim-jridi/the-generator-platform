@@ -1,0 +1,116 @@
+<div class="section-internal-user border-0 shadow-none border-bottom-0">
+  <div class="row">
+      <div class="col-md-12">
+        <form id="user-form" [formGroup]="reportForm">
+
+          <div class="row mb-4">
+
+            <div class="col-6">
+              <div class="fv-row mb-5">
+                <label class="fs-6 fw-normal form-label mb-2 required-label">
+                  <span class="custom-label">{{ "report.NOM" | translate }}</span>
+                  <span class="text-danger ms-1">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2 custom-placeholder-input"
+                         placeholder="{{ 'report.fields.INSERT_NAME' | translate }}" formControlName="name" />
+                  <span
+                    *ngIf="this.reportForm.get('name')!.touched && this.reportForm.get('name')!.hasError('required')"
+                    class="text-danger">{{'report.errors.REQUIRED_NAME' | translate}}</span>
+                  <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error"
+                       class="text-danger">
+                    <div *ngIf="name.errors?.pattern">
+                      {{'report.errors.INVALID_NAME' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="fv-row mb-5">
+                <label class="fs-6 fw-normal form-label mb-2 required-label">
+                  <span class="custom-label">{{ "report.DESCRIPTION" | translate }}</span>
+                  <span class="text-danger ms-1">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2 custom-placeholder-input"
+                         placeholder="{{ 'report.fields.INSERT_DESCRIPTION' | translate }}" formControlName="description" />
+                  <span
+                    *ngIf="this.reportForm.get('description')!.touched && this.reportForm.get('description')!.hasError('required')"
+                    class="text-danger">{{'report.errors.REQUIRED_DESCRIPTION' | translate}}</span>
+                  <div *ngIf="description.invalid && (description.dirty || description.touched)" class="error"
+                       class="text-danger">
+                    <div *ngIf="description.errors?.pattern">
+                      {{'report.errors.INVALID_DESCRIPTION' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card-body p-0">
+                  <label class="fs-6 fw-normal form-label mb-2 required-label">
+                      <span class="custom-label">{{'file.DISPLAY_PANEL_PHOTO_LABEL' | translate }}</span>
+                      <span class="text-danger ms-1">*</span>
+                  </label>
+                  <div class="upload-container justify-content-end" (dragover)="handleDragOver($event)"
+                      (drop)="handleDrop($event)">
+                  <small class="custom-small">{{'file.FILE_NAME' | translate }} <span class="extension">(jrxml)</span></small>
+                      <div class="upload-card">
+                          <div class="card-body">
+                              <div class="progress-text" *ngIf="isLoading">{{ progressBarValue }}%</div>
+                              <mat-progress-bar mode="determinate" [value]="progressBarValue" *ngIf="isLoading"></mat-progress-bar>
+                              <div class="upload-logo"  *ngIf="!isLoading">
+                                  <img src="assets/images/configuration/upload.svg" alt="Upload Logo">
+                              </div>
+                              <div class="d-flex align-items-center justify-content-center" *ngIf="!isLoading">
+                                  <div *ngIf="photoFile; else fileInputText" class="text mb-2">
+                                      <b>{{ photoFile.name | truncateFileName : 50}}</b>
+                                      <button class="btn btn-sm btn-danger ml-2"
+                                          (click)="clearSelectedFile()">X</button>
+                                  </div>
+
+                                 <div *ngIf="file.errors?.mismatch &&  (reportForm.get('file').dirty || reportForm.get('file').touched) && file.value !== null" class="error"
+                                  class="text-danger ml-5">
+                                    {{ 'file.EXTENSION' | translate }}
+                                  </div>
+                                  <div  *ngIf="reportForm.get('file').touched && reportForm.get('file').invalid && reportForm.get('file').hasError('required')" class="error"
+                                  class="text-danger ml-5">
+                                    {{ 'report.errors.REQUIRED_FILE' | translate }}
+                                </div>
+                                  <ng-template #fileInputText>
+                                      <div class="text ml-5">{{ "file.DISPLAY_PANEL_PHOTO_PLACEHOLDER" | translate}}
+                                      </div>
+                                      <div class="btn btn-small ml-2 ms-2" (click)="openFileInput()">
+
+                                          <span class="text">{{ "file.CHOOSE_IMAGE" | translate}}</span>
+                                              <input #fileInput type="file" style="display: none;" (change)="onFileSelected($event)"
+                                              formControlName="file" accept="" />
+
+                                      </div>
+                                  </ng-template>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          </div>
+
+
+
+          <div class="action d-flex justify-content-end">
+            <app-custom-button class="ms-2" [buttonText]="'button.CANCEL' | translate" [buttonClass]="'btn custom-btn-secondary'"
+                               [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.CANCEL' | translate"
+                               (clicked)="back()"></app-custom-button>
+            <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary'"
+                               [buttonType]="'submit'" [buttonDisabled]="reportForm?.invalid" [tooltip]="'button.SAVE' | translate"
+                               (clicked)="addReport()"></app-custom-button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

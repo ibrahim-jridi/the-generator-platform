@@ -1,0 +1,6 @@
+<div *ngIf="isLoading" class="loader-container">
+  <div class="spinner">
+    <div class="bar" *ngFor="let bar of [].constructor(8)"></div>
+  </div>
+  <p *ngIf="showMessage" class="message">{{ 'loader.LOADER_MESSAGE' | translate }}</p>
+</div>

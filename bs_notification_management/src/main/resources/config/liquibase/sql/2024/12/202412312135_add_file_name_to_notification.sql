@@ -1,0 +1,2 @@
+ALTER TABLE bs_notification
+ADD COLUMN IF NOT EXISTS file_name VARCHAR;

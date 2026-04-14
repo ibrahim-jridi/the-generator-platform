@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/BS.iml" filepath="$PROJECT_DIR$/.idea/BS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_audit_management/bs-audit-management.iml" filepath="$PROJECT_DIR$/bs_audit_management/bs-audit-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_connector_management/bs-connector-management.iml" filepath="$PROJECT_DIR$/bs_connector_management/bs-connector-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_file_management/bs-file-management.iml" filepath="$PROJECT_DIR$/bs_file_management/bs-file-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_form_management/bs-form-management.iml" filepath="$PROJECT_DIR$/bs_form_management/bs-form-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_gateway/bs-gateway.iml" filepath="$PROJECT_DIR$/bs_gateway/bs-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_notification_management/bs-notification-management.iml" filepath="$PROJECT_DIR$/bs_notification_management/bs-notification-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_payment/bs-payment.iml" filepath="$PROJECT_DIR$/bs_payment/bs-payment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_report_management/bs-report-management.iml" filepath="$PROJECT_DIR$/bs_report_management/bs-report-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_user_management/bs-user-management.iml" filepath="$PROJECT_DIR$/bs_user_management/bs-user-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_workflow_management/bs-workflow-management.iml" filepath="$PROJECT_DIR$/bs_workflow_management/bs-workflow-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bs_discovery/bs_discovery.iml" filepath="$PROJECT_DIR$/bs_discovery/bs_discovery.iml" />
+    </modules>
+  </component>
+</project>

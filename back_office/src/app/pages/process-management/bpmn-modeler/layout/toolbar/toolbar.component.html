@@ -1,0 +1,32 @@
+<mat-toolbar>
+  <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Download diagram">
+    <mat-icon fontSet="material-icons-outlined">cloud_download</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="saveXML()">Save XML</button>
+    <button mat-menu-item (click)="saveSVG()">Save SVG</button>
+  </mat-menu>
+
+  <mat-divider [vertical]="true" />
+
+  <app-toolbar-action [modeler]="modeler" [action]="ModelerActions.copy" [tooltip]="'Copy'" [icon]="'content_copy'" />
+  <app-toolbar-action [modeler]="modeler" [action]="ModelerActions.cut" [tooltip]="'Cut'" [icon]="'content_cut'" />
+  <app-toolbar-action [modeler]="modeler" [action]="ModelerActions.paste" [tooltip]="'Paste'" [icon]="'content_paste'" />
+
+  <mat-divider [vertical]="true" />
+
+  <app-toolbar-action [modeler]="modeler" [action]="ModelerActions.undo" [tooltip]="'Undo'" [icon]="'undo'" />
+  <app-toolbar-action [modeler]="modeler" [action]="ModelerActions.redo" [tooltip]="'Redo'" [icon]="'redo'" />
+
+  <mat-divider [vertical]="true" />
+
+  <app-toolbar-action [modeler]="modeler" [action]="ModelerActions.copy" [tooltip]="'Copy'" [icon]="'content_copy'"></app-toolbar-action>
+  <app-toolbar-action [modeler]="modeler" [action]="ModelerActions.cut" [tooltip]="'Cut'" [icon]="'content_cut'"></app-toolbar-action>
+  <app-toolbar-action [modeler]="modeler" [action]="ModelerActions.paste" [tooltip]="'Paste'" [icon]="'content_paste'"></app-toolbar-action>
+
+  <mat-divider [vertical]="true" />
+
+  <button mat-icon-button matTooltip="Toggle Properties" (click)="toggleProperties()">
+    <mat-icon fontSet="material-icons-outlined">wysiwyg</mat-icon>
+  </button>
+</mat-toolbar>

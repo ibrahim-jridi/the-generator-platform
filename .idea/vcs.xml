@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/back_office" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_audit_management" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_connector_management" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_discovery" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_environnement1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_file_management" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_form_management" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_gateway" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_notification_management" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_payment" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_report_management" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_user_management" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bs_workflow_management" vcs="Git" />
+  </component>
+</project>

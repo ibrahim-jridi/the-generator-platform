@@ -1,0 +1,10 @@
+<mat-card>
+    <mat-tab-group>
+        <mat-tab label="{{ 'ged.FILE_MANAGER' | translate }}">
+            <app-file-management [Admin]="checkMyFileMangement"></app-file-management>
+        </mat-tab>
+        <mat-tab label="{{ 'ged.FILES_SIZE' | translate }}">
+          <app-list-extension></app-list-extension>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>

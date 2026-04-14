@@ -1,0 +1,287 @@
+<!-- Vertical Navigation -->
+<ng-scrollbar
+  *ngIf="this.bSConfig['layout'] === 'vertical'"
+  (clickOutside)="navMob()"
+  [excludeBeforeClick]="true"
+  [exclude]="'#mobile-collapse'"
+  id="nav-ps-next"
+  [style.max-width]="'300px'"
+  [style.max-height]="'calc(100vh - 60px)'"
+  [disabled]="null"
+  class="glass-nav-scrollbar"
+>
+  <div class="glass-nav-content glass-nav-vertical">
+    <div class="glass-nav-header">
+      <div class="main-menu-header glass-user-profile">
+        <div class="glass-avatar-wrapper">
+          <img [src]="navCollapsed ? 'assets/images/OIP.webp' : 'assets/images/OIP.webp'" alt="logo" class="glass-avatar" />
+          <div class="glass-status-dot"></div>
+        </div>
+        <div class="glass-user-info" [class.collapsed]="navCollapsed">
+          <h6 class="glass-user-name">Administrateur</h6>
+          <p class="glass-user-role">Super Admin</p>
+        </div>
+      </div>
+    </div>
+    <ul class="nav glass-inner-navbar" (clickOutside)="fireOutClick()">
+      <ng-container *ngFor="let navItem of navigation">
+        <app-nav-group *ngIf="navItem.type == 'group'" [item]="navItem"></app-nav-group>
+        <app-nav-collapse *ngIf="navItem.type == 'collapse'" [item]="navItem"></app-nav-collapse>
+        <app-nav-item *ngIf="navItem.type == 'item'" [item]="navItem"></app-nav-item>
+      </ng-container>
+    </ul>
+  </div>
+</ng-scrollbar>
+
+<!-- Horizontal Navigation -->
+<div *ngIf="this.bSConfig['layout'] === 'horizontal'" #navbarWrapper
+     class="glass-nav-horizontal-wrapper" id="layout-sidenav">
+  <a href="javascript:" class="glass-nav-arrow glass-nav-prev" [ngClass]="prevDisabled"
+     (click)="scrollMinus()">
+    <i class="feather icon-chevron-left"></i>
+  </a>
+  <div class="glass-horizontal-scroll">
+    <ul
+      #navbarContent
+      id="side-nav-horizontal"
+      class="nav glass-inner-navbar glass-nav-horizontal"
+      (clickOutside)="fireLeave()"
+      (mouseleave)="fireLeave()"
+    >
+      <ng-container *ngFor="let navItem of navigation">
+        <app-nav-group *ngIf="navItem.type == 'group'" [item]="navItem"></app-nav-group>
+        <app-nav-collapse *ngIf="navItem.type == 'collapse'" [item]="navItem"></app-nav-collapse>
+        <app-nav-item *ngIf="navItem.type == 'item'" [item]="navItem"></app-nav-item>
+      </ng-container>
+    </ul>
+  </div>
+  <a href="javascript:" class="glass-nav-arrow glass-nav-next" [ngClass]="nextDisabled"
+     (click)="scrollPlus()">
+    <i class="feather icon-chevron-right"></i>
+  </a>
+</div>
+
+<style>
+  /* Glass Navigation Container */
+  .glass-nav-content {
+    background: linear-gradient(180deg, rgba(30, 27, 75, 0.95) 0%, rgba(46, 16, 101, 0.98) 100%);
+    backdrop-filter: blur(12px);
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .glass-nav-scrollbar {
+    height: 100vh;
+  }
+
+  .glass-nav-scrollbar ::ng-deep .ng-scrollbar {
+    background: linear-gradient(180deg, rgba(30, 27, 75, 0.95) 0%, rgba(46, 16, 101, 0.98) 100%);
+  }
+
+  /* Custom Scrollbar */
+  .glass-nav-scrollbar ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .glass-nav-scrollbar ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  .glass-nav-scrollbar ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+    border-radius: 4px;
+  }
+
+  /* User Profile Section */
+  .glass-user-profile {
+    padding: 24px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .glass-avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .glass-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    border: 2px solid rgba(139, 92, 246, 0.5);
+    transition: all 0.3s;
+    object-fit: cover;
+  }
+
+  .glass-status-dot {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    background: #10b981;
+    border-radius: 50%;
+    border: 2px solid #1e1b4b;
+  }
+
+  .glass-user-info {
+    flex: 1;
+    transition: all 0.3s;
+  }
+
+  .glass-user-info.collapsed {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+  }
+
+  .glass-user-name {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+  }
+
+  .glass-user-role {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 11px;
+    margin: 0;
+  }
+
+  /* Inner Navbar */
+  .glass-inner-navbar {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  /* Horizontal Navigation */
+  .glass-nav-horizontal-wrapper {
+    background: rgba(30, 27, 75, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    position: relative;
+  }
+
+  .glass-horizontal-scroll {
+    flex: 1;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .glass-horizontal-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .glass-nav-horizontal {
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+  }
+
+  .glass-nav-horizontal .glass-nav-item {
+    display: inline-block;
+  }
+
+  .glass-nav-horizontal .glass-nav-link {
+    padding: 16px 20px;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .glass-nav-horizontal .glass-nav-submenu {
+    position: absolute;
+    background: rgba(30, 27, 75, 0.98);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    min-width: 220px;
+    padding: 8px 0;
+    margin-top: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s;
+    z-index: 1000;
+  }
+
+  .glass-nav-horizontal .glass-nav-hasmenu:hover > .glass-nav-submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .glass-nav-horizontal .glass-nav-submenu .glass-nav-link {
+    padding: 10px 20px;
+  }
+
+  /* Navigation Arrows */
+  .glass-nav-arrow {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(139, 92, 246, 0.1);
+    color: #A78BFA;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .glass-nav-arrow:hover {
+    background: rgba(139, 92, 246, 0.2);
+    color: white;
+    text-decoration: none;
+  }
+
+  .glass-nav-arrow.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Animations */
+  @keyframes fadeInSlide {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .glass-nav-item {
+    animation: fadeInSlide 0.3s ease-out;
+  }
+
+  /* Responsive */
+  @media (max-width: 992px) {
+    .glass-nav-vertical {
+      position: fixed;
+      left: -280px;
+      transition: left 0.3s;
+      z-index: 1000;
+    }
+
+    .glass-nav-vertical.open {
+      left: 0;
+    }
+
+    .glass-nav-horizontal-wrapper {
+      overflow-x: auto;
+    }
+  }
+</style>

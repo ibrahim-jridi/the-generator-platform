@@ -1,0 +1,12 @@
+<div class="audit-section">
+  <div class="action d-flex justify-content-end">
+  </div>
+
+    <app-custom-table [hidHeader]="true" [banner]="false"  [idTable]="'activityAuditList'" [customHeader]="true" [tollTableData]="activityAuditList"
+                    [colonnesName]="tableColumns" [actionListButton]="actionButton" [activeExport]="false"
+                    [actionActiveButton]="true" [pageSize]="pageSize" [lazyLoading]="true" (buttonAction)="buttonAction($event)"
+                    (loadingNewPage)="nextPage($event)" (pageSizeChange)="onPageSizeChange($event)"  [currentPageNumber]="pageIndex"
+                    [options]="true" [columnsClass]="'toll-table-style'" [tableClass]="'table table-striped mt-3 toll-table-style'"
+                    [noBorder]="true" [totalSize]="totalCount"  [activeFilter]="false" [Tablename]="'menu.LIST_OF_ACTIVITY_AUDIT' | translate"></app-custom-table>
+
+</div>

@@ -1,0 +1,24 @@
+<div class="container"
+     *ngIf="this.nextConfig.layout === 'horizontal' && this.nextConfig.subLayout === 'horizontal-2'; else mainHeader">
+  <ng-container *ngTemplateOutlet="mainHeader"></ng-container>
+</div>
+<ng-template #mainHeader>
+  <div class="m-header">
+    <ng-container *ngIf="!navCollapsed">
+      <a (click)="navCollapse()" class="mobile-menu position-fixed" id="mobile-collapse">
+        <span></span>
+      </a>
+    </ng-container>
+    <ng-container *ngIf="navCollapsed">
+      <a (click)="navCollapse()" class="mobile-menu toggler position-fixed" id="mobile-collapse-close">
+        <span></span>
+      </a>
+    </ng-container>
+    <a (click)="toggleMobOption()" [ngClass]="{ on: this.menuClass }" class="mob-toggler" href="javascript:"><em
+        class="feather icon-more-vertical"></em></a>
+  </div>
+  <div class="collapse navbar-collapse justify-content-end" [style.display]="this.collapseStyle">
+    <app-nav-left class="mr-auto"></app-nav-left>
+    <app-nav-right class="ml-auto"></app-nav-right>
+  </div>
+</ng-template>

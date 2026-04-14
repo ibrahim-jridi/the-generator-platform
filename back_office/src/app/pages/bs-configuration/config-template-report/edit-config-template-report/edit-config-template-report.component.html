@@ -1,0 +1,46 @@
+<div class="card config-card">
+  <div class="card-body">
+    <h5 class="card-title">{{ 'configuration.report.template-report' | translate }}</h5>
+    <p class="config-card-text text-left">{{ 'configuration.report.edit-description-template-report' | translate }}</p>
+
+    <form [formGroup]="reportForm">
+      <div class="row">
+        <div class="col">
+          <div class="card-body pl-0">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "configuration.report.document-name" | translate }}</span>
+            </label>
+            <div class="form-group d-flex d-inline-block mb-0">
+              <input type="text" class="form-control form-control-solid" formControlName="report"
+                     placeholder="{{ 'configuration.report.add-document' | translate }}"/>
+            </div>
+            <ng-container
+              *ngIf="this.reportForm.get('report')!.touched && this.reportForm.get('report')!.hasError('required')">
+              <div class="text-danger mt-2" role="alert">{{
+                'configuration.report.validation.report_required' |
+                  translate
+                }}</div>
+             </ng-container>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card-body">
+              <strong>{{ 'configuration.report.model' | translate }}</strong>
+              <app-file-upload formControlName="file" title="{{'configuration.report.path' | translate}}"
+                displayPanelPhotoPlaceholder="{{'configuration.report.displayPanelJrxmlPlaceholder' | translate}}"
+                displayPanelPhoto="{{'configuration.report.chooseFile' | translate}}" [allowedExtensions]="allowedExtensions" ></app-file-upload>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="action d-flex justify-content-end mr-3 mb-3">
+      <app-custom-button class="ms-2" [buttonText]="'button.CANCEL' | translate" [buttonClass]="'btn custom-btn-secondary'"
+                         [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.CANCEL' | translate"
+                         (clicked)="backClicked()"></app-custom-button>
+      <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'generic-button custom-button'"
+                         [buttonType]="'submit'" [tooltip]="'button.SAVE' | translate"  (clicked)="handleUpdatePanelMessage()">
+      </app-custom-button>
+    </div>
+  </div>
+</div>

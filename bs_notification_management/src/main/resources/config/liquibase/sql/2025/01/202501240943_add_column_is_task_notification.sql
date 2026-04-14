@@ -1,0 +1,2 @@
+ALTER TABLE bs_notification
+ADD COLUMN IF NOT EXISTS is_from_task BOOLEAN NOT NULL;

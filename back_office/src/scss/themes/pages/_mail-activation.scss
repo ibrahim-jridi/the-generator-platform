@@ -1,0 +1,25 @@
+.activated-text {
+  color: $primary-violet-green;
+}
+//.button-return{
+//  background-color: $primary-violet-green;
+//  width: max-content !important;
+//  border-radius: 20px;
+//}
+
+.text-center {
+  text-align: center;
+}
+
+.button-container {
+  text-align: center; /* Centering the button horizontally */
+}
+
+.button-return {
+  color: white;
+  border-color: rgba(255, 250, 250, 0);
+  background: linear-gradient(135deg, $theme-violet-darken, $violet-mint);
+  border-radius: 20px;
+  display: inline-block; /* Ensure the button size adapts to the text */
+  margin: 20px auto; /* Add top/bottom margin */
+}

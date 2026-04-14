@@ -1,0 +1,18 @@
+.icon-export {
+  background-size: cover;
+  display: inline-block;
+  width: 16.31px;
+  height: 9px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &.active {
+    transform: rotate(180deg);
+  }
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+}

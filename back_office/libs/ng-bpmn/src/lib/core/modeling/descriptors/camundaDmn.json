@@ -1,0 +1,26 @@
+{
+    "name": "Camunda",
+    "prefix": "camunda",
+
+    "xml": {
+      "tagAlias": "lowerCase"
+    },
+    "associations": [],
+    "types": [
+
+        {
+            "name": "DecisionProp",
+            "extends": [
+              "dmn:Decision"
+            ],
+            "properties": [
+              {
+                "name": "historyTimeToLive",
+                "isAttr": true,
+                "type": "String"
+              }
+            ]
+          }
+        
+        ]
+          }

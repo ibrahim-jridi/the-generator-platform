@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="floatType" value="float4" dbms="postgresql"/>
+    <property name="clobType" value="clob" dbms="postgresql"/>
+    <property name="blobType" value="blob" dbms="postgresql"/>
+    <property name="uuidType" value="uuid" dbms="postgresql"/>
+    <property name="datetimeType" value="datetime" dbms="postgresql"/>
+
+    <!--    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/2024-08-05-file-table.xml"/>-->
+    <!--    <include file="config/liquibase/changelog/2024-08-05-add-file-foreign-keys.xml"/>-->
+    <!--    <include file="config/liquibase/changelog/2024-08-05-folder-table.xml"/>-->
+    <!--    <include file="config/liquibase/changelog/2024-08-05-add-folder-foreign-keys.xml"/>-->
+    <!--    <include file="config/liquibase/changelog/20240812110716_added_entity_Files.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240812110715_added_entity_File.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240812143734_added_entity_Folder.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240812143735_added_entity_UserBucket.xml" relativeToChangelogFile="false"/>-->
+    <!--    &lt;!&ndash; jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here &ndash;&gt;-->
+    <!--    <include file="config/liquibase/changelog/20240812110715_added_entity_constraints_File.xml" relativeToChangelogFile="false"/>-->
+    <!--    <include file="config/liquibase/changelog/20240812143734_added_entity_constraints_Folder.xml" relativeToChangelogFile="false"/>-->
+    <!--    &lt;!&ndash; jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here &ndash;&gt;-->
+    <!--    &lt;!&ndash; jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here &ndash;&gt;-->
+    <include file="config/sql/20241028155700_init_db_schema.sql" relativeToChangelogFile="false"/>
+</databaseChangeLog>

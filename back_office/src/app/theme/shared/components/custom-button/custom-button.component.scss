@@ -1,0 +1,33 @@
+.generic-button {
+  width: 144px;
+  height: 38px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  gap: 3px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  em {
+    margin-right: 5px;
+  }
+  .icon {
+    size: 32px;
+    margin-right: 5px;
+  }
+}
+
+.generic-button.rtl {
+  flex-direction: row-reverse;
+
+  em {
+    margin-right: 0;
+    margin-left: 5px;
+  }
+
+  .icon {
+    margin-right: 0;
+    margin-left: 5px;
+  }
+}

@@ -1,0 +1,3 @@
+export enum TopicEnum {
+  WORKFLOW_EVENT_TO_USER = 'WORKFLOW_EVENT_TO_USER'
+}

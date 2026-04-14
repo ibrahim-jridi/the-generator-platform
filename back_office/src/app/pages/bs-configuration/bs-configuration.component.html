@@ -1,0 +1,100 @@
+<div class="navbar-content-config configuration-section">
+  <div class="d-flex-config">
+    <div class="nav-boxes-config">
+      <button class="btn mb-2 menu-config d-flex align-items-center justify-content-between"
+              (click)="isNav1Collapsed = !isNav1Collapsed">
+        <span class="text-left">{{ 'configuration.cost.documents' | translate }}</span>
+        <span class="icon-container">
+    <svg *ngIf="!isNav1Collapsed" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+         class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+      <path
+        d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+    </svg>
+    <svg *ngIf="isNav1Collapsed" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+         class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+      <path
+        d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+    </svg>
+  </span>
+      </button>
+      <div [ngbCollapse]="isNav1Collapsed">
+        <div class="card-body">
+          <div
+            ngbNav
+            #nav1="ngbNav"
+            [(activeId)]="active1"
+            class="nav-pills-config flex-column config-nav-pills"
+            orientation="vertical"
+            (click)="selectedNav = 'nav1'"
+          >
+            <ng-container *ngFor="let item of navItems; let first = first">
+              <ng-container [ngbNavItem]="item.id">
+                <button class="list-menu-config" ngbNavLink (click)="onSelectItem(item.id)"
+                        [ngClass]="{'selected-item': selectedItemId === item.id}">{{ item.label | translate }}
+                </button>
+                <ng-template ngbNavContent>
+                  <ng-container *ngIf="item.id === 'element-report'">
+                    <app-config-report-element></app-config-report-element>
+                  </ng-container>
+                  <ng-container *ngIf="item.id === 'template-report'">
+                    <app-config-template-report></app-config-template-report>
+                  </ng-container>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn mb-2 menu-config d-flex align-items-center justify-content-between"
+              (click)="isNav2Collapsed = !isNav2Collapsed">
+        <span class="text-left">{{ 'configuration.cost.services' | translate }}</span>
+        <span class="icon-container">
+    <svg *ngIf="!isNav2Collapsed" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+         class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+      <path
+        d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+    </svg>
+    <svg *ngIf="isNav2Collapsed" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+         class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+      <path
+        d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+    </svg>
+  </span>
+      </button>
+      <div [ngbCollapse]="isNav2Collapsed">
+        <div class="card-body">
+          <div
+            ngbNav
+            #nav2="ngbNav"
+            [(activeId)]="active2"
+            class="nav-pills-config flex-column config-nav-pills"
+            orientation="vertical"
+            (click)="selectedNav = 'nav2'"
+          >
+            <ng-container *ngFor="let item of categoryServiceItem">
+              <ng-container [ngbNavItem]="item.id">
+                <button class="list-menu-config" ngbNavLink (click)="onSelectItem(item.id)"
+                        [ngClass]="{'selected-item': selectedItemId === item.id}">{{ item.label }}
+                </button>
+                <ng-template ngbNavContent>
+                  <ng-container *ngIf="item.id === 'company_creation'">
+                    <app-cost-service-creation></app-cost-service-creation>
+                  </ng-container>
+                  <ng-container *ngIf="item.id === 'authorisations_granting'">
+                  </ng-container>
+                  <ng-container *ngIf="item.id === 'market_surveillance'">
+                  </ng-container>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-outlets">
+      <div *ngIf="selectedNav === 'nav1'" [ngbNavOutlet]="nav1" class="ms-4-config flex-grow-1"></div>
+      <div *ngIf="selectedNav === 'nav2'" [ngbNavOutlet]="nav2" class="ms-4-config flex-grow-1"></div>
+    </div>
+  </div>
+</div>

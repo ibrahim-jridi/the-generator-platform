@@ -1,0 +1,268 @@
+.navbar-content-config {
+  display: flex;
+  height: auto; /* Full height of the viewport */
+}
+
+.d-flex-config {
+  display: flex;
+  width: 100%;
+}
+
+.nav-boxes-config {
+  display: flex;
+  flex-direction: column;
+  width: 20%; /* Adjust the width as needed */
+  padding: 10px;
+  border-right: 1px solid #ccc; /* Optional: Add a border to separate the sections */
+}
+
+.nav-box-config {
+  margin-bottom: 10px; /* Space between the two nav boxes */
+}
+
+.nav-outlets {
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.nav-pills-config {
+  width: 100%;
+}
+
+.ms-4-config {
+  margin-left: 1.5rem; /* Adjust the margin as needed */
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+/* button radio */
+.radio-group {
+  display: flex;
+  gap: 16px; /* Espacement entre les boutons radio */
+}
+
+.radio-label {
+  font-family: $theme-font-family;
+  font-size: $theme-font-size;
+  display: flex;
+  align-items: center; /* Aligne le bouton radio et le label verticalement */
+  gap: 8px; /* Espacement entre le bouton radio et le label */
+}
+
+.custom-radio {
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease-in-out;
+
+  &:hover {
+    color: green;
+  }
+
+  &:active,
+  &:focus,
+  &:before {
+    color: green !important;
+  }
+}
+input[type="radio"]:checked + .radio-label {
+  color: green; /* Changes text color when selected */
+  font-weight: bold; /* Optional: Make selected text bold */
+}
+
+
+.custom-radio input[type="radio"]:checked {
+  accent-color: green; // Change the button color (for modern browsers)
+  color: green;
+}
+/**/
+app-custom-button {
+  display: inline-block;
+}
+.button-config{
+  margin-left:87rem ;
+}
+
+.btn-collapse-elm {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  text-align: left;
+  width: 100%;
+  padding: 16px;
+  color: #1f1f1f;
+  background-color: #ededed; /* Couleur de fond verte */
+  border-color:  #ededed; /* Bordure plus foncée */
+}
+
+.btn-collapse-elm:hover {
+  background-color: #d7d5d5; /* Couleur de fond au survol */
+  border-color: #d7d5d5; /* Bordure au survol */
+  color: #1f1f1f;
+}
+.card-body-collapse {
+  border-radius: 4px; /* Coins arrondis */
+  padding: 16px; /* Espacement interne */
+  margin-bottom: 16px; /* Espacement entre les sections */
+  margin-top: 8px;
+}
+.history-cost{
+  margin-top: 16px;
+}
+.btn-success {
+  background-color: green; /* Couleur de fond verte */
+  border-color: darkgreen; /* Bordure plus foncée */
+}
+
+.btn-success:hover {
+  background-color: darkgreen; /* Couleur de fond au survol */
+  border-color: green; /* Bordure au survol */
+}
+
+.nav-boxes-config {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Espacement entre les sections */
+}
+
+.card-body {
+  border-radius: 4px; /* Coins arrondis */
+  padding: 16px; /* Espacement interne */
+}
+.menu-config {
+  width: 100%; /* Make the button take full width */
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Align text left and icon right */
+  text-align: left; /* Ensure text is aligned to the left */
+  padding: 8px 12px; /* Adjust padding for spacing */
+  background-color: white;
+  color: rgba(79, 82, 81, 0.95);
+  border-bottom: 0.2px solid rgba(147, 148, 148, 0.45);
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+}
+
+//.list-menu-config{
+//  color: rgba(79, 82, 81, 0.95);
+//}
+
+//.selected-item {
+//  color: #00953f !important;
+//  //background-color:#00953f !important;
+//  border-radius: 5px;
+//  font-weight: bold; // Make it stand out
+//}
+//.list-menu-config:hover{
+//  color: ghostwhite;
+//  background-color:white ;
+//
+//}
+.nav-link:focus{
+  color: #00953f;
+}
+.nav-link:hover{
+  color: whitesmoke;
+}
+.cost-subtitle{
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+/*add scroll bar to collapse*/
+.scrollable-section {
+  max-height: 700px; /* Ajustez cette valeur selon vos besoins */
+  overflow-y: auto; /* Active le défilement vertical */
+  padding: 16px; /* Espacement interne */
+  border-radius: 4px; /* Coins arrondis optionnels */
+}
+.scrollable-section::-webkit-scrollbar {
+  width: 8px; /* Largeur de la barre de défilement */
+}
+
+.scrollable-section::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Couleur de fond de la piste */
+}
+
+.scrollable-section::-webkit-scrollbar-thumb {
+  background: #888; /* Couleur de la barre de défilement */
+  border-radius: 4px; /* Coins arrondis */
+}
+
+.scrollable-section::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Couleur de la barre de défilement au survol */
+}
+.title-radio{
+  margin-top: 0.4em;
+}
+
+
+.radio-group {
+  display: flex;
+  gap: 16px; /* Espacement entre les boutons radio */
+}
+
+.radio-label {
+  display: flex;
+  align-items: center; /* Aligne le bouton radio et le label verticalement */
+  gap: 8px; /* Espacement entre le bouton radio et le label */
+}
+app-custom-button {
+  display: inline-block;
+}
+.button-config{
+  margin-left: 103vh ;
+}
+.button-config-details{
+  margin-left: 90vh ;
+}
+h5{
+  padding-bottom: 10px;
+  border-radius: 5px;
+}
+.btn-success {
+  background-color: green; /* Couleur de fond verte */
+  border-color: darkgreen; /* Bordure plus foncée */
+}
+
+.btn-success:hover {
+  background-color: darkgreen; /* Couleur de fond au survol */
+  border-color: green; /* Bordure au survol */
+}
+
+.nav-boxes-config {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Espacement entre les sections */
+}
+
+.card-body {
+  border-radius: 4px; /* Coins arrondis */
+  padding: 16px; /* Espacement interne */
+}
+//.menu-config{
+//  background-color: rgba(214, 243, 224, 0.5);
+//  color: rgba(79, 82, 81, 0.95);
+//}
+.list-menu-config{
+  color: rgba(79, 82, 81, 0.95);
+}
+.list-menu-config:hover{
+  color: #00953f;
+  //background-color:#00953f ;
+  border-radius: 5px;
+}
+
+.btn-return {
+  border: none; /* Supprime la bordure */
+  border-radius: 5px;
+  background: #8B5CF6; /* Supprime le fond */
+  padding: 0; /* Optionnel: Supprime le padding par défaut */
+  cursor: pointer; /* Change le curseur en pointeur pour indiquer que c'est un bouton cliquable */
+  padding: 8px;
+}
+
+.btn-return svg {
+  color: whitesmoke;
+}
+

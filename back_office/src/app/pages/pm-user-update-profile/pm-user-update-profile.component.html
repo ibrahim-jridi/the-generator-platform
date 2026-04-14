@@ -1,0 +1,413 @@
+<div>
+  <div class="row">
+    <div class="col-md-12">
+      <form id="userMorale-form" [formGroup]="companyUserForm" >
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label required-label">
+                <span class="custom-label">{{ "users.TAX_REGISTRATION" | translate }}</span><span class="text-danger"> *</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control custom-placeholder-input"
+                       placeholder="{{ 'users.fields.INSERT_TAX_REGISTRATION' | translate }}" formControlName="taxRegistration" />
+                <div *ngIf="companyUserForm.get('taxRegistration')?.touched && companyUserForm.get('taxRegistration')?.hasError('required')"
+                     class="text-danger">{{'users.errors.REQUIRED_TAX_REGISTRATION' | translate}}</div>
+                <div   class="text-danger" *ngIf="companyUserForm.get('taxRegistration')?.errors?.pattern">
+                  {{'users.errors.LOWERCASE_TAX_REGISTRATION_REQUIRED' | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label required-label">
+                <span class="custom-label">{{ "users.SOCIAL_REASON" | translate }}</span><span class="text-danger"> *</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control custom-placeholder-input"
+                       placeholder="{{ 'users.fields.INSERT_SOCIAL_REASON' | translate }}" formControlName="socialReason" />
+                <div *ngIf="companyUserForm.get('socialReason')?.touched && companyUserForm.get('socialReason')?.hasError('required')"
+                     class="text-danger">{{'users.errors.REQUIRED_SOCIAL_REASON' | translate}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="fv-row mb-5">
+              <label class="form-label required-label">
+                <span class="required"><span class="custom-label">{{ "users.ROLE" | translate }}</span></span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control custom-placeholder-input"
+                       formControlName="role" disabled="true"  />
+                <span
+                    *ngIf="this.companyUserForm.get('role')!.touched && this.companyUserForm.get('role')!.hasError('required')"
+                    class="text-danger">{{ 'users.errors.REQUIRED_ROLE' | translate }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label required-label">
+                <span>{{ "users.PHONE_NUMBER" | translate }}</span><span class="text-danger"> *</span>
+              </label>
+              <div class="form-group input-phone">
+                <ngx-intl-tel-input
+
+                    [cssClass]="'form-control'"
+                    [enableAutoCountrySelect]="true"
+                    formControlName="phoneNumber"
+                    [selectedCountryISO]="selectedCountry"
+                    [enablePlaceholder]="true"
+                    [phoneValidation]="true"
+                    (keydown)="preventPrefixRemoval($event)"
+                    (focusout)="restorePrefix()"
+                >
+                </ngx-intl-tel-input>
+                <div *ngIf="companyUserForm.get('phoneNumber')?.touched && companyUserForm.get('phoneNumber')?.hasError('required')"
+                     class="text-danger">{{'users.errors.PHONE_REQUIRED' | translate}}</div>
+                <div *ngIf="companyUserForm.get('phoneNumber')?.invalid && (companyUserForm.get('phoneNumber')?.dirty || companyUserForm.get('phoneNumber')?.touched)" class="text-danger">
+                <div *ngIf="companyUserForm.get('phoneNumber')?.errors?.pattern">
+                  {{'users.errors.INVALID_PHONE' | translate}}
+                </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label required-label">
+                <span class="custom-label">{{ "users.EMAIL" | translate }}</span><span class="text-danger"> *</span>
+              </label>
+              <div class="form-group">
+                <input type="email" class="form-control custom-placeholder-input"
+                       placeholder="{{ 'users.fields.INSERT_EMAIL' | translate }}" formControlName="email" />
+                <div *ngIf="companyUserForm.get('email')?.touched && companyUserForm.get('email')?.hasError('required')"
+                     class="text-danger">{{'users.errors.REQUIRED_EMAIL' | translate}}</div>
+                <div *ngIf="companyUserForm.get('email')?.invalid && (companyUserForm.get('email')?.dirty || companyUserForm.get('email')?.touched)" class="text-danger">
+                  <div *ngIf="companyUserForm.get('email')?.errors?.pattern">
+                    {{'users.errors.INVALID_EMAIL' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label required-label">
+                <span>{{ "users.ADDRESS" | translate }}</span><span class="text-danger"> *</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control"
+                       placeholder="{{ 'users.fields.INSERT_ADDRESS' | translate }}" formControlName="address" />
+                <div *ngIf="companyUserForm.get('address')?.touched && companyUserForm.get('address')?.hasError('required')"
+                     class="text-danger">{{'users.errors.REQUIRED_ADDRESS' | translate}}
+                </div>
+                <div *ngIf="address.errors?.pattern"
+                     class="text-danger">{{'users.errors.INVALID_ADDRESS_PATTERN' | translate}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label required-label">
+                <span>{{ "users.LEGAL_STATUS" | translate }}</span><span class="text-danger"> *</span>
+              </label>
+              <app-custom-select
+                  [items]="legalStatusList"
+                  bindValue="id"
+                  bindLabel="label"
+                  [multiple]="false"
+                  placeholder="{{this.currentLegalStatus?.label}}"
+                  formControlName="legalStatus"
+                  [showCheckbox]="false"
+              >
+                >
+              </app-custom-select>
+              <div
+                  *ngIf="companyUserForm.get('registryStatus')?.touched && companyUserForm.get('registryStatus')?.hasError('required')"
+                  class="text-danger"
+              >
+                {{ 'users.errors.REQUIRED_LEGAL_STATUS' | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label required-label">
+                <span class="custom-label">{{ "users.DENOMINATION" | translate }}</span><span class="text-danger"> *</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control custom-placeholder-input"
+                       placeholder="{{ 'users.fields.INSERT_DENOMINATION' | translate }}" formControlName="denomination" />
+                <div *ngIf="companyUserForm.get('denomination')?.touched && companyUserForm.get('denomination')?.hasError('required')"
+                     class="text-danger">{{'users.errors.REQUIRED_DENOMINATION' | translate}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="form-label required-label">
+                <span class="custom-label">{{ "users.REGISTRY_STATUS" | translate }}</span><span class="text-danger"> *</span>
+              </label>
+              <app-custom-select
+                  [items]="registryStatusList"
+                  bindValue="id"
+                  bindLabel="label"
+                  [multiple]="false"
+                  placeholder="{{this.currentRegistryStatus.label}}"
+                  formControlName="registryStatus"
+                  [showCheckbox]="false"
+              >
+                >
+              </app-custom-select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="fs-6 fw-normal form-label mb-2 required-label">
+                <span class="custom-label">{{ 'file.FILE_STATUS' | translate }}</span>
+                <span class="text-danger ms-1"> *</span>
+              </label>
+              <div class="upload-container justify-content-end" (dragover)="handleDragOver($event)" (drop)="handleDrop($event)">
+                <small class="custom-small">{{ 'file.FILE_NAME' | translate }} <span class="extension">(pdf)</span></small>
+                <div class="upload-card">
+                  <div class="card-body">
+                    <div class="progress-text" *ngIf="isLoading">{{ progressBarValue }}%</div>
+                    <mat-progress-bar mode="determinate" [value]="progressBarValue" *ngIf="isLoading"></mat-progress-bar>
+                    <div class="upload-logo" *ngIf="!isLoading">
+                      <img src="assets/images/configuration/upload.svg" alt="Upload Logo">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center" *ngIf="!isLoading">
+                      <div *ngIf="photoFile; else fileInputTextStatus" class="text mb-2">
+                        <a href="#" (click)="fetchAndDownloadFile(photoFile.name) ; $event.preventDefault()">{{ photoFile.name | truncateFileName : 50 }}</a>
+                        <button class="btn btn-sm btn-danger ml-2 file-remove" (click)="clearSelectedFile()">X</button>
+                      </div>
+
+                      <div
+                          *ngIf="companyUserForm.get('fileStatus').touched && companyUserForm.get('fileStatus').invalid"
+                          class="text-danger ml-5"
+                      >
+                        <div *ngIf="companyUserForm.get('fileStatus').hasError('required')">
+                          {{ 'report.errors.REQUIRED_FILE' | translate }}
+                        </div>
+                        <div *ngIf="companyUserForm.get('fileStatus').errors?.mismatch">
+                          {{ 'file.EXTENSION' | translate }}
+                        </div>
+                      </div>
+
+                      <ng-template #fileInputTextStatus>
+                        <div class="text ml-5">{{ 'file.DISPLAY_PANEL_PHOTO_PLACEHOLDER' | translate }}</div>
+                        <div class="btn btn-small ml-2 ms-2" (click)="openFileInput()">
+                          <span class="text">{{ 'file.CHOOSE_IMAGE' | translate }}</span>
+                          <input
+                              #fileInput
+                              type="file"
+                              style="display: none;"
+                              (change)="onFileSelected($event)"
+                              formControlName="fileStatus"
+                              accept=""
+                          />
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-6">
+            <div class="mb-3">
+              <label class="fs-6 fw-normal form-label mb-2 required-label">
+                <span class="custom-label">{{ 'file.FILE_PATENT' | translate }}</span>
+                <span class="text-danger ms-1"> *</span>
+              </label>
+              <div class="upload-container justify-content-end" (dragover)="handleDragOverPatent($event)" (drop)="handleDropPatent($event)">
+                <small class="custom-small">{{ 'file.FILE_NAME' | translate }} <span class="extension">(pdf)</span></small>
+                <div class="upload-card">
+                  <div class="card-body">
+                    <div class="progress-text" *ngIf="isLoadingFilePatent">{{ progressBarValuefilePatent }}%</div>
+                    <mat-progress-bar mode="determinate" [value]="progressBarValuefilePatent" *ngIf="isLoadingFilePatent"></mat-progress-bar>
+                    <div class="upload-logo" *ngIf="!isLoadingFilePatent">
+                      <img src="assets/images/configuration/upload.svg" alt="Upload Logo">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center" *ngIf="!isLoadingFilePatent">
+                      <div *ngIf="photoFilePatent; else fileInputTextPatent" class="text mb-2">
+                        <a href="#" (click)="fetchAndDownloadFile(photoFilePatent.name) ; $event.preventDefault()">{{ photoFilePatent.name | truncateFileName : 50 }}</a>
+                        <button class="btn btn-sm btn-danger ml-2 file-remove" (click)="clearSelectedFilePatent()">X</button>
+                      </div>
+
+                      <div
+                          *ngIf="companyUserForm.get('filePatent').touched && companyUserForm.get('filePatent').invalid"
+                          class="text-danger ml-5"
+                      >
+                        <div *ngIf="companyUserForm.get('filePatent').hasError('required')">
+                          {{ 'report.errors.REQUIRED_FILE' | translate }}
+                        </div>
+                        <div *ngIf="companyUserForm.get('filePatent').errors?.mismatch">
+                          {{ 'file.EXTENSION' | translate }}
+                        </div>
+                      </div>
+
+                      <ng-template #fileInputTextPatent>
+                        <div class="text ml-5">{{ 'file.DISPLAY_PANEL_PHOTO_PLACEHOLDER' | translate }}</div>
+                        <div class="btn btn-small ml-2 ms-2" (click)="openFileInputPatent()">
+                          <span class="text">{{ 'file.CHOOSE_IMAGE' | translate }}</span>
+                          <input #filePatentInput type="file" style="display: none;" (change)="onFileSelectedPatent($event)" formControlName="filePatent" accept="" />
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form [formGroup]="activityTypesForm">
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label class="form-label required-label">
+                  <span>{{ "users.BASIC_ACTIVITY_TYPE_CODE" | translate }}</span><span class="text-danger"> *</span>
+                </label>
+                <input
+                    type="text"
+                    class="form-control custom-placeholder-input"
+                    placeholder="{{ 'users.fields.INSERT_CODE' | translate }}"
+                    formControlName="basicActivityTypeCode"
+                />
+              </div>
+            </div>
+            <div class="col-5">
+              <div class="mb-3">
+                <label class="form-label required-label">
+                  <span>{{ "users.BASIC_ACTIVITY_TYPE_NAME" | translate }}</span><span class="text-danger"> *</span>
+                </label>
+                <input
+                    type="text"
+                    class="form-control custom-placeholder-input"
+                    placeholder="{{ 'users.fields.INSERT_NAME' | translate }}"
+                    formControlName="basicActivityTypeName"
+                />
+              </div>
+            </div>
+            <div class="col-1 d-flex align-items-center" *ngIf="secondaryActivityTypes.controls.length < 1">
+              <button
+                  type="button"
+                  class="btn btn-primary add-remove-btn"
+                  (click)="addSecondaryActivityType()"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Secondary Activity Types -->
+          <div formArrayName="secondaryActivityTypes">
+            <div
+                *ngFor="let secondaryActivity of secondaryActivityTypes.controls; let i = index"
+                [formGroupName]="i"
+                class="row mb-3 align-items-center"
+            >
+              <div class="col-6">
+                <label class="form-label required-label">
+                  {{ i === 0 ? ('users.SECONDARY_ACTIVITY_TYPE_CODE' | translate) : ('users.OTHER_ACTIVITY_CODE' | translate) }}
+                </label>
+                <input
+                    type="text"
+                    class="form-control custom-placeholder-input"
+                    placeholder="{{ 'users.fields.INSERT_CODE' | translate }}"
+                    formControlName="code"
+                />
+              </div>
+              <div class="col-5">
+                <label class="form-label required-label">
+                  {{ i === 0 ? ('users.SECONDARY_NAME_ACTIVITY' | translate) : ('users.OTHER_ACTIVITY_NAME' | translate) }}
+                </label>
+                <input
+                    type="text"
+                    class="form-control custom-placeholder-input"
+                    placeholder="{{ 'users.fields.INSERT_NAME' | translate }}"
+                    formControlName="name"
+                />
+              </div>
+              <div class="col-1 d-flex align-items-center">
+                <!-- Show "+" button only on the second-to-last row -->
+                <button
+                    *ngIf="i === secondaryActivityTypes.length - 1"
+                    type="button"
+                    class="btn btn-primary add-remove-btn"
+                    (click)="addSecondaryActivityType()"
+                >
+                  +
+                </button>
+
+                <!-- Show "-" button only on the last row -->
+                <button
+                    *ngIf="i === secondaryActivityTypes.length - 1"
+                    type="button"
+                    class="btn btn-danger add-remove-btn"
+                    (click)="removeSecondaryActivityType(i)"
+                >
+                  -
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="action d-flex justify-content-end">
+          <app-custom-button class="ms-2" [buttonText]="'button.CANCEL' | translate" [buttonClass]="'btn custom-btn-secondary custom-btn-update'"
+                             [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.CANCEL' | translate"
+                             (clicked)="updateUserModal.show()"
+          ></app-custom-button>
+          <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary custom-btn-update'"
+                             [buttonType]="'submit'"  [buttonDisabled]="userForm?.invalid"  [tooltip]="'button.SAVE' | translate"
+                             (clicked)="updateUserCompany()"></app-custom-button>
+        </div>
+
+
+        <app-ui-modal #updateUserModal id="deleteRoleModal" dialogClass="modal-dialog-centered" [hideHeader]="true">
+          <div class="app-modal-body delete-modal">
+            <div class="d-flex justify-content-end pb-4">
+              <i class="icon-delete-modal feather icon-x" (click)="updateUserModal.hide()"></i>
+            </div>
+
+            <div class="col-12 text-center">
+              <img src="/assets/images/alert.svg" class="delete-img">
+              <p class="text-modal-big">
+                {{ 'button.CONFIRM_CANCEL' | translate }} {{ this.user?.firstName }}   {{ this.user?.lastName }}
+              </p>
+            </div>
+            <br>
+            <div class="action d-flex justify-content-center button-space">
+              <app-custom-button class="ms-2" [buttonText]="'button.CONFIRM' | translate"
+                                 [buttonClass]="'btn custom-btn-primary'"
+                                 [buttonType]="'button'" [buttonDisabled]="false"
+                                 (clicked)="back(); updateUserModal.hide()"></app-custom-button>
+              <app-custom-button class="ms-2" [buttonText]="'button.CANCEL'  | translate"
+                                 [buttonClass]="'btn custom-btn-secondary'" (clicked)="updateUserModal.hide()"
+                                 [buttonType]="'button'" [buttonDisabled]="false"></app-custom-button>
+            </div>
+          </div>
+        </app-ui-modal>
+      </form>
+
+    </div>
+  </div>
+
+
+</div>

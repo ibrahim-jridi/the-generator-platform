@@ -1,0 +1,36 @@
+
+.formio {
+  .builder-sidebar_scroll {
+    position: sticky;
+    top: 15px;
+    max-height: 100vh;
+    overflow-y: scroll;
+  }
+
+  .collapse {
+    &:not(.show) {
+      display: block;
+    }
+  }
+  /* Ensure no borders on th elements */
+  .custom-tabs-field .datagrid-table th,
+  .custom-tabs-field .datagrid-table td {
+    border: 1px solid transparent; /* Set border to transparent */
+    padding: 10px; /* Maintain padding */
+  }
+
+  /* Ensure table structure is maintained */
+  .custom-tabs-field .datagrid-table {
+    border-collapse: collapse; /* Ensure no border spacing */
+    border-spacing: 0; /* Remove spacing between cells */
+  }
+
+  .custom-tabs-field .datagrid-table th {
+    border: 1px solid transparent !important; /* Ensures override */
+  }
+
+}
+
+formio-alerts {
+  display: none !important;
+}

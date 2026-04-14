@@ -1,0 +1,52 @@
+spring:
+  main:
+    web-application-type: reactive
+  kafka:
+    consumer:
+      group-id: role-permission-group
+      topic: roles-topic
+      auto-offset-reset: earliest
+      #key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    properties:
+      spring:
+        deserializer:
+          key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+          value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        json.trusted.packages: '*'
+
+        json.value.default.type: com.pfe.service.dto.RolePermissionUpdate
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 30000
+        response-timeout: 30000
+
+
+jhipster:
+  security:
+    authentication:
+      jwt:
+        base64-secret: OTM5ZDUwZjEzMzllY2Y5MmIwM2ZlNjUxNzk0ZTdlMDVhNTc4MzUxMmNkOTJkNzQzMzQxNTA3OWMzYTZiNjg5OWRmMTUyYzZkMjJhODM5NmZhM2ZkM2E5NjQ4MDQzYzBlMmMzYTJlYzllODM5MTdjNzhmNjM0ODBiZmQyNGM4YzM
+
+logging:
+  level:
+    ROOT: INFO
+    org:
+      springframework:
+        security: INFO
+
+keycloak-admin:
+  username: bs_root
+  password: Numeryx@2024!*
+
+
+token:
+  validity-duration: 86400000
+
+ectd-app:
+  uri: https://ectd.anmps.tn/
+  keycloak:
+    resource: docubridge-ectd

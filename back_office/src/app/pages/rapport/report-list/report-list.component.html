@@ -1,0 +1,20 @@
+<div class="station-section">
+  <div class="action d-flex justify-content-end">
+
+    <app-custom-button [buttonText]="'button.ADD' | translate" [buttonClass]="'custom-button'"
+                       [buttonIcon]="'icon-style icon-Add'" [buttonType]="'button'" [buttonDisabled]="false"
+                       (clicked)="redirectToAddReport()"></app-custom-button>
+  </div>
+  <br>
+
+
+  <app-custom-table [hidHeader]="true" [idTable]="'listRapport'" [customHeader]="true" [tollTableData]="rapport"
+                  [colonnesName]="tableColumns" [actionListButton]="actionButton" [activeExport]="false"
+                  (loadingNewPage)="nextPage($event)" [actionActiveButton]="true" [pageSize]="pageSize" [lazyLoading]="false"
+                  [options]="true" [columnsClass]="'toll-table-style'" [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true" [totalSize]="totalElements"
+                  [activeFilter]="false" (buttonAction)="buttonAction($event)" [Tablename]="'menu.LIST_OF_RAPPORT' | translate">
+  </app-custom-table>
+
+
+  </div>
+

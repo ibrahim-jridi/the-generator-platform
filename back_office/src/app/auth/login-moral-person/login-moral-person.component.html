@@ -1,0 +1,25 @@
+<div class="container_welcome">
+  <div class="left-section">
+    <img src="" class="logo">
+  </div>
+  <div class="right-section">
+    <div class="text-center">
+      <h1>{{'login.CONNEXION_EN_TANT_QUE_PERSONNE_MORALE' | translate}}</h1>
+      <h5>{{ 'login.POUR_BENEFICIER_SERVICES' | translate }}
+        <br>{{ 'login.PERSONNE_PHYSIQUE_AVANT_PERSONNE_MORALE' | translate }}</h5>
+    </div>
+    <div class=" button-container">
+      <button class="auth-button" (click)="loginRNE()">
+        <img src="/assets/images/rne.png" class="img-auth-button">
+        <b>{{'login.SAUTHENTIFIER_PAR_RNE' | translate}}</b>
+      </button>
+      <button class="auth-button" (click)="loginDIGIGO()">
+        <img src="/assets/images/digigo.png" class="img-auth-button">
+        <b>{{'login.SAUTHENTIFIER_PAR_DIGIGO' | translate}}</b>
+      </button>
+    </div>
+    <div class="back-button-container">
+      <button class="back-button" (click)="goBack()">{{'login.PRECEDENT' | translate}}</button>
+    </div>
+  </div>
+</div>

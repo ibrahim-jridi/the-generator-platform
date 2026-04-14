@@ -1,0 +1,4 @@
+export enum RenewalAmountChoiceEnum{
+  CONFIGURE_NEW_AMOUNT = 'CONFIGURE_NEW_AMOUNT',
+  KEEP_SAME_AMOUNT = 'KEEP_SAME_AMOUNT',
+}

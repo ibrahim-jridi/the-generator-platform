@@ -1,0 +1,20 @@
+<div class="action d-flex justify-content-end button-space">
+
+  <app-custom-button class="ml-2" [buttonText]="'button.CANCEL' | translate"
+                     [buttonClass]="'btn custom-btn-secondary'"
+                     [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.CANCEL' | translate"
+                     (clicked)="cancel()"></app-custom-button>
+  <app-custom-button [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary ms-2'"
+                     [buttonType]="'button'" [buttonDisabled]="false"
+                     (click)="saveDmnData()"></app-custom-button>
+</div>
+<br>
+<app-toolbar [modeler]="dmn" />
+<ng-dmn #dmn
+[url]="dmnUrl"
+[showProperties]="true"
+[hotkeys]="true"
+(importDone)="handleImported($event)"
+(changed)="onChanged($event)"
+/>
+

@@ -1,0 +1,83 @@
+@import 'node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+//@import 'node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+@import 'node_modules/ngx-bar-rating/themes/br-default-theme';
+@import 'node_modules/ngx-bar-rating/themes/br-horizontal-theme';
+
+
+.material {
+  @import 'node_modules/ng-alt-snotify/styles/material';
+}
+
+.simple {
+  @import 'node_modules/ng-alt-snotify/styles/simple';
+}
+
+.dark {
+  @import 'node_modules/ng-alt-snotify/styles/dark';
+}
+
+
+@import 'node_modules/datatables.net-dt/css/jquery.dataTables.css';
+@import 'node_modules/datatables.net-buttons-dt/css/buttons.dataTables.css';
+
+@import 'node_modules/ngx-lightbox/lightbox.css';
+
+@import 'node_modules/dragula/dist/dragula.css';
+@import 'node_modules/ngx-bar-rating/themes/br-default-theme';
+
+@import 'node_modules/ngx-bar-rating/themes/br-default-theme';
+@import 'node_modules/ngx-bar-rating/themes/br-horizontal-theme';
+@import 'node_modules/ngx-bar-rating/themes/br-vertical-theme';
+@import 'node_modules/ngx-bar-rating/themes/br-stars-theme';
+@import 'node_modules/ngx-bar-rating/themes/br-movie-theme';
+@import 'node_modules/ngx-bar-rating/themes/br-square-theme';
+
+@import 'node_modules/nouislider/dist/nouislider.min';
+@import 'node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.min.css';
+
+@import 'node_modules/tinymce/skins/ui/tinymce-5/skin.min.css';
+@import 'node_modules/tinymce/skins/ui/tinymce-5/content.min.css';
+
+//@import 'node_modules/@fullcalendar/angular';
+//@import 'node_modules/@fullcalendar/daygrid';
+//@import 'node_modules/@fullcalendar/timegrid';
+
+@import 'node_modules/angular-archwizard/styles/archwizard';
+
+@import 'node_modules/sweetalert2/src/sweetalert2.scss';
+
+@import 'range-slidar';
+@import 'ng-select';
+@import 'ngx-chips';
+@import 'ng2-archwizard';
+
+.full-data-search {
+    margin-left: 0.5em;
+    display: inline-block;
+    width: auto !important;
+}
+
+.full-data-show-entry {
+    width: 75px;
+    display: inline-block;
+}
+
+.full-data-table {
+    .glyphicon {
+        font-family: IcoFont;
+        position: absolute;
+        right: 14px;
+        font-size: 20px;
+        top: 9px;
+        &.glyphicon-triangle-bottom:before {
+            content: '\eb53';
+        }
+        &.glyphicon-triangle-top:before {
+            content: '\eb56';
+        }
+    }
+    th {
+        position: relative;
+    }
+}

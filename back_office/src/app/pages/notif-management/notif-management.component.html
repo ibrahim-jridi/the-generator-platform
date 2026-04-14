@@ -1,0 +1,53 @@
+<div class="station-section">
+  <div class="action d-flex justify-content-end">
+
+    <app-custom-button [buttonText]="'button.ADD' | translate"
+                       [buttonClass]="'btn custom-btn-primary'"
+                       [buttonIcon]="'icon-style icon-Add'" [buttonType]="'button'"
+                       [buttonDisabled]="false" [tooltip]="'button.ADD' | translate"
+                       (clicked)="redirectToAddNotif()"></app-custom-button>
+
+  </div>
+  <br>
+  <app-custom-table [hidHeader]="true" [idTable]="'listNotif'" [customHeader]="true"
+                  [tollTableData]="notif"
+                  [colonnesName]="tableColumns" [actionListButton]="actionButton"
+                  (loadingNewPage)="nextPage($event)" [actionActiveButton]="true"
+                  [pageSize]="pageSize"
+                  [options]="true" [columnsClass]="'toll-table-style'"
+                  [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true"
+                  [totalSize]="totalElements"
+                  [activeFilter]="false" (buttonAction)="buttonAction($event)"
+                  [Tablename]="'menu.list_of_form' | translate">
+  </app-custom-table>
+  <app-ui-modal #deleteUserModal id="deleteUserModal" dialogClass="modal-dialog-centered"
+                [hideHeader]="true">
+    <div class="app-modal-body delete-modal">
+      <div class="d-flex justify-content-end pb-4">
+        <i class="icon-delete-modal feather icon-x" (click)="deleteUserModal.hide()"></i>
+      </div>
+      <div class="col-12 text-center">
+        <img src="/assets/images/supprimer.svg" class="delete-img">
+        <p class="text-modal-big">
+          {{ 'button.CONFIRM_DELETE' | translate }} {{ notifName }} ?
+        </p>
+        <p class="text-modal-big">
+          {{ 'button.DELETE_ACTION' | translate }}
+        </p>
+      </div>
+      <br>
+      <div class="action d-flex justify-content-center button-space">
+        <app-custom-button class="ms-2" [buttonText]="'button.DELETE' | translate"
+                           [buttonClass]="'btn custom-btn-primary'"
+                           [buttonType]="'button'" [buttonDisabled]="false"
+                           [buttonIcon]="'icon-delete-style icon-delete'"
+                           (clicked)="handleOnDeleteNotif(); "></app-custom-button>
+        <app-custom-button class="ms-2" [buttonText]="'button.CANCEL'  | translate"
+                           [buttonClass]="'btn custom-btn-secondary'"
+                           (clicked)="deleteUserModal.hide()" [buttonType]="'button'"
+                           [buttonDisabled]="false"></app-custom-button>
+      </div>
+    </div>
+  </app-ui-modal>
+
+</div>

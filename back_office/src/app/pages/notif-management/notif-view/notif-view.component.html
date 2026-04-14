@@ -1,0 +1,323 @@
+<div class="container mt-4">
+  <form [formGroup]="notifForm">
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <label for="name" class="custom-label">{{ 'notif.NAME_LABEL' | translate }}</label>
+        <input id="name" type="text" formControlName="name" class="form-control" readonly/>
+      </div>
+      <div class="col-md-6">
+        <label class="custom-label">{{ 'notif.TASK_RECIPIENT_LABEL' | translate }}</label>
+        <div class="radio-group">
+          <label class="btn-custom-toggle me-3">
+            <input
+                type="radio"
+                [value]="false"
+                class="btn-custom-toggle-input"
+                [checked]="notifForm.get('isFromTask')?.value === false"
+                disabled
+            />
+            <span class="btn-custom-circle"></span>
+            {{ 'notif.FALSE_LABEL' | translate }}
+          </label>
+
+          <label class="btn-custom-toggle me-3">
+            <input
+                type="radio"
+                [value]="true"
+                class="btn-custom-toggle-input"
+                [checked]="notifForm.get('isFromTask')?.value === true"
+                disabled
+            />
+            <span class="btn-custom-circle"></span>
+            {{ 'notif.TRUE_LABEL' | translate }}
+          </label>
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <div class="row mb-4" *ngIf="notifForm.get('isFromTask')?.value === false">
+      <div class="col-md-6">
+        <label for="destinationType"
+               class="custom-label">{{ 'notif.RECIPIENT_LABEL' | translate }}</label>
+        <input id="destinationType" type="text" formControlName="destinationType"
+               class="form-control" readonly/>
+      </div>
+      <div class="col-md-6">
+        <label for="notificationDestinations"
+               class="custom-label">{{ 'notif.RECIPIENT_LIST_LABEL' | translate }}</label>
+        <input id="notificationDestinations" type="text" formControlName="notificationDestinations"
+               class="form-control" readonly/>
+      </div>
+
+
+    </div>
+
+    <div class="row mb-4">
+
+      <div class="col-md-6">
+        <label class="custom-label">{{ 'notif.DEFAULT_FREQUENCY_LABEL' | translate }}</label>
+        <div class="custom-radio-group">
+          <label for="immediate" class="custom-radio">
+            <input
+                type="radio"
+                id="immediate"
+                value="REAL_TIME"
+                [checked]="notifForm.get('frequencyEnum')?.value === 'REAL_TIME'"
+                disabled
+            />
+            <span class="radio-circle"></span>
+            <span class="custom-label">{{ 'notif.REAL_TIME_LABEL' | translate }}</span>
+          </label>
+          <label for="interval" class="custom-radio">
+            <input
+                type="radio"
+                id="interval"
+                value="CONFIGURE"
+                [checked]="notifForm.get('frequencyEnum')?.value === 'CONFIGURE'"
+                disabled
+            />
+            <span class="radio-circle"></span>
+            <span class="custom-label">{{ 'notif.CONFIGURE_INTERVAL_LABEL' | translate }}</span>
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="custom-label">{{ 'notif.CHANNEL_LABEL' | translate }}</label>
+        <div class="d-flex align-items-center">
+          <span class="notification-label me-3 ">{{ 'notif.SEND_VIA_LABEL' | translate }}</span>
+          <label class="btn-custom-toggle me-3">
+            <input
+                type="checkbox"
+                class="btn-custom-toggle-input"
+                [checked]="notifForm.get('broadcastChannel')?.value === 'EMAIL' || notifForm.get('broadcastChannel')?.value === 'BOTH'"
+                disabled
+            />
+            <span class="btn-custom-circle"></span>
+            {{ 'notif.EMAIL_LABEL' | translate }}
+          </label>
+          <label class="btn-custom-toggle">
+            <input
+                type="checkbox"
+                class="btn-custom-toggle-input"
+                [checked]="notifForm.get('broadcastChannel')?.value === 'NOTIFICATION_PUSH' || notifForm.get('broadcastChannel')?.value === 'BOTH'"
+                disabled
+            />
+            <span class="btn-custom-circle"></span>
+            {{ 'notif.PUSH_LABEL' | translate }}
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-12">
+      <div class="mb-2">
+
+        <label class="frequency-option" *ngIf="notifForm.get('frequencyConfig')?.value === 'DAY'">
+          <input
+              type="radio"
+              formControlName="frequencyConfig"
+              value="DAY"
+              checked
+          />
+          <span class="frequency-text">{{ 'notif.frequency_config.DAY' | translate }}</span>
+        </label>
+
+
+        <label class="frequency-option" *ngIf="notifForm.get('frequencyConfig')?.value === 'HOUR'">
+          <input
+              type="radio"
+              formControlName="frequencyConfig"
+              value="HOUR"
+              checked
+          />
+          <span class="frequency-text">{{ 'notif.frequency_config.HOUR' | translate }}</span>
+        </label>
+
+        <label class="frequency-option"
+               *ngIf="notifForm.get('frequencyConfig')?.value === 'MINUTE'">
+          <input
+              type="radio"
+              formControlName="frequencyConfig"
+              value="MINUTE"
+              checked
+          />
+          <span class="frequency-text">{{ 'notif.frequency_config.MINUTE' | translate }}</span>
+        </label>
+      </div>
+    </div>
+    <div class="row mb-4" *ngIf="notifForm.get('configurationDay')?.value === 'CUSTOM'">
+      <div class="frequency-daily-container">
+        <h5 class="fw-bold mb-3">Personnalisée</h5>
+        <div class="col-md-6" *ngFor="let entry of combinedDatesAndTimes; let i = index">
+          <label [for]="'combinedInput' + i" class="custom-label">Date & Heure </label>
+          <input
+              [id]="'combinedInput' + i"
+              type="text"
+              [value]="entry"
+              class="form-control"
+              readonly
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4" *ngIf="notifForm.get('configurationDay')?.value === 'DAILY'">
+      <div class="frequency-daily-container">
+        <h5 class="fw-bold mb-3">{{ 'notif.DAILY_LABEL' | translate }}</h5>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="startDate" class="form-label">{{ 'notif.START_DATE' | translate }} *</label>
+            <input id="startDate" type="text" formControlName="startDate" class="form-control"
+                   readonly/>
+          </div>
+          <div class="col-md-6">
+            <label for="endDate" class="form-label">{{ 'notif.END_DATE' | translate }} </label>
+            <input id="endDate" type="text" formControlName="endDate" class="form-control"
+                   readonly/>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label for="timing" class="form-label">{{ 'notif.TIME_LABEL' | translate }}</label>
+            <input id="timing" type="text" formControlName="timing" class="form-control" readonly/>
+          </div>
+        </div>
+        <div>
+          <input
+              type="checkbox"
+              id="repeatNotification"
+              formControlName="repeatDailyNotification"
+              class="form-check-label"
+          />
+          <label for="repeatNotification" class="form-check-label">
+            {{ 'notif.ENABLE_REPETITION' | translate }}
+          </label>
+        </div>
+
+      </div>
+    </div>
+    <div class="row mb-4" *ngIf="notifForm.get('configurationDay')?.value === 'WEEKLY'">
+      <div class="frequency-daily-container">
+        <h5 class="fw-bold mb-3">{{ 'notif.WEEKLY_LABEL' | translate }}</h5>
+        <label class="form-label">{{ 'notif.SELECT_WEEK_DAYS' | translate }}</label>
+        <br>
+        <div formArrayName="days">
+          <div *ngFor="let dayControl of daysControls; let i = index"
+               class="btn-custom-toggle me-3">
+            <input
+                type="checkbox"
+                [formControlName]="i"
+                class="btn-custom-toggle-input"
+                [checked]="dayControl.value"
+                disabled
+            />
+            <span class="btn-custom-circle"></span>
+            {{ "notif.days." + dayControl.value |translate }}
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label for="timing" class="form-label">{{ 'notif.TIME_LABEL' | translate }} </label>
+            <input type="text" formControlName="timing" class="form-control" readonly/>
+          </div>
+        </div>
+        <div>
+          <input
+              type="checkbox"
+              formControlName="repeatDailyNotification"
+              class="form-check-label"
+          />
+          <label for="repeatNotification" class="form-check-label">
+            {{ 'notif.ENABLE_REPETITION' | translate }}
+          </label>
+        </div>
+        <div class="col-md-6" *ngIf="notifForm.get('repeatDailyNotification')?.value">
+          <label for="endDate" class="form-label">{{ 'notif.END_DATE' | translate }}</label>
+          <input type="text" formControlName="endDate" class="form-control" readonly/>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4" *ngIf="notifForm.get('frequencyConfig')?.value === 'HOUR'">
+      <div class="frequency-daily-container">
+
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label for="timing" class="form-label">{{ 'notif.TIME_LABEL' | translate }}</label>
+            <input type="text" formControlName="timing" class="form-control" readonly/>
+          </div>
+        </div>
+        <div>
+          <input
+              type="checkbox"
+              formControlName="repeatDailyNotification"
+              class="form-check-label"
+          />
+          <label for="repeatNotification" class="form-check-label">
+            {{ 'notif.ENABLE_REPETITION' | translate }}
+          </label>
+        </div>
+        <div class="col-md-6" *ngIf="notifForm.get('repeatDailyNotification')?.value">
+          <label for="endDate" class="form-label">{{ 'notif.END_DATE' | translate }} </label>
+          <input type="text" formControlName="endDate" class="form-control" readonly/>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4" *ngIf="notifForm.get('frequencyConfig')?.value === 'MINUTE'">
+      <div class="frequency-daily-container">
+
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label for="timing" class="form-label">{{ 'notif.MINUTES_LABEL' | translate }}</label>
+            <input type="text" formControlName="timing" class="form-control" readonly/>
+          </div>
+        </div>
+        <div>
+          <input
+              type="checkbox"
+              formControlName="repeatDailyNotification"
+              class="form-check-label"
+          />
+          <label for="repeatNotification" class="form-check-label">
+            {{ 'notif.ENABLE_REPETITION' | translate }}
+          </label>
+        </div>
+        <div class="col-md-6" *ngIf="notifForm.get('repeatDailyNotification')?.value">
+          <label for="endDate" class="form-label">{{ 'notif.END_DATE' | translate }}</label>
+          <input type="text" formControlName="endDate" class="form-control" readonly/>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <label for="description"
+               class="custom-label">{{ 'notif.DESCRIPTION_LABEL' | translate }}</label>
+        <textarea id="description" formControlName="description" class="form-control"
+                  readonly></textarea>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-12">
+
+
+        <div
+            *ngIf="notifForm.get('broadcastChannel')?.value === 'EMAIL' || notifForm.get('broadcastChannel')?.value === 'BOTH'">
+          <br>
+          <div class="custom-label">{{ 'notif.PIECE_JOINTE' | translate }}</div>
+          <div class="col-md-12">
+            <a href="#"
+               (click)="fetchAndDownloadFile(fileName) ; $event.preventDefault()">{{ fileName }}</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </form>
+</div>

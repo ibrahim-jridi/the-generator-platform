@@ -1,0 +1,90 @@
+<div class="section-internal-user">
+  <div class="row">
+      <div class="col-md-12">
+        <form id="user-form" [formGroup]="reportForm">
+
+          <div class="row">
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label">{{ "report.NOM" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2 custom-placeholder-input"
+                         placeholder="{{ 'report.fields.INSERT_NAME' | translate }}" formControlName="name" />
+                  <span
+                    *ngIf="this.reportForm.get('name')!.touched && this.reportForm.get('name')!.hasError('required')"
+                    class="text-danger">{{'report.errors.REQUIRED_NAME' | translate}}</span>
+                  <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error"
+                       class="text-danger">
+                    <div *ngIf="name.errors?.pattern">
+                      {{'report.errors.INVALID_NAME' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label">{{ "report.DESCRIPTION" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2 custom-placeholder-input"
+                         placeholder="{{ 'report.fields.INSERT_DESCRIPTION' | translate }}" formControlName="description" />
+                  <span
+                    *ngIf="this.reportForm.get('description')!.touched && this.reportForm.get('description')!.hasError('required')"
+                    class="text-danger">{{'report.errors.REQUIRED_DESCRIPTION' | translate}}</span>
+                  <div *ngIf="description.invalid && (description.dirty || description.touched)" class="error"
+                       class="text-danger">
+                    <div *ngIf="description.errors?.pattern">
+                      {{'report.errors.INVALID_DESCRIPTION' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label">{{ "file.DISPLAY_PANEL_PHOTO_LABEL" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2 custom-placeholder-input"
+                        placeholder="{{ 'report.fields.INSERT_FIL' | translate }}"
+                         formControlName="file" />
+                  <span
+                    *ngIf="this.reportForm.get('file')!.touched && this.reportForm.get('file')!.hasError('required')"
+                    class="text-danger">{{'report.errors.REQUIRED_FILE' | translate}}</span>
+                  <div *ngIf="file.invalid && (file.dirty || file.touched)" class="error"
+                       class="text-danger">
+                    <div *ngIf="file.errors?.pattern">
+                      {{'report.errors.INVALID_FILE' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+
+          <div class="action d-flex justify-content-end">
+            <app-custom-button class="ms-2" [buttonText]="'button.CANCEL' | translate" [buttonClass]="'btn custom-btn-secondary'"
+                               [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.CANCEL' | translate"
+                               (clicked)="back()"></app-custom-button>
+            <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary'"
+                               [buttonType]="'submit'" [buttonDisabled]="reportForm?.invalid" [tooltip]="'button.SAVE' | translate"
+                               (clicked)="updateReport()"></app-custom-button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,230 @@
+<div class="dpm-group-section">
+  <div class="row">
+    <div class="col-md-12">
+      <form id="user-form" [formGroup]="roleForm">
+
+        <div class="row">
+
+          <div class="col-6">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span class="custom-label">{{ "role.LABELLE" | translate }}</span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <input type="text"
+                       class="form-control form-control-solid pl-2 input-group-content custom-placeholder-input"
+                       placeholder="{{ 'role.fields.INSERT_LABELLE' | translate }}"
+                       formControlName="labelle" />
+                <span
+                  *ngIf="this.roleForm.get('labelle')!.touched && this.roleForm.get('labelle')!.hasError('required')"
+                  class="text-danger">{{ 'role.errors.REQUIRED_LABELLE' | translate }}</span>
+                <div *ngIf="labelle.invalid && (labelle.dirty || labelle.touched)" class="error"
+                     class="text-danger">
+                  <div *ngIf="labelle.errors?.pattern">
+                    {{ 'role.errors.INVALID_LABELLE' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="fv-row mb-5 ms-4">
+              <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span class="custom-label">{{ "role.DESCRIPTION" | translate }}</span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <input type="text"
+                       class="form-control form-control-solid pl-2 custom-placeholder-input"
+                       placeholder="{{ 'role.fields.INSERT_DESCRIPTION' | translate }}"
+                       formControlName="description" />
+                <span
+                  *ngIf="this.roleForm.get('description')!.touched && this.roleForm.get('description')!.hasError('required')"
+                  class="text-danger">{{ 'role.errors.REQUIRED_DESCRIPTION' | translate }}</span>
+                <div *ngIf="description.invalid && (description.dirty || description.touched)"
+                     class="error"
+                     class="text-danger">
+                  <div *ngIf="description.errors?.pattern">
+                    {{ 'role.errors.INVALID_DESCRIPTION' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="fv-row mb-5">
+
+              <div class="col-6">
+                <div class="fv-row mb-5">
+                  <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span
+                  class="custom-label">{{ "role.NUMBER_OF_SELECTED_PERMISSIONS" | translate }}</span>
+                  </label>
+                  <div class="form-group">
+
+                    <input type="number"
+                           class="form-control form-control-solid pl-2 input-group-content"
+                           value="{{permissionsCount}}"
+                           placeholder="{{ 'role.NUMBER_OF_SELECTED_PERMISSIONS' | translate }}"
+                           disabled />
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="m-2">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label required"
+                        *ngIf="isUpdateMode">{{ "role.ADD_PERMISSIONS" | translate }} </span>
+                  <span *ngIf="isUpdateMode" class="text-danger">*</span>
+                </label>
+              </div>
+
+              <div class="form-group">
+
+                <div *ngIf="isUpdateMode" class="row row-authority">
+                  <div class="col col-authority">
+                    <div class="shadow-none border-bottom-0">
+                      <div class="header text-white bg-list-role ">
+                        <div class="row header">
+                          <h5
+                            class="col-8 text-white">{{ 'role.LIST_OF_AVAILABLE_AUTHORITIES' | translate }}</h5>
+                          <p class="col-3 mt-2 header-button text-center" *ngIf="!allSelected"
+                             (click)="selectAll()">
+                            {{ "role.button.SELECTALL" | translate }} </p>
+                          <p class="col-3 mt-2 header-button text-center" *ngIf="allSelected"
+                             (click)="unselectAll()">
+                            {{ "role.button.CLEARALL" | translate }}</p>
+                        </div>
+                      </div>
+                      <div class="search-container p-0">
+                        <input type="text" class="form-control custom-placeholder-input"
+                               placeholder="{{ 'role.SEARCH_PERMISSION' | translate }}"
+                               formControlName="authoritiesSearchQuery"
+                               name="authoritiesSearchQuery">
+                      </div>
+                      <div class="authorities-container">
+                        <ng-scrollbar autoHeightDisabled="false" [style.max-height]="'270px'"
+                                      [style.min-height]="'270px'">
+                          <div class="row authority view-label"
+                               *ngFor="let authority of filteredAllAuthorities()">
+                            <div class="col-md-1 ml-3"><input type="checkbox"
+                                                              [checked]="authority.checked"
+                                                              (change)="checkAuthorityToAdd(authority)">
+                            </div>
+                            <div class="col-md-9 label">{{ authority.label | translate }}</div>
+                            <div class="col-md-1"><i class="fas fa-plus reduced-size icon-color"
+                                                     (click)="addAuthority(authority.id)"></i></div>
+                          </div>
+                        </ng-scrollbar>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col col-arrow">
+                    <i class="fas fa-caret-right fa-2x icon-color"
+                       (click)="addSelectedAuthorities()"></i>
+                    <br>
+                    <i class="fas fa-caret-left fa-2x icon-color"
+                       (click)="removeSelectedAuthorities()"></i>
+                  </div>
+
+                  <div class="col col-authority">
+                    <div class="shadow-none border-bottom-0">
+                      <div class="header text-white bg-list-role">
+                        <div class="row header">
+                          <h5
+                            class="col-8 text-white">{{ 'role.LIST_OF_SELECTED_AUTHORITIES' | translate }}</h5>
+                          <p class=" col-3 mt-2 header-button text-center"
+                             *ngIf="permissionsCount===0"></p>
+                          <p class=" col-3 mt-2 header-button text-center"
+                             *ngIf="permissionsCount!==0"
+                             (click)="removeAll()">
+                            {{ "role.button.REMOVE_ALL" | translate }}</p>
+                        </div>
+                      </div>
+                      <div class="search-container p-0">
+                        <input type="text" class="form-control custom-placeholder-input"
+                               placeholder="{{ 'role.SEARCH_PERMISSION' | translate }}"
+                               formControlName="selectedAuthoritiesSearchQuery"
+                               name="selectedAuthoritiesSearchQuery">
+                      </div>
+                      <div class="pt-1 authorities-container">
+                        <ng-scrollbar autoHeightDisabled="false" [style.max-height]="'270px'"
+                                      [style.min-height]="'270px'">
+                          <div *ngIf="permissionsCount===0"
+                               class="col-md-12 authorities-text"> {{ "role.SELECT_AUTHORITIES" | translate }}
+                          </div>
+                          <div class="row authority view-label"
+                               *ngFor="let authority of filteredAuthorities()">
+                            <div class="col-md-1 ml-3"><input type="checkbox"
+                                                              [checked]="authority.checked"
+                                                              (change)="checkAuthorityToRemove(authority)">
+                            </div>
+                            <div class="col-md-9 label">{{ authority.label | translate }}</div>
+                            <div class="col-md-1"><i class="fas fa-minus reduced-size icon-color"
+                                                     (click)="removeAuthority(authority.id)"></i>
+                            </div>
+                          </div>
+                        </ng-scrollbar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="isUpdateMode">
+                  <span *ngIf="this.selectAuthority && this.selectedAuthorities.length ===0"
+                        class="text-danger">{{ 'groups.roles.selectAuthority' | translate }}</span>
+                </div>
+
+                <div *ngIf="!isUpdateMode" class="row">
+                  <div class="col-md-12">
+                    <div class="header text-white bg-list-role">
+                      <div class="row view-header">
+                        <h5 class="text-white">{{ 'role.PERMISSION_LIST' | translate }}</h5>
+                      </div>
+                    </div>
+                    <div class="search-container p-0">
+                      <input type="text" class="form-control custom-placeholder-input"
+                             placeholder="{{ 'role.SEARCH_PERMISSION' | translate }}"
+                             formControlName="selectedAuthoritiesSearchQuery"
+                             name="selectedAuthoritiesSearchQuery">
+                    </div>
+                    <div class="pt-2 authorities-container">
+                      <ng-scrollbar autoHeightDisabled="false" [style.max-height]="'270px'"
+                                    [style.min-height]="'270px'">
+                        <div class="row authority view-label"
+                             *ngFor="let authority of filteredAuthorities()">
+                          <div class="col-md-9 label ml-3">{{ authority.label | translate }}</div>
+                        </div>
+                      </ng-scrollbar>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action d-flex justify-content-end">
+          <app-custom-button class="ms-2" [buttonText]="'button.CANCEL' | translate"
+                             [buttonClass]="'btn custom-btn-secondary'"
+                             [buttonType]="'button'" [buttonDisabled]="false"
+                             [tooltip]="'button.CANCEL' | translate"
+                             (clicked)="back()"></app-custom-button>
+          <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate"
+                             [buttonClass]="'btn custom-btn-primary'"
+                             [buttonType]="'submit'" [buttonDisabled]="roleForm?.invalid"
+                             [tooltip]="'button.SAVE' | translate"
+                             (clicked)="updateRole()"></app-custom-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

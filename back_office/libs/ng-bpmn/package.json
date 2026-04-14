@@ -1,0 +1,39 @@
+{
+  "name": "@denysvuika/ng-bpmn",
+  "version": "0.0.3",
+  "license": "MIT",
+  "author": {
+    "name": "Denys Vuika",
+    "email": "denys.vuika@gmail.com",
+    "url": "https://denys.dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DenysVuika/ng-bpmn"
+  },
+  "homepage": "https://github.com/DenysVuika/ng-bpmn",
+  "bugs": {
+    "url": "https://github.com/DenysVuika/ng-bpmn/issues"
+  },
+  "keywords": ["angular", "diagram", "bpmn", "dmn", "cmmn", "bpmn-js", "toolkit", "modeler", "process modeling", "components"],
+  "peerDependencies": {
+    "@angular/common": "^16.0.0",
+    "@angular/core": "^16.0.0"
+  },
+  "dependencies": {
+    "@bpmn-io/add-exporter": "^0.2.0",
+    "bpmn-js": "^17.8.0",
+    "bpmn-js-properties-panel": "^5.16.0",
+    "diagram-js-minimap": "^5.0.0",
+    "diagram-js": "^14.7.1",
+    "dmn-js": "^16.4.0",
+    "dmn-js-properties-panel": "^3.3.0",
+    "cmmn-js": "^0.20.0",
+    "cmmn-js-properties-panel": "^0.9.0",
+    "hotkeys-js": "^3.10.2",
+    "tslib": "^2.3.0",
+    "file-saver": "^2.0.5",
+    "camunda-bpmn-moddle": "^7.0.1"
+  },
+  "sideEffects": false
+}

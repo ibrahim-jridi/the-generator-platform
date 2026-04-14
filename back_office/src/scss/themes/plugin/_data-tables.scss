@@ -1,0 +1,927 @@
+/**  =====================
+      Data Tables css start
+==========================  **/
+.table {
+  td,
+  th {
+    white-space: nowrap;
+    vertical-align: middle;
+    padding: 0.75rem 0.5rem;
+    height: 54px;
+    border-style: none;
+
+    .action-edit {
+      text-align: center;
+    }
+
+    .btn:hover {
+      color: $blue-color;
+    }
+    .btn {
+      max-height: 20px;
+    }
+  }
+
+  thead th {
+    border-bottom: none;
+    font-size: 11px;
+    color: $gris-subtil;
+    font-weight: 600;
+    background: $light-color;
+    align-content: center;
+    text-transform: uppercase;
+    height: 70px;
+  }
+
+  thead th:first-child {
+    border-top-left-radius: 8px;
+  }
+
+  thead th:last-child {
+    border-top-right-radius: 8px;
+  }
+
+  tbody + tbody {
+    border-top: 2px solid $theme-border;
+  }
+
+  &.table-dark {
+    thead th {
+      background-color: #11171a;
+    }
+  }
+
+  &.dataTable[class*='table-'] {
+    thead th {
+      background-color: $theme-background;
+    }
+  }
+}
+/* Border versions */
+
+.table-bordered {
+  border: 1px solid $theme-border;
+
+  td,
+  th {
+    border: 1px solid $theme-border;
+  }
+}
+/* Zebra-striping */
+
+.toll_table .table-striped tbody tr:nth-of-type(2n + 1) {
+  background-color: white;
+}
+
+.toll_table .table-striped tbody tr:nth-of-type(2n) {
+  background-color: #F5F6FA;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: $table-striped-color;
+  --bs-table-bg-type: $table-striped-color;
+}
+/* Hover effect */
+
+.table-hover {
+  tbody tr {
+    &:hover {
+      background-color: transparentize($primary-violet-color, 0.97);
+    }
+  }
+}
+/* Table backgrounds */
+
+.table {
+  .thead-dark {
+    th {
+      color: #fff;
+      background-color: $dark-color;
+      border-color: darken($dark-color, 10%);
+    }
+  }
+}
+
+.table-dark {
+  color: #fff;
+  background-color: $dark-color;
+
+  td,
+  th,
+  thead th {
+    border-color: darken($dark-color, 10%);
+  }
+
+  &.table-striped {
+    tbody tr:nth-of-type(odd) {
+      background-color: darken($dark-color, 2%);
+    }
+  }
+
+  &.table-hover {
+    tbody tr {
+      &:hover {
+        background-color: darken($dark-color, 5%);
+      }
+    }
+  }
+
+  thead th {
+    // background-color: $dark-color;
+    color: #fff;
+  }
+}
+/* fixed header position */
+
+table.dataTable.fixedHeader-floating {
+  top: 0 !important;
+  @media screen and (max-width: 992px) {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 992px) {
+  .fixedHeader-locked {
+    display: none !important;
+  }
+}
+/**  =====================
+      Foo-table css start
+==========================  **/
+
+.footable .pagination > {
+  .active > {
+    a,
+    span {
+      background-color: $primary-violet-color;
+      border-color: $primary-violet-color;
+
+      &:focus,
+      &:hover {
+        background-color: $primary-violet-color;
+        border-color: $primary-violet-color;
+      }
+    }
+  }
+
+  li > {
+    a,
+    span {
+      color: #222;
+    }
+  }
+}
+
+.footable-details.table,
+.footable.table {
+  margin-bottom: 0;
+}
+
+table {
+  &.footable > tfoot > tr.footable-paging > td > span.label {
+    margin-bottom: 0;
+  }
+
+  &.footable-paging-center > tfoot > tr.footable-paging > td {
+    padding-bottom: 0;
+  }
+}
+
+.table-columned > {
+  tbody > {
+    tr > {
+      td {
+        border: 0;
+        border-left: 1px solid $theme-border;
+      }
+
+      th {
+        border: 0;
+      }
+    }
+  }
+}
+/**====== Foo-table css end ======**/
+/**======= basic table css start =======**/
+.table.table-xl {
+  td,
+  th {
+    padding: 1.25rem 2rem;
+  }
+}
+
+.table.table-lg {
+  td,
+  th {
+    padding: 0.9rem 2rem;
+  }
+}
+
+.table.table-de {
+  td,
+  th {
+    padding: 0.75rem 2rem;
+  }
+}
+
+.table.table-sm {
+  td,
+  th {
+    padding: 0.6rem 2rem;
+  }
+}
+
+.table.table-xs {
+  td,
+  th {
+    padding: 0.4rem 2rem;
+  }
+}
+/**======= basic table css end ======**/
+
+#row-delete,
+#row-select {
+  .selected {
+    background-color: $primary-violet-color;
+    color: #fff;
+  }
+}
+
+table {
+  &.dataTable {
+    tbody {
+      > tr {
+        &.selected,
+        > .selected {
+          background: $primary-violet-color;
+
+          table.dataTable tbody > tr > .selected td,
+          table.dataTable tbody > tr.selected,
+          th {
+            &.select-checkbox {
+              &:after {
+                text-shadow: 1px 1px #e4f2fe, -1px -1px #e4f2fe, 1px -1px #e4f2fe, -1px 1px #e4f2fe;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+table.dataTable tbody .selected td.select-checkbox:before,
+table.dataTable tbody .selected th.select-checkbox:before {
+  border-color: #fff;
+}
+
+table.dataTable tbody > tr > .selected td.select-checkbox:after,
+table.dataTable tbody > tr > .selected th.select-checkbox:after,
+table.dataTable tbody > tr.selected td.select-checkbox:after,
+table.dataTable tbody > tr.selected th.select-checkbox:after {
+  content: '\2714';
+  margin-top: -11px;
+  margin-left: -4px;
+  text-align: center;
+}
+
+div.dt-button-info {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  margin-top: -100px;
+  margin-left: -200px;
+  background-color: lighten($primary-violet-color, 30%);
+  color: $primary-violet-color;
+  border: 2px solid $primary-violet-color;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  text-align: center;
+  z-index: 21;
+
+  h2 {
+    padding: 0.5em;
+    margin: 0;
+    font-weight: normal;
+    color: #fff;
+    border-bottom: 1px solid $primary-violet-color;
+    background-color: $primary-violet-color;
+  }
+
+  > div {
+    padding: 1em;
+  }
+}
+.dt-buttons {
+  margin-bottom: 5px;
+}
+table.dataTable tbody {
+  td.focus,
+  th.focus {
+    box-shadow: inset 0 0 1px 2px $primary-violet-color;
+  }
+}
+
+div.dtk-focus-alt table.dataTable tbody {
+  td.focus,
+  th.focus {
+    box-shadow: inset 0 0 1px 2px $warning-color;
+    background: transparentize($warning-color, 0.85);
+    color: $warning-color;
+  }
+}
+
+// Action buttons
+
+.fixed-input{
+  max-width: 50px;
+}
+
+.input-filter {
+  border: 1px solid $theme-border;
+  background: $yiq-light-color;
+  color: $secondary-color;
+  height: 26px;
+  max-width: 95px;
+  padding: 6px 6px 6px 12px;
+  border-radius: 10px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  text-align: left;
+  margin-left: -3px;
+  /* 24.2px */
+
+  &::placeholder {
+    color: $secondary-color;
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.custom-icon-clear {
+  background-color:$custom-border-color;
+  border-radius: 0 5px 5px 0;
+  height: 100%;
+  padding: 3px 6px;
+  cursor: pointer;
+}
+
+.icon-clear-style {
+  color: $white;
+}
+
+.button-container .d-flex:not(:last-child) {
+  margin-right: 10px;
+}
+
+.custom-button {
+  font-family: $theme-font-family;
+  width: 127px;
+  height: 36px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  gap: 8px;
+  position: relative !important;
+  background-color: $primary-violet-green;
+  color: $white;
+  border-style: none;
+}
+
+.custom-button {
+  &:active {
+    border-width: 3px;
+    border-style: solid;
+    background-color: $violet-mint;
+    color: $light-color;
+    border-color: $violet-mint;
+  }
+
+  &:hover {
+    background-color: $violet-mint;
+    color: $light-color;
+    border-color: $violet-mint;
+  }
+}
+
+.export-styled {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+
+  .btn-export::after {
+    display: none; // Hide the Bootstrap dropdown arrow
+  }
+
+  .dropdown-menu{
+    background-color: $white; // Set your desired hover background color
+    min-width: 4rem;
+    right: 0 !important;  /* Reset right property to 'auto' */
+    left: auto !important;      /* Align the dropdown to the left */
+  }
+
+  .dropdown-item {
+    color: $color-dark-gray;
+    background-color: $white; // Set your desired background color
+  }
+
+  .dropdown-item:hover {
+    background: $mintcream-color; // Set your desired hover background color
+    color: $color-dark-gray; // Set your desired hover text color
+  }
+}
+
+.btn-export {
+  background-color: $primary-violet-green;
+  border: 1px solid $light-color;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 5px 12px;
+
+  i{
+    color: $light-color;
+  }
+
+  .span {
+    color: $primary-violet-color;
+  }
+  &:hover {
+    background-color: $violet-mint;
+  }
+}
+.btn-export-calendar {
+  background-color: $primary-violet-color;
+  border: 1px solid $primary-violet-color;
+  border-radius: 8px;
+  padding: 6px 13px;
+  cursor: pointer;
+
+  i {
+    color: $primary-violet-color;
+  }
+
+  .span {
+    color: $light-color;
+
+    &:hover {
+      color: $light-color;
+    }
+  }
+}
+.view-toggle{
+  margin-bottom: 10px;
+}
+
+
+/* Updated styles for individual buttons */
+.toggle-button {
+  background-color: $light-color;
+  border: 1px solid $light-color;
+  border-radius: 8px; /* Set your desired border-radius value */
+  padding: 6px 8px; /* Adjust padding as needed */
+  cursor: pointer;
+  outline: none;
+  display: inline-flex; /* Use inline-flex to make buttons appear side by side */
+  align-items: center;
+  margin-right: 5px; /* Adjust margin between buttons */
+  margin-bottom: 5px;
+}
+
+.toggle-button i {
+  font-size: 16px; /* Adjust font size as needed */
+  transition: color 0.3s; /* Add a transition effect for a smoother toggle */
+  color: $primary-violet-color; /* Set the default icon color */
+}
+
+/* Apply styles for the active button */
+.toggle-button.active {
+  background-color: $primary-violet-color; /* Set the active button background color to your primary color */
+  i {
+    color: $light-color; /* Set the default icon color */
+  }
+}
+
+/* Apply styles for the label */
+.toggle-label {
+  color: $primary-violet-color;
+  margin-left: 5px; /* Adjust margin as needed */
+}
+
+/* Apply hover effect for the label */
+.toggle-button:hover .toggle-label {
+  color: $primary-violet-color;
+}
+
+/* Remove margin from the last button to prevent unwanted space */
+.toggle-button:last-child {
+  margin-right: 0;
+}
+
+
+
+/* Add these styles for the filter container */
+.filter-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Add these styles for the filter button */
+.btn-filter {
+  background-color: $light-color;
+  color: $primary-violet-color;
+  border: 1px solid $light-color;
+  border-radius: 8px;
+  padding: 6px 13px;
+  cursor: pointer;
+  margin-right: 10px; /* Adjust margin between filter buttons */
+}
+
+.search-container {
+  align-items: center;
+  padding-left: 1px;
+}
+
+/* Style for the input */
+.search-input {
+  height: 31px;
+  width: 100%;
+  max-width: 360px;
+  padding: 6px 6px 6px 12px;
+  border-radius: 10px;
+  margin: 1px -3% 0;
+  border: 1px solid #B0B0BA;
+  box-sizing: border-box;
+
+}
+
+/* Style for the loop button */
+.btn-loop {
+  background-color: $primary-violet-green;
+  border: 1px solid $light-color;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 5px 12px;
+  &:hover {
+    background-color: $violet-mint;
+  }
+  i{
+    color: $light-color;
+  }
+}
+
+/* Active state for the loop button */
+.btn-loop.active {
+  background-color: $violet-mint;
+  border-radius: 0 5px 5px 0;
+  height: 100%;
+}
+
+@media (max-width: 576px) {
+
+  .search-input {
+    width: calc(100% - 35px);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .btn-loop {
+    right: 47px;
+  }
+
+
+  .export-styled{
+    top: 10px;
+    margin-bottom: 15px;
+  }
+}
+
+.card-img-avatar{
+  border-top-left-radius: 0;
+  width: 25%;
+  height: 25%;
+}
+
+.user-name{
+  color: $card-text;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.text-modal-big {
+  color: #023773;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  overflow: hidden;
+  font-size: 19px;
+  font-weight: 400;
+
+  i {
+    font-size: 15px;
+    margin-right: 6px;
+  }
+}
+
+.user-role{
+  color: $card-text;
+  opacity: 1;
+}
+
+.card-badge-opened {
+  border-radius: 10px;
+  color: rgba(84, 142, 105, 1);
+  background: rgba(211, 233, 219, 1);
+  font-size: 13px;
+  height: 25px;
+}
+
+.btn-card-option {
+  i{
+    color: $primary-violet-color;
+    outline-color: $primary-violet-color;
+  }
+}
+
+.btn-card-option::after {
+  display: none; // Hide the Bootstrap dropdown arrow
+}
+
+.card-option {
+  .dropdown-menu {
+    min-width: 3.5rem;
+    top: 40% !important;
+    right: 20% !important;
+  }
+
+  .btn.btn-icon{
+    justify-content: right;
+  }
+}
+
+.vertical-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-img-avatar{
+  border-top-left-radius: 0;
+  width: 25%;
+  height: 25%;
+}
+
+.user-name{
+  color: $card-text;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.user-role{
+  color: $card-text;
+  opacity: 1;
+}
+
+.card-badge-opened {
+  border-radius: 10px;
+  color: rgba(84, 142, 105, 1);
+  background: rgba(211, 233, 219, 1);
+  font-size: 13px;
+  height: 25px;
+}
+
+.card-badge-closed {
+  border-radius: 10px;
+  background: rgba(204, 140, 140, 1);
+  color: rgba(149, 82, 82, 1);
+  font-size: 13px;
+  height: 25px;
+}
+
+.btn-card-option {
+  i{
+    color: $primary-violet-color;
+    outline-color: $primary-violet-color;
+  }
+}
+
+.btn-card-option::after {
+  display: none; // Hide the Bootstrap dropdown arrow
+}
+
+.card-option {
+  .dropdown-menu {
+    min-width: 3.5rem;
+    top: 40% !important;
+    right: 35% !important;
+  }
+}
+
+.vertical-container {
+  display: flex;
+  flex-direction: column;
+}
+.banner{
+  background-color: $primary-violet-color;
+  border-radius: 10px 10px 0px 0px;
+  height: 107px;
+  width: 90%;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 20px 20px;
+
+  .form-control{
+    color: white;
+  }
+
+  .calendar-button{
+    background-color: transparent;
+    color: white;
+    border: 0px;
+  }
+
+
+
+  .mat-start-date{
+    flex-grow: 1;
+  }
+
+  .mat-end-date{
+    flex-grow: 1;
+  }
+
+  .mat-date-range-input-inner {
+    text-align: justify;
+  }
+
+  /* Set equal width for both input fields in the date range input component */
+  .mat-date-range-input {
+    display: flex;
+  }
+
+  .mat-date-range-input-container{
+    flex-grow: 1;
+  }
+
+  .mat-date-range-input .mat-form-field {
+    flex: 1; /* This ensures each input takes equal space */
+  }
+
+  .mat-date-range-input-separator {
+    margin: 0 10px; /* Adjust margin to set the space between inputs, this value can vary */
+  }
+  .mat-date-range-input-separator{
+    color: white;
+  }
+}
+
+.date-range-picker-container{
+  display: flex;
+}
+
+
+
+.selected-dates {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-date {
+  margin: 0;
+  font-size: 16px;
+}
+
+.calendar-icon {
+  margin: 0 10px;
+  padding: 5px;
+}
+
+.select-page-container {
+  display: flex;
+}
+
+.custom-select-page-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 73px;
+  height: 36px;
+  text-align: center;
+  border: 1px solid $theme-border;
+  border-radius: 4px 4px 4px 4px;
+  color: $primary-violet-color;
+  cursor: pointer;
+
+  .i {
+    color: $primary-violet-color;
+    background-color: $primary-violet-color;
+  }
+}
+
+.options-container {
+  position: absolute;
+  top: 59px;
+  width: 73px;
+  background-color: white;
+  z-index: 1000;
+  border-radius: 4px 4px 4px 4px;
+  border: 1px solid $theme-border;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5px 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  color: $primary-violet-color;
+}
+
+.option {
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.option:hover {
+  background-color: white;
+  color: $blue-color;
+}
+
+.select {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  font: normal 11px/22px Arial, Sans-Serif;
+  color: black;
+  border: 1px solid #ccc;
+}
+
+.styledSelect {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  padding: 0 10px;
+  font-weight: bold;
+}
+
+.styledSelect:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-color: black transparent transparent transparent;
+  position: absolute;
+  top: 9px;
+  right: 6px;
+}
+
+.styledSelect:active,
+.styledSelect.active {
+  background-color: #eee;
+}
+
+.options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  margin: 0 0;
+  padding: 0 0;
+  list-style: none;
+  border: 1px solid #ccc;
+  background-color: white;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.options li {
+  margin: 0 0;
+  padding: 0 10px;
+}
+
+.options li:hover {
+  background-color: #39f;
+  color: white;
+}
+
+
+/**====== Data Tables css end ======**/

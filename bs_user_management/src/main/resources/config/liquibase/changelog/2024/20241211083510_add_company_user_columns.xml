@@ -1,0 +1,10 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+  <changeSet id="20241211083702" author="w.hmouda">
+    <sqlFile path="config/liquibase/sql/2024/20241211051506_add_company_user_columns.sql"
+      relativeToChangelogFile="false"/>
+  </changeSet>
+</databaseChangeLog>

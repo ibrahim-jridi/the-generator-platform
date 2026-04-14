@@ -1,0 +1,269 @@
+<div id="http-loader" *ngIf="isSpinnerVisible">
+  <div class="loader-overlay">
+    <div class="loader-container">
+      <!-- Material Line Spinner -->
+      <div class="sk-line-material" [class.colored]="!backgroundColor" *ngIf="spinner === Spinkit.skLine">
+        <div class="sk-child sk-bounce1" [style.background-color]="backgroundColor"></div>
+        <div class="sk-child sk-bounce2" [style.background-color]="backgroundColor"></div>
+        <div class="sk-child sk-bounce3" [style.background-color]="backgroundColor"></div>
+      </div>
+
+      <!-- Custom Glass Spinner (optional) -->
+      <div class="glass-spinner" *ngIf="spinner !== Spinkit.skLine">
+        <div class="glass-ring"></div>
+        <div class="glass-ring"></div>
+        <div class="glass-ring"></div>
+        <div class="glass-ring"></div>
+        <div class="loading-text">Chargement...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Modern Glassmorphism Loader */
+  #http-loader {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .loader-overlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(109, 40, 217, 0.95));
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loader-container {
+    text-align: center;
+    animation: scaleIn 0.4s ease-out;
+  }
+
+  /* Material Line Spinner - Violet Theme */
+  .sk-line-material {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 90px;
+    height: 80px;
+    position: absolute;
+    text-align: center;
+    display: inline-flex;
+  }
+
+  .sk-line-material .sk-child {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    margin: 0 8px;
+  }
+
+  .sk-line-material .sk-bounce1 {
+    animation-delay: -0.32s;
+    background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+  }
+
+  .sk-line-material .sk-bounce2 {
+    animation-delay: -0.16s;
+    background: linear-gradient(135deg, #A78BFA, #C4B5FD);
+  }
+
+  .sk-line-material .sk-bounce3 {
+    background: linear-gradient(135deg, #C4B5FD, #DDD6FE);
+  }
+
+  /* Glass Spinner (Ring Style) */
+  .glass-spinner {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .glass-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  }
+
+  .glass-ring:nth-child(1) {
+    border-top-color: #8B5CF6;
+    border-right-color: rgba(139, 92, 246, 0.3);
+    border-bottom-color: rgba(139, 92, 246, 0.1);
+    border-left-color: rgba(139, 92, 246, 0.1);
+    animation-duration: 1s;
+  }
+
+  .glass-ring:nth-child(2) {
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+    border-top-color: #A78BFA;
+    border-right-color: rgba(167, 139, 250, 0.3);
+    border-bottom-color: rgba(167, 139, 250, 0.1);
+    border-left-color: rgba(167, 139, 250, 0.1);
+    animation-duration: 1.2s;
+    animation-direction: reverse;
+  }
+
+  .glass-ring:nth-child(3) {
+    width: 60%;
+    height: 60%;
+    top: 20%;
+    left: 20%;
+    border-top-color: #C4B5FD;
+    border-right-color: rgba(196, 181, 253, 0.3);
+    border-bottom-color: rgba(196, 181, 253, 0.1);
+    border-left-color: rgba(196, 181, 253, 0.1);
+    animation-duration: 0.8s;
+  }
+
+  .glass-ring:nth-child(4) {
+    width: 40%;
+    height: 40%;
+    top: 30%;
+    left: 30%;
+    border-top-color: #DDD6FE;
+    border-right-color: rgba(221, 214, 254, 0.3);
+    border-bottom-color: rgba(221, 214, 254, 0.1);
+    border-left-color: rgba(221, 214, 254, 0.1);
+    animation-duration: 1.5s;
+  }
+
+  .loading-text {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 100px;
+    animation: pulse 1.5s ease-in-out infinite;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  /* Pulse Animation for Text */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(0.95);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Bounce Animation for Material Spinner */
+  @keyframes sk-bouncedelay {
+    0%, 80%, 100% {
+      transform: scale(0);
+      opacity: 0.3;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Ring Spin Animation */
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Fade In Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Scale In Animation */
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Optional: Particle Background Effect */
+  .loader-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .glass-spinner {
+      width: 80px;
+      height: 80px;
+    }
+
+    .loading-text {
+      font-size: 12px;
+      margin-top: 80px;
+    }
+
+    .sk-line-material {
+      transform: scale(0.8);
+    }
+  }
+
+  /* Custom Background Color Support */
+  .colored-parent,
+  .colored > div {
+    background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+  }
+
+  /* Optional: Add a subtle glow effect */
+  .glass-spinner:hover .glass-ring {
+    filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.6));
+    transition: filter 0.3s;
+  }
+
+  /* Dark Mode Support */
+  @media (prefers-color-scheme: dark) {
+    .loader-overlay {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(67, 56, 202, 0.95));
+    }
+  }
+</style>

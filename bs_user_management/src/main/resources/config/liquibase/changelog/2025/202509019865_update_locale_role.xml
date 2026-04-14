@@ -1,0 +1,10 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="202508251122" author="amani nasri">
+        <sqlFile path="config/liquibase/sql/2025/202509019865_update_locale_role.sql"
+                 relativeToChangelogFile="false"/>
+    </changeSet>
+</databaseChangeLog>

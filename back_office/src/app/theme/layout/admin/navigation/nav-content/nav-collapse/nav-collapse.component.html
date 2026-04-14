@@ -1,0 +1,268 @@
+<ng-container *ngIf="!item.hidden">
+  <!-- Horizontal Menu Item -->
+  <li
+    *ngIf="themeLayout === 'horizontal'"
+    (mouseenter)="navCollapse($event)"
+    class="nav-item pcoded-hasmenu glass-nav-hasmenu"
+    [routerLinkActive]="['active']"
+  >
+    <a [routerLinkActive]="['active']" href="javascript:" class="glass-nav-link">
+      <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+    </a>
+    <ng-container *ngTemplateOutlet="subMenuContent"></ng-container>
+  </li>
+
+  <!-- Vertical Menu Item -->
+  <li *ngIf="themeLayout === 'vertical'" class="nav-item pcoded-hasmenu glass-nav-hasmenu" [routerLinkActive]="['active']">
+    <a [routerLinkActive]="['active']" href="javascript:" class="glass-nav-link" (click)="navCollapse($event)">
+      <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+      <span class="glass-dropdown-icon">
+        <i class="feather icon-chevron-down"></i>
+      </span>
+    </a>
+    <ng-container *ngTemplateOutlet="subMenuContent"></ng-container>
+  </li>
+
+  <!-- Item Content Template -->
+  <ng-template #itemContent>
+    <span class="pcoded-micon glass-nav-micon" *ngIf="item.icon">
+      <span *ngIf="showAlert && item.icon == 'icon-task'" class="custom-alert glass-alert-badge">!</span>
+      <i class="custom-icon-menu {{ item.icon }}"></i>
+    </span>
+    <span class="pcoded-mtext glass-nav-mtext">
+      {{ item.title | translate }}
+      <span *ngIf="item.badge && themeLayout === 'horizontal'" class="badge label glass-badge" [ngClass]="item.badge.type">
+        {{ item.badge.title }}
+      </span>
+    </span>
+    <span *ngIf="item.badge && themeLayout === 'vertical'" class="pcoded-badge badge glass-badge" [ngClass]="item.badge.type">
+      {{ item.badge.title }}
+    </span>
+  </ng-template>
+
+  <!-- Submenu Content Template -->
+  <ng-template #subMenuContent>
+    <ul class="pcoded-submenu glass-nav-submenu" [routerLinkActive]="['active']">
+      <ng-container *ngFor="let childItem of item.children">
+        <app-nav-group *ngIf="childItem.type == 'group'" [item]="childItem"></app-nav-group>
+        <app-nav-collapse *ngIf="childItem.type == 'collapse'" [item]="childItem"></app-nav-collapse>
+        <app-nav-item *ngIf="childItem.type == 'item'" [item]="childItem"></app-nav-item>
+      </ng-container>
+    </ul>
+  </ng-template>
+</ng-container>
+
+<style>
+  /* Glass Navigation Collapse Styles - Keep original classes for JS to work */
+  .pcoded-hasmenu {
+    position: relative;
+    list-style: none;
+  }
+
+  .glass-nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 4px 12px;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .glass-nav-link:hover {
+    background: rgba(139, 92, 246, 0.15);
+    color: white;
+  }
+
+  .pcoded-hasmenu.active .glass-nav-link {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(109, 40, 217, 0.25));
+    color: white;
+    border-left: 3px solid #8B5CF6;
+  }
+
+  .pcoded-micon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    border-radius: 10px;
+    background: rgba(139, 92, 246, 0.1);
+    transition: all 0.3s;
+  }
+
+  .glass-nav-link:hover .pcoded-micon {
+    background: rgba(139, 92, 246, 0.2);
+    transform: scale(1.05);
+  }
+
+  .pcoded-micon i {
+    font-size: 18px;
+    color: #A78BFA;
+  }
+
+  .pcoded-hasmenu.active .pcoded-micon i {
+    color: #8B5CF6;
+  }
+
+  .pcoded-mtext {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .glass-dropdown-icon {
+    margin-left: auto;
+    transition: transform 0.3s;
+  }
+
+  .pcoded-hasmenu.active > .glass-nav-link .glass-dropdown-icon i,
+  .pcoded-hasmenu.pcoded-trigger > .glass-nav-link .glass-dropdown-icon i {
+    transform: rotate(180deg);
+  }
+
+  /* Submenu - This is what the JS toggles */
+  .pcoded-submenu {
+    padding-left: 52px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  /* When pcoded-trigger class is added by JS, show the submenu */
+  .pcoded-hasmenu.pcoded-trigger > .pcoded-submenu {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .pcoded-submenu .glass-nav-link {
+    padding: 8px 16px;
+    margin: 2px 12px;
+  }
+
+  .pcoded-submenu .pcoded-micon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+
+  .pcoded-submenu .pcoded-micon i {
+    font-size: 14px;
+  }
+
+  /* Badges */
+  .glass-badge {
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .glass-badge.primary {
+    background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+    color: white;
+  }
+
+  .glass-badge.success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+  }
+
+  .glass-badge.warning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+  }
+
+  .glass-badge.danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+  }
+
+  .glass-badge.info {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+  }
+
+  .custom-alert {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glass-nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 60%;
+    background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+    border-radius: 0 4px 4px 0;
+    transition: width 0.3s;
+  }
+
+  .glass-nav-link:hover::before {
+    width: 3px;
+  }
+
+  /* Animation for submenu items */
+  .pcoded-submenu .glass-nav-item {
+    animation: fadeInSlide 0.3s ease-out;
+  }
+
+  @keyframes fadeInSlide {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Horizontal navigation submenu positioning */
+  .glass-nav-horizontal .pcoded-submenu {
+    position: absolute;
+    background: rgba(30, 27, 75, 0.98);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    min-width: 220px;
+    padding: 8px 0;
+    margin-top: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s;
+    z-index: 1000;
+    max-height: none;
+  }
+
+  .glass-nav-horizontal .pcoded-hasmenu:hover > .pcoded-submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .glass-nav-horizontal .pcoded-submenu .glass-nav-link {
+    padding: 10px 20px;
+  }
+</style>

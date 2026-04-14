@@ -1,0 +1,10 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="202412161924" author="y.harrabi">
+        <sqlFile path="config/liquibase/sql/2024/202412161921_add_missing_columns.sql"
+                 relativeToChangelogFile="false"/>
+    </changeSet>
+</databaseChangeLog>

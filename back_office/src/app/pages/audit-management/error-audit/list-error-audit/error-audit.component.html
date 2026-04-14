@@ -1,0 +1,17 @@
+<div class="audit-section">
+  <div class="action d-flex justify-content-end">
+  </div>
+  <app-custom-table [hidHeader]="true" [banner]="false" [idTable]="'listErrorAudit'" [customHeader]="true"
+                  [tollTableData]="errorAuditList"
+                  [colonnesName]="tableColumns" [actionListButton]="actionButton" [activeExport]="false"
+                  [actionActiveButton]="true" [pageSize]="pageSize" [lazyLoading]="true"
+                  (loadingNewPage)="nextPage($event)" (pageSizeChange)="onPageSizeChange($event)"
+                  [currentPageNumber]="pageIndex" [totalSize]="totalCount"
+                  [options]="true" [columnsClass]="'toll-table-style'"
+                  (buttonAction)="buttonAction($event)"
+                  [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true"
+                  [activeFilter]="false" [Tablename]="'audit.list_of_error_audit' | translate">
+  </app-custom-table>
+
+
+</div>

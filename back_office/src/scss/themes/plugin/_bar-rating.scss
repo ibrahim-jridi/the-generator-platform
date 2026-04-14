@@ -1,0 +1,242 @@
+.br-theme-bars-1to10 {
+  .br-widget {
+    a {
+      background-color: lighten(map-get($theme-colors,"warning"), 30%);
+
+      &.br-active,
+      &.br-selected {
+        background-color: map-get($theme-colors,"warning");
+      }
+    }
+
+    .br-current-rating {
+      color: map-get($theme-colors,"warning");
+    }
+  }
+
+  .br-readonly {
+    a {
+      &.br-active,
+      &.br-selected {
+        background-color: map-get($theme-colors,"warning");
+      }
+    }
+
+    .br-current-rating {
+      color: lighten(map-get($theme-colors,"warning"), 20%);
+    }
+  }
+}
+
+.br-theme-bars-horizontal {
+  .br-widget {
+    a {
+      background-color: lighten(map-get($theme-colors,"warning"), 30%);
+
+      &.br-active,
+      &.br-selected {
+        background-color: map-get($theme-colors,"warning");
+      }
+    }
+
+    .br-current-rating {
+      color: map-get($theme-colors,"warning");
+    }
+  }
+
+  .br-readonly {
+    a {
+      &.br-active,
+      &.br-selected {
+        background-color: lighten(map-get($theme-colors,"warning"), 30%);
+      }
+    }
+
+    .br-current-rating {
+      color: lighten(map-get($theme-colors,"warning"), 30%);
+    }
+  }
+}
+
+.br-theme-bars-movie {
+  .br-widget {
+    height: auto;
+
+    a {
+      background-color: lighten(map-get($theme-colors,"primary"), 30%);
+
+      &.br-active,
+      &.br-selected {
+        background-color: map-get($theme-colors,"primary");
+      }
+    }
+
+    .br-current-rating {
+      color: map-get($theme-colors,"primary");
+    }
+  }
+
+  .br-readonly {
+    a {
+      &.br-active,
+      &.br-selected {
+        background-color: lighten(map-get($theme-colors,"primary"), 20%);
+      }
+    }
+
+    .br-current-rating {
+      color: lighten(map-get($theme-colors,"primary"), 20%);
+    }
+  }
+}
+
+.br-theme-bars-pill {
+  .br-widget {
+    a {
+      background-color: lighten(map-get($theme-colors,"success"), 45%);
+      color: map-get($theme-colors,"success");
+
+      &.br-active,
+      &.br-selected {
+        background-color: map-get($theme-colors,"success");
+      }
+    }
+  }
+
+  .br-readonly a {
+    &.br-active,
+    &.br-selected {
+      background-color: lighten(map-get($theme-colors, 'success'), 10%);
+    }
+  }
+}
+
+.br-theme-bars-reversed {
+  .br-widget {
+    a {
+      background-color: lighten(map-get($theme-colors, 'info'), 45%);
+      color: map-get($theme-colors, 'info');
+
+      &.br-active,
+      &.br-selected {
+        background-color: map-get($theme-colors, 'info')
+      }
+    }
+
+    .br-current-rating {
+      color: map-get($theme-colors, 'info');
+      width: 100%;
+      padding: 0;
+      margin-top: 15px;
+    }
+  }
+
+  .br-readonly {
+    a {
+      &.br-active,
+      &.br-selected {
+        background-color: lighten(map-get($theme-colors, 'info'), 10%);
+      }
+    }
+
+    .br-current-rating {
+      color: lighten(map-get($theme-colors, 'info'), 10%);
+    }
+  }
+}
+
+.br-theme-bars-square {
+  .br-widget {
+    a {
+      border: 2px solid lighten(map-get($theme-colors,'danger'), 25%);
+      color: lighten(map-get($theme-colors,'danger'), 25%);
+
+      &.br-active,
+      &.br-selected {
+        border: 2px solid map-get($theme-colors,'danger');
+        color: map-get($theme-colors,'danger');
+      }
+    }
+  }
+
+  .br-readonly a {
+    &.br-active,
+    &.br-selected {
+      border: 2px solid lighten(map-get($theme-colors,'danger'), 10%);
+      color: lighten(map-get($theme-colors,'danger'), 10%);
+    }
+  }
+}
+
+.br-theme-bootstrap-stars {
+  .br-widget {
+    a {
+      &:after {
+        color: darken($body-bg, 3%);
+      }
+
+      &.br-active:after,
+      &.br-selected:after {
+        color: map-get($theme-colors,'war');
+      }
+    }
+  }
+}
+
+.br-theme-css-stars {
+  .br-widget {
+    a {
+      &:after {
+        color: darken($body-bg, 3%);
+      }
+
+      &.br-active:after,
+      &.br-selected:after {
+        color: map-get($theme-colors,'warning');
+      }
+    }
+  }
+}
+
+.br-theme-fontawesome-stars {
+  .br-widget {
+    a {
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      font-size: 18px;
+
+      &:after {
+        content: '\f005';
+        color: shade-color($body-bg, 3%);
+      }
+
+      &.br-active:after,
+      &.br-selected:after {
+        color: map-get($theme-colors,'warning');
+      }
+    }
+  }
+}
+
+.br-theme-fontawesome-stars-o .br-widget {
+  a {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 18px;
+
+    &:after {
+      content: '\f005';
+      color: shade-color($body-bg, 3%);
+    }
+
+    &.br-active:after,
+    &.br-selected:after {
+      color: map-get($theme-colors,'success');
+    }
+
+    &.br-fractional:after {
+      content: '\f5c0';
+      color: map-get($theme-colors,'success');
+    }
+  }
+}

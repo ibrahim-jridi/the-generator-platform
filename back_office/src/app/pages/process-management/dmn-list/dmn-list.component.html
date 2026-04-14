@@ -1,0 +1,28 @@
+<div class="station-section">
+  <div class="action d-flex justify-content-end button-space">
+
+    <app-custom-button [buttonText]="'button.ADD' | translate" [buttonClass]="'custom-button'"
+                       [buttonIcon]="'icon-style icon-Add'" [buttonType]="'button'" [buttonDisabled]="false"
+                       (clicked)="redirectToAddDmn()"></app-custom-button>
+
+    <app-custom-button
+      [buttonText]="'button.IMPORT' | translate"
+      [buttonClass]="'custom-button ml-2'"
+      [buttonIcon]="'fas fa-upload'"
+      [buttonType]="'button'"
+      [buttonDisabled]="false"
+      (clicked)="uploadFile()">
+    </app-custom-button>
+  </div>
+  <br>
+  <app-custom-table [hidHeader]="true" [idTable]="'listProcess'" [customHeader]="true" [tollTableData]="dmnProcess"
+                  [colonnesName]="tableColumns" [actionListButton]="actionButton" [activeExport]="false"
+                  (pageSizeChange)="onPageSizeChange($event)"
+                  (loadingNewPage)="nextPage($event)" [actionActiveButton]="true" [pageSize]="pageSize"
+                  [lazyLoading]="true"
+                  [options]="true" [columnsClass]="'toll-table-style'" [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true" [totalSize]="totalElements"
+                  [activeFilter]="false" (buttonAction)="buttonAction($event)" [Tablename]="'menu.LIST_OF_PROCESS' | translate">
+  </app-custom-table>
+
+
+</div>

@@ -1,0 +1,201 @@
+<ng-container *ngIf="!item.hidden">
+  <!-- Internal Link -->
+  <li [ngClass]="item.classes" *ngIf="item.url && !item.external" [routerLinkActive]="['active']" class="glass-nav-item">
+    <a class="glass-nav-link" [target]="item.target ? '_blank' : '_self'"
+       [routerLink]="[item.url]"
+       (click)="closeOtherMenu($event)">
+      <ng-container *ngTemplateOutlet="itemIcon"></ng-container>
+      <span class="pcoded-mtext glass-nav-mtext" *ngIf="item.icon; else directTitle">
+        {{ item.title | translate }}
+      </span>
+      <ng-template #directTitle>
+        <span class="glass-nav-text">
+          {{ checkTitle(item.title) | async }}
+          <span [ngClass]="{'glass-highlight': hasAlert}">{{ taskNotCompleted }}</span>
+        </span>
+      </ng-template>
+      <ng-container *ngTemplateOutlet="itemBadge"></ng-container>
+      <span class="glass-nav-ripple"></span>
+    </a>
+  </li>
+
+  <!-- External Link -->
+  <li [ngClass]="item.classes" *ngIf="item.url && item.external" class="glass-nav-item glass-nav-external">
+    <a class="glass-nav-link" [target]="item.target ? '_blank' : '_self'" [href]="item.url">
+      <ng-container *ngTemplateOutlet="itemIcon"></ng-container>
+      <span class="pcoded-mtext glass-nav-mtext" *ngIf="item.icon; else directTitleExternal">
+        {{ item.title | translate }}
+      </span>
+      <ng-template #directTitleExternal>
+        <span class="glass-nav-text">{{ item.title | translate }}</span>
+      </ng-template>
+      <ng-container *ngTemplateOutlet="itemBadge"></ng-container>
+      <i class="feather icon-external-link glass-external-icon"></i>
+    </a>
+  </li>
+
+  <!-- Item Icon Template -->
+  <ng-template #itemIcon>
+    <span *ngIf="item.icon" class="pcoded-micon glass-nav-micon">
+      <i class="custom-icon-menu" [ngClass]="item.icon"></i>
+    </span>
+  </ng-template>
+
+  <!-- Item Badge Template -->
+  <ng-template #itemBadge>
+    <span *ngIf="item.badge && themeLayout === 'vertical'" class="pcoded-badge badge glass-badge" [ngClass]="item.badge.type">
+      {{ item.badge.title | translate }}
+    </span>
+    <span *ngIf="item.badge && themeLayout === 'horizontal'" class="badge label glass-badge glass-badge-horizontal" [ngClass]="item.badge.type">
+      {{ item.badge.title | translate }}
+    </span>
+  </ng-template>
+</ng-container>
+
+<style>
+  .glass-nav-item {
+    position: relative;
+    list-style: none;
+  }
+
+  .glass-nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 4px 12px;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .glass-nav-link:hover {
+    background: rgba(139, 92, 246, 0.15);
+    color: white;
+  }
+
+  .glass-nav-item.active .glass-nav-link {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(109, 40, 217, 0.25));
+    color: white;
+    border-left: 3px solid #8B5CF6;
+  }
+
+  .pcoded-micon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    border-radius: 10px;
+    background: rgba(139, 92, 246, 0.1);
+    transition: all 0.3s;
+  }
+
+  .glass-nav-link:hover .pcoded-micon {
+    background: rgba(139, 92, 246, 0.2);
+    transform: scale(1.05);
+  }
+
+  .pcoded-micon i {
+    font-size: 18px;
+    color: #A78BFA;
+  }
+
+  .glass-nav-item.active .pcoded-micon i {
+    color: #8B5CF6;
+  }
+
+  .pcoded-mtext {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .glass-nav-text {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .glass-badge {
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .glass-badge.primary {
+    background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+    color: white;
+  }
+
+  .glass-badge.success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+  }
+
+  .glass-badge.warning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+  }
+
+  .glass-badge.danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+  }
+
+  .glass-badge.info {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+  }
+
+  .glass-external-icon {
+    margin-left: 8px;
+    font-size: 12px;
+    opacity: 0.6;
+  }
+
+  .glass-highlight {
+    color: #f59e0b;
+    font-weight: 600;
+  }
+
+  .glass-nav-ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(139, 92, 246, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    pointer-events: none;
+  }
+
+  .glass-nav-link:active .glass-nav-ripple {
+    width: 200px;
+    height: 200px;
+  }
+
+  .glass-nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 60%;
+    background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+    border-radius: 0 4px 4px 0;
+    transition: width 0.3s;
+  }
+
+  .glass-nav-link:hover::before {
+    width: 3px;
+  }
+</style>

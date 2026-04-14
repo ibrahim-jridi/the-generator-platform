@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0l6iocw" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.25.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <decision id="eligibility_decision" name="EligibilityDecision" camunda:historyTimeToLive="180">
+    <decisionTable id="DecisionTable_0ohjn6p" hitPolicy="FIRST">
+      <input id="Input_1">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>produit</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1ec4n5c">
+        <inputExpression id="LiteralExpression_1dhuldm" typeRef="integer">
+          <text>age</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" name="eligibility" typeRef="boolean" />
+      <rule id="DecisionRule_1km8zzm">
+        <inputEntry id="UnaryTests_028pipm">
+          <text>"auto"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1y3xsjh">
+          <text>[18..75]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0yugtzo">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15f7fgy">
+        <inputEntry id="UnaryTests_03lc05t">
+          <text>"habitation"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wpetu4">
+          <text>[25..75]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0utlhxk">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ojfyg8">
+        <inputEntry id="UnaryTests_1s64nhv">
+          <text>"sante"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rj8jqp">
+          <text>[0..80]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xznnn1">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0pv31dz">
+        <inputEntry id="UnaryTests_0x3c1pd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wzrkuz">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ephqiz">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="EligibilityDecision">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

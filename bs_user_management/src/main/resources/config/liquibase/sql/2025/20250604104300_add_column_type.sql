@@ -1,0 +1,3 @@
+ALTER TABLE "bs_role"
+    ADD COLUMN IF NOT EXISTS role_type VARCHAR(50);
+

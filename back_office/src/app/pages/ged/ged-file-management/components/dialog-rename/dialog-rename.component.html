@@ -1,0 +1,17 @@
+<div class="rename-dialog">
+  <form class="border-card" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="row center mb-4">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <input matInput placeholder="Name" value="" formControlName="name">
+      </mat-form-field>
+    </div>
+    <div class="row button-container">
+      <div class="col-sm-12 text-right">
+        <div class="rename-dialog-buttons">
+          <button type="button" type="submit" class="btn btn-success">{{ 'button.SAVE' | translate }}</button>
+          <button type="button" (click)="closeDialog(false)" class="btn btn-danger btn-close">{{ 'button.CANCEL' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

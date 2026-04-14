@@ -1,0 +1,147 @@
+<div class="dpm-group-section">
+  <div class="row">
+    <div class="col-md-12">
+      <form id="user-form" [formGroup]="groupsForm">
+
+        <div class="row">
+
+          <div class="col">
+            <div class="fv-row mb-5">
+              <label class="form-label required-label">
+                <span class="custom-label">{{ "groups.NAME" | translate }}</span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <div class="input-group mb-2 ">
+                  <div class="input-group-prepend ">
+                    <span
+                      class="input-group-text bg-color text-white h-100 align-items-center">{{ prefixGroup }}</span>
+                  </div>
+                  <input type="text"
+                         class="form-control form-control-solid pl-2 custom-placeholder-input"
+                         placeholder="{{ 'groups.NAME_PLACEHOLDER' | translate }}"
+                         formControlName="label" />
+                </div>
+                <span
+                  *ngIf="this.groupsForm.get('label')!.touched && this.groupsForm.get('label')!.hasError('required')"
+                  class="text-danger">{{ 'groups.FAILED_REQUIRED' | translate }}</span>
+                <span
+                  *ngIf="this.groupsForm.get('label')!.touched && this.groupsForm.get('label')!.hasError('pattern')"
+                  class="text-danger">{{ 'groups.INVALID_PATTERN' | translate }}</span>
+                <span
+                  *ngIf="this.groupsForm.get('label')!.touched && this.groupsForm.get('label')!.hasError('maxlength')"
+                  class="text-danger">{{ 'groups.LABEL_MAX_SIZE_ERROR' | translate }}</span>
+
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="fv-row mb-5">
+              <label class="form-label required-label">
+                <span class="custom-label">{{ "groups.DESCRIPTION" | translate }}</span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <input type="text"
+                       class="form-control form-control-solid pl-2 custom-placeholder-input"
+                       placeholder="{{ 'groups.DESCRIPTION_PLACEHOLDER' | translate }}"
+                       formControlName="description" />
+                <span
+                  *ngIf="this.groupsForm.get('description')!.touched && this.groupsForm.get('description')!.hasError('required')"
+                  class="text-danger">{{ 'groups.FAILED_REQUIRED' | translate }}</span>
+                <span
+                  *ngIf="this.groupsForm.get('description')!.touched && this.groupsForm.get('description')!.hasError('maxlength')"
+                  class="text-danger">{{ 'groups.DESCRIPTION_MAX_SIZE_ERROR' | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="fv-row mb-5">
+              <label class="form-label required-label">
+                <span class="custom-label required">
+          {{ "groups.PARENT_GROUP_DEPENDENCY" | translate }}
+        </span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group d-flex align-items-center custom-radio-group">
+                <div class="form-check me-3">
+                  <input
+                    class="form-check-input custom-radio"
+                    type="radio"
+                    id="dependsOnParentGroupYes"
+                    value="true"
+                    formControlName="dependsOnParentGroup"
+                    (change)="addOrRemoveParentGroupValidity(true)"
+                  />
+                  <label class="form-check-label mt-2" for="dependsOnParentGroupYes">
+                    <span class="custom-label required">
+                    {{ "options.YES" | translate }}
+                      </span>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input custom-radio"
+                    type="radio"
+                    id="dependsOnParentGroupNo"
+                    value="false"
+                    formControlName="dependsOnParentGroup"
+                    (change)="addOrRemoveParentGroupValidity(false)"
+                  />
+                  <label class="form-check-label mt-2" for="dependsOnParentGroupNo">
+                    <span class="custom-label required">
+                    {{ "options.NO" | translate }}
+                     </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="row" *ngIf="groupsForm.get('dependsOnParentGroup')?.value === 'true'">
+              <div class="fv-row mb-5">
+                <label class="form-label required-label">
+                  <span class="custom-label required">{{ "groups.PARENT_GROUP" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <app-custom-select
+                    [items]="groups"
+                    bindValue="id"
+                    bindLabel="label"
+                    [multiple]="false"
+                    placeholder="{{ 'users.fields.SELECT_GROUP' | translate }}"
+                    formControlName="parent"
+                  ></app-custom-select>
+                  <div
+                    *ngIf="groupsForm.get('dependsOnParentGroup')?.value === 'true' && groupsForm.get('parent')?.invalid && groupsForm.get('parent')?.touched"
+                    class="text-danger">
+                    {{ 'groups.REQUIRED_PARENT' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="action d-flex justify-content-end">
+          <app-custom-button class="ml-2" [buttonText]="'button.CANCEL' | translate"
+                             [buttonClass]="'btn custom-btn-secondary'"
+                             [buttonType]="'button'" [buttonDisabled]="false"
+                             [tooltip]="'button.CANCEL' | translate"
+                             (clicked)="back()"></app-custom-button>
+          <app-custom-button class="ml-2" [buttonText]="'button.SAVE' | translate"
+                             [buttonClass]="'btn custom-btn-primary ms-2'"
+                             [buttonType]="'submit'" [buttonDisabled]="groupsForm?.invalid"
+                             [tooltip]="'button.SAVE' | translate"
+                             (clicked)="addGroup()"></app-custom-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

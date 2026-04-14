@@ -1,0 +1,45 @@
+<app-card class="task" cardTitle='{{name | translate}}' [showExportButton]="false" [options]="false">
+  <div class="export-btn" (click)="generatePDF(taskId)" ngbTooltip="{{'task.DOWNLOAD_PDF' | translate}}"
+       [placement]="'bottom'"
+  ><i class="feather icon-download"></i>
+  </div>
+  <div class="card-header header-content" [id]="'heading' + cardTitle" (click)="toggleCollapse()">
+    <div class="row d-flex justify-content-between custom-color">
+
+      <div class="col d-flex justify-content-left align-items-center">
+        <i class="fas fa-user me-2"></i> <span>
+         {{ 'task.IDENTIFIER' | translate }}
+        </span>&nbsp;: {{ assignee | translate }}
+      </div>
+
+      <div class="col d-flex justify-content-center align-items-center">
+        <i class="fas fa-clock me-2"></i> <span>
+         {{ 'task.CREATION' | translate }} : &nbsp;
+        </span> {{ startTime | dateTimeFormat }}
+      </div>
+
+      <div class="col d-flex justify-content-end align-items-center">
+        <i *ngIf="endTime" class="fas fa-clock me-2"></i> <span *ngIf="endTime">
+         {{ 'task.VALIDATION' | translate }} : &nbsp;
+        </span> {{ endTime | dateTimeFormat }}
+        <button class="btn-arrow"
+                [attr.aria-expanded]="!isCollapsed"
+                [attr.aria-controls]="'collapse' + cardTitle"
+        >
+          <a [id]="'icon' + cardTitle" class="custom-arrow"
+             [ngClass]="{ 'rotate-arrow': !isCollapsed }"></a>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div [id]="'collapse' + cardTitle" class="collapse" [class.show]="!isCollapsed"
+       [attr.aria-labelledby]="'heading' + cardTitle">
+    <div class="formio-content custom-scrollbar" *ngIf="isFormReady">
+      <div *ngIf="isFormReady">
+      <formio #formio id="formio" [form]="form" [refresh]="refreshForm" [submission]="submission"
+              (submit)="onSubmit($event)" [options]="options" [renderOptions]="renderOptions"
+              [language]="currentLanguage"></formio></div>
+    </div>
+  </div>
+</app-card>

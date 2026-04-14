@@ -1,0 +1,299 @@
+<div class="row">
+  <div class="col-md-12">
+    <form id="connector_form" [formGroup]="connectorForm">
+
+      <div class="row">
+
+        <div class="col mb-3">
+          <label class="form-label">
+            <span><b>{{ "connector.colurl" | translate }}</b></span>
+            <span class="text-danger">*</span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid"
+                   placeholder="{{ 'connector.add.inserturl' | translate }}"
+                   formControlName="url"/>
+            <ng-container
+              *ngIf="this.connectorForm.get('url')!.touched && this.connectorForm.get('url')!.hasError('required')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">{{
+                  'connector.add.validation.url_required' |
+                    translate
+                }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+
+        <div class="col mb-3">
+          <label class="form-label">
+            <span><b>{{ "connector.colapiname" | translate }}</b></span>
+            <span class="text-danger">*</span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid"
+                   placeholder="{{ 'connector.add.insertapiname' | translate }}"
+                   formControlName="apiName"/>
+            <ng-container
+              *ngIf="this.connectorForm.get('apiName')!.touched && this.connectorForm.get('apiName')!.hasError('required')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">{{
+                  'connector.add.validation.apiname_required' |
+                    translate
+                }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="col mb-3">
+          <label class="form-label">
+            <span><b>{{ "connector.colrequestmethod" | translate }}</b></span>
+            <span class="text-danger">*</span>
+          </label>
+          <div class="w-100">
+            <app-custom-select
+              [items]="requestMethods"
+              bindValue="id"
+              bindLabel="name"
+              [multiple]="false"
+              placeholder="{{ 'connector.add.selectrequestmethod' | translate }}"
+              formControlName="requestMethod"
+              [formControl]="this.connectorForm.get('requestMethod').value"
+            >
+            </app-custom-select>
+            <ng-container
+              *ngIf="this.connectorForm.get('requestMethod')!.touched && this.connectorForm.get('requestMethod')!.hasError('required')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">{{
+                  'connector.add.validation.requestmethod_required' |
+                    translate
+                }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col mb-3">
+          <label class="form-label">
+            <span><b>{{ "connector.colauthmethod" | translate }}</b></span>
+            <span class="text-danger">*</span>
+          </label>
+          <div class="w-100">
+            <app-custom-select
+              [items]="authenticationMethods"
+              bindValue="id"
+              bindLabel="name"
+              [multiple]="false"
+              placeholder="{{ 'connector.add.selectauthmethod' | translate }}"
+              formControlName="authenticationMethod"
+              [formControl]="this.connectorForm.get('authenticationMethod').value"
+              (selectionChange)="onAuthMethodChange($event)"
+            >
+            </app-custom-select>
+            <ng-container
+              *ngIf="this.connectorForm.get('authenticationMethod')!.touched && this.connectorForm.get('authenticationMethod')!.hasError('required')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">{{
+                  'connector.add.validation.authmethod_required' |
+                    translate
+                }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="col mb-3">
+          <label class="form-label">
+            <span><b>{{ "connector.colcontenttype" | translate }}</b></span>
+            <span class="text-danger">*</span>
+          </label>
+          <div class="w-100">
+            <app-custom-select
+              [items]="contentTypes"
+              bindValue="id"
+              bindLabel="name"
+              [multiple]="false"
+              placeholder="{{ 'connector.add.selectcontenttype' | translate }}"
+              formControlName="contentType"
+              [formControl]="this.connectorForm.get('contentType').value"
+            >
+            </app-custom-select>
+            <ng-container
+              *ngIf="this.connectorForm.get('contentType')!.touched && this.connectorForm.get('contentType')!.hasError('required')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">{{
+                  'connector.add.validation.contenttype_required' |
+                    translate
+                }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="col mb-3">
+          <label class="form-label">
+            <span><b>{{ "connector.colconnecttimeout" | translate }}</b></span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid"
+                   placeholder="{{ 'connector.add.insertconnecttimeout' | translate }}"
+                   formControlName="connectTimeout"/>
+            <ng-container
+              *ngIf="this.connectorForm.get('connectTimeout')!.touched && this.connectorForm.get('connectTimeout')!.hasError('pattern')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">{{
+                  'connector.add.validation.connecttimeout' |
+                    translate
+                }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col mb-3">
+          <label class="form-label">
+            <span><b>{{ "connector.colreadtimeout" | translate }}</b></span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid"
+                   placeholder="{{ 'connector.add.insertreadtimeout' | translate }}"
+                   formControlName="readTimeout"/>
+            <ng-container
+              *ngIf="this.connectorForm.get('readTimeout')!.touched && this.connectorForm.get('readTimeout')!.hasError('pattern')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">{{
+                  'connector.add.validation.readtimeout' |
+                    translate
+                }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="col mb-3">
+          <label class="form-label">
+            <span><b>{{ "connector.colretrycount" | translate }}</b></span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid"
+                   placeholder="{{ 'connector.add.insertretrycount' | translate }}"
+                   formControlName="retryCount"/>
+            <ng-container
+              *ngIf="this.connectorForm.get('retryCount')!.touched && this.connectorForm.get('retryCount')!.hasError('pattern')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">{{
+                  'connector.add.validation.retrycount' |
+                    translate
+                }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="col mb-3">
+          <label class="form-label">
+            <span><b>{{ "connector.colretryinterval" | translate }}</b></span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid"
+                   placeholder="{{ 'connector.add.insertretryinterval' | translate }}"
+                   formControlName="retryInterval"/>
+            <ng-container
+              *ngIf="this.connectorForm.get('retryInterval')!.touched && this.connectorForm.get('retryInterval')!.hasError('pattern')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">{{
+                  'connector.validation.retryinterval' |
+                    translate
+                }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row" *ngIf="isTokenFieldVisible">
+        <div class="col-8 mb-3">
+          <label class="form-label">
+            <span><b>{{ tokenFieldLabel }}</b></span>
+            <span class="text-danger">*</span>
+          </label>
+          <div class="w-100">
+            <input
+              type="text"
+              class="form-control form-control-solid"
+              [placeholder]="tokenPlaceholder"
+              formControlName="token"
+            />
+            <ng-container
+              *ngIf="connectorForm.get('token')!.touched && connectorForm.get('token')!.hasError('required')"
+            >
+              <div class="alert alert-danger mt-2" role="alert">
+                {{ 'validation.token_required' | translate }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+
+        <div class="col-4">
+          <label class="form-label">
+            <span><b>{{ "connector.colrequestbody" | translate }}</b></span>
+          </label>
+          <div class="w-100">
+            <textarea class="form-control form-control-solid custom-input" rows="6" cols="50"
+                      placeholder="{{'connector.add.insertrequestbody' | translate}}"
+                      formControlName="requestBody"></textarea>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <label class="form-label">
+            <span><b>{{ "connector.colresponsebody" | translate }}</b></span>
+          </label>
+          <div class="w-100">
+            <textarea class="form-control form-control-solid custom-input" rows="6" cols="50"
+                      placeholder="{{'connector.add.insertresponsebody' | translate}}"
+                      formControlName="responseBody"></textarea>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <label class="form-label">
+            <span><b>{{ "connector.coldescription" | translate }}</b></span>
+          </label>
+          <div class="w-100">
+            <textarea class="form-control form-control-solid custom-input" rows="6" cols="50"
+                      [maxLength]="50" placeholder="{{'connector.add.insertdescription' | translate}}"
+                      formControlName="description" (keyup)="updateCharacterCount()"></textarea>
+            <span class="textarea-position">
+                            {{ messageLength }}/50
+                        </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <app-custom-button class="ms-2" [buttonText]="'button.CANCEL' | translate" [buttonClass]="'btn custom-btn-secondary'"
+                           [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.CANCEL' | translate"
+                           (clicked)="navigateToConnectors()"></app-custom-button>
+        <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary'"
+                           [buttonType]="'submit'" [buttonDisabled]="connectorForm?.invalid" [tooltip]="'button.SAVE' | translate"
+                           (clicked)="handleOnAddConnector()"></app-custom-button>
+      </div>
+
+    </form>
+  </div>
+</div>

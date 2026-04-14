@@ -1,0 +1,56 @@
+<div class="service-panel">
+  <div class="card">
+    <div class="title-with-buttons">
+      <span
+        class="title-card"> {{ selectedService?.title | translate }}</span>
+      <div class="carousel-buttons">
+        <button class="left-arrow-btn" (click)="scrollCarousel(-1)"></button>
+        <button class="right-arrow-btn" (click)="scrollCarousel(1)"></button>
+      </div>
+    </div>
+
+    <div class="carousel" #carousel>
+      <div
+        class="blue-card"
+        *ngFor="let subService of selectedService?.subServices"
+        [ngClass]="{
+      'pointer-none': subService.key === '' || !userQualified || !checkAuthorities(subService.authority),
+      'disabled': !checkAuthorities(subService.authority)
+    }"
+        (click)="onSelectSubService(subService); servicePanelModal.show()"
+      >
+        {{ subService.title | translate }}
+      </div>
+    </div>
+
+
+    <app-ui-modal #servicePanelModal id="deleteRoleModal"
+                  dialogClass="modal-dialog-centered custom-large-modal"
+                  [hideHeader]="true">
+      <div class="app-modal-body delete-modal text-center">
+        <div class="d-flex justify-content-end pb-4">
+          <i class="icon-delete-modal feather icon-x" (click)="servicePanelModal.hide()"></i>
+        </div>
+
+        <div class="modal-text mt-4 mb-3">
+          <p>{{ 'dashboard.CONFIRMATION_MESSAGE' | translate }} {{ selectedSubService?.title | translate }} ?</p>
+        </div>
+
+        <div class="action d-flex justify-content-center">
+          <app-custom-button class="ms-2" [buttonText]="'options.YES' | translate"
+                             [buttonClass]="'btn custom-button'"
+                             [buttonType]="'button'"
+                             [buttonDisabled]="false"
+                             [tooltip]="'button.EDIT' | translate"
+                             (clicked)="click(selectedSubService?.key)"></app-custom-button>
+          <app-custom-button class="ms-2" [buttonText]="'options.NO' | translate"
+                             [buttonClass]="'btn custom-btn-secondary ms-2'"
+                             [buttonType]="'button'"
+                             [buttonDisabled]="false"
+                             (clicked)="servicePanelModal.hide()"></app-custom-button>
+        </div>
+      </div>
+    </app-ui-modal>
+
+  </div>
+</div>

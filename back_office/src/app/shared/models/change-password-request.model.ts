@@ -1,0 +1,6 @@
+export class ChangePassword {
+  oldPassword : string;
+  newPassword : string;
+  confirmNewPassword : string;
+  userId : string;
+}

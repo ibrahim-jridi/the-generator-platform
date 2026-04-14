@@ -1,0 +1,45 @@
+<div class="station-section">
+
+  <div class="action d-flex justify-content-end">
+
+    <app-custom-button [buttonText]="'button.ADD' | translate" [buttonClass]="'custom-button'"
+                       [buttonIcon]="'icon-style icon-Add'" [buttonType]="'button'" [buttonDisabled]="false"
+                       (clicked)="redirectToAddExternalUser()"></app-custom-button>
+  </div>
+  <br>
+
+  <app-custom-table [hidHeader]="true" [idTable]="'listExternalUser'" [customHeader]="true" [tollTableData]="user_external"
+                  [colonnesName]="tableColumns"  [actionListButton]="actionButton" [activeExport]="false"
+                  (loadingNewPage)="nextPage($event)"  [actionActiveButton]="true"  [pageSize]="pageSize" [lazyLoading]="false"
+                  [options]="true" [columnsClass]="'toll-table-style'" [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true" [totalSize]="totalElements"
+                  [activeFilter]="false" (buttonAction)="buttonAction($event)" [Tablename]="'menu.LIST_OF_USERS' | translate">
+
+  </app-custom-table>
+
+  <app-ui-modal #deleteUserModal id="deleteUserModal" dialogClass="modal-dialog-centered" [hideHeader]="true">
+    <div class="app-modal-body delete-modal">
+      <div class="justify-content-end">
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                (click)="deleteUserModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="col-12 text-center">
+        <p class="text-modal-big">
+          <i class="fa fa-trash"></i> {{ 'button.CONFIRM_DELETE' | translate }}
+        </p>
+      </div>
+      <br>
+      <div class="action d-flex justify-content-center button-space">
+        <app-custom-button class="ms-2" [buttonText]="'button.DELETE' | translate" [buttonClass]="'btn custom-btn-primary'"
+                           [buttonType]="'button'" [buttonDisabled]="false"
+                           (clicked)="handleOnDeleteUserExternal(); "></app-custom-button>
+        <app-custom-button class="ms-2" [buttonText]="'button.CANCEL'  | translate" [buttonClass]="'btn custom-btn-secondary'"
+                           [buttonType]="'button'" [buttonDisabled]="false" ></app-custom-button>
+      </div>
+    </div>
+  </app-ui-modal>
+
+
+  </div>

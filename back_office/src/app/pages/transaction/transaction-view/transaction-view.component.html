@@ -1,0 +1,58 @@
+<div class="col-md-12">
+  <form id="transaction-form" [formGroup]="transactionForm">
+    <div class="row">
+      <div class="col">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span>{{ "transaction.CONDIDAT_FIRSTNAME" | translate }}</span>
+          </label>
+          <div class="form-group">
+            <input type="text" class="form-control form-control-solid pl-2" formControlName="CONDIDAT_FIRSTNAME" />
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span>{{ "transaction.CONDIDAT_LASTNAME" | translate }}</span>
+          </label>
+          <div class="form-group">
+            <input type="text" class="form-control form-control-solid pl-2" formControlName="condidat_lastname" />
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span>{{ "transaction.PROCESS_NAME" | translate }}</span>
+          </label>
+          <div class="form-group">
+            <input type="text" class="form-control form-control-solid pl-2" formControlName="process_name" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span>{{ "transaction.AMOUNT" | translate }}</span>
+          </label>
+          <div class="form-group">
+            <input type="number" class="form-control form-control-solid pl-2" formControlName="amount" />
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span>{{ "transaction.STATUS" | translate }}</span>
+          </label>
+          <div class="form-group">
+            <input type="text" class="form-control form-control-solid pl-2" formControlName="status" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

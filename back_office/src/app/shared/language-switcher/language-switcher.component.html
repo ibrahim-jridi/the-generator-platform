@@ -1,0 +1,12 @@
+<div class="nav-item dropdown" >
+  <div class="dropdown-ms-8" ngbDropdown placement="auto">
+    <a ngbDropdownToggle>
+      <i class="fas fa-globe fs-5"></i>
+    </a>
+    <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+      <!--      <a class="dropdown-item" [ngClass]="{active: this.selectedLanguage == 'en'}"  (click)="switchLanguage('en') ">{{'menu.ENGLISH'|translate}} </a>-->
+      <a class="dropdown-item" [ngClass]="{active: this.selectedLanguage == 'fr'}" (click)="switchLanguage('fr')"> {{'menu.FRENCH'|translate}}</a>
+      <!--      <a class="dropdown-item" [ngClass]="{active: this.selectedLanguage == 'ar'}" (click)="switchLanguage('ar', true)"> {{'menu.ARABIC'|translate}}</a>-->
+    </div>
+  </div>
+</div>

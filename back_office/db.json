@@ -1,0 +1,434 @@
+{
+  "groups": [
+    {
+      "id": "3",
+      "name": "Guest Group",
+      "description": "Group for guest users"
+    },
+    {
+      "id": "6",
+      "name": "Marketing Group",
+      "description": "Group for marketing team"
+    },
+    {
+      "id": "8",
+      "name": "HR Group",
+      "description": "Group for human resources"
+    },
+    {
+      "id": "9",
+      "name": "Finance Group",
+      "description": "Group for finance team"
+    },
+    {
+      "id": "2567",
+      "name": "dfffffff",
+      "description": "dfffffffff"
+    },
+    {
+      "id": "5d91",
+      "name": "rrrrrrrr\"z",
+      "description": "rrrrdddd"
+    },
+    {
+      "id": "4d2a",
+      "name": "d",
+      "description": "df"
+    },
+    {
+      "id": "45c2",
+      "name": "dsds",
+      "description": "sdds"
+    }
+  ],
+  "users": [
+    {
+      "id": "f21a",
+      "firstName": "test houssine",
+      "lastName": "houssine",
+      "phone": "55555555",
+      "email": "houssine@gmail.com",
+      "cin": "4444-444-4444",
+      "address": "tunis",
+      "profession": "ingenieur",
+      "idGroup": [
+        {
+          "id": "3",
+          "name": "Guest Group",
+          "description": "Group for guest users"
+        },
+        {
+          "id": "6",
+          "name": "Marketing Group",
+          "description": "Group for marketing team"
+        },
+        {
+          "id": "9",
+          "name": "Finance Group",
+          "description": "Group for finance team"
+        },
+        {
+          "id": "4d2a",
+          "name": "d",
+          "description": "df"
+        }
+      ],
+      "status": "true",
+      "password": "",
+      "confirmPassword": ""
+    },
+    {
+      "id": "dffa",
+      "firstName": "test",
+      "lastName": "test",
+      "phone": "55555555",
+      "email": "test@gmail.com",
+      "cin": "5555-555-5555",
+      "address": "tunis",
+      "profession": "ing",
+      "idGroup": [
+        {
+          "id": "6",
+          "name": "Marketing Group",
+          "description": "Group for marketing team",
+          "users": 30
+        },
+        {
+          "id": "9",
+          "name": "Finance Group",
+          "description": "Group for finance team",
+          "users": 12
+        },
+        {
+          "id": "2567",
+          "name": "dfffffff",
+          "description": "dfffffffff"
+        },
+        {
+          "id": "5d91",
+          "name": "rrrrrrrr\"z",
+          "description": "rrrrdddd"
+        }
+      ],
+      "status": "true",
+      "password": "testDD@44455",
+      "confirmPassword": "testDD@44455"
+    },
+    {
+      "id": "981d",
+      "firstName": "testttAll",
+      "lastName": "testttAll",
+      "phone": "34444444",
+      "email": "testttAll@gmail.com",
+      "cin": "5555-555-5555",
+      "address": "testttAll",
+      "profession": "fdffdfd",
+      "idGroup": [
+        {
+          "id": "3",
+          "name": "Guest Group",
+          "description": "Group for guest users",
+          "users": 15
+        },
+        {
+          "id": "6",
+          "name": "Marketing Group",
+          "description": "Group for marketing team",
+          "users": 30
+        },
+        {
+          "id": "8",
+          "name": "HR Group",
+          "description": "Group for human resources",
+          "users": 18
+        },
+        {
+          "id": "9",
+          "name": "Finance Group",
+          "description": "Group for finance team",
+          "users": 12
+        },
+        {
+          "id": "2567",
+          "name": "dfffffff",
+          "description": "dfffffffff"
+        },
+        {
+          "id": "5d91",
+          "name": "rrrrrrrr\"z",
+          "description": "rrrrdddd"
+        },
+        {
+          "id": "4d2a",
+          "name": "d",
+          "description": "df"
+        }
+      ],
+      "status": "true",
+      "password": "dffdfdf@F444",
+      "confirmPassword": "dffdfdf@F444"
+    },
+    {
+      "id": "5101",
+      "firstName": "sdfs",
+      "lastName": "sddf",
+      "phone": "44444444",
+      "email": "sdf@gmail.com",
+      "cin": "6556-565-5555",
+      "address": "tunis",
+      "profession": "dss",
+      "idGroup": [
+        {
+          "id": "9",
+          "name": "Finance Group",
+          "description": "Group for finance team",
+          "users": 12
+        }
+      ],
+      "status": "true",
+      "password": "dsdds@hHH77",
+      "confirmPassword": "dsdds@hHH77"
+    },
+    {
+      "id": "e1f9",
+      "firstName": "rfdjudf",
+      "lastName": "dfdffd",
+      "phone": "54545445",
+      "email": "hfddf@gmail.com",
+      "cin": "6556-565-6565",
+      "address": "fgddf",
+      "profession": "udsuh",
+      "idGroup": [
+        {
+          "id": "9",
+          "name": "Finance Group",
+          "description": "Group for finance team",
+          "users": 12
+        },
+        {
+          "id": "3",
+          "name": "Guest Group",
+          "description": "Group for guest users",
+          "users": 15
+        }
+      ],
+      "status": "true",
+      "password": "fgff@D888",
+      "confirmPassword": "fgff@D888"
+    },
+    {
+      "id": "21cf",
+      "firstName": "hhhhhh",
+      "lastName": "ggfgggg",
+      "phone": "45555555",
+      "email": "ffff@gmail.com",
+      "cin": "5555-555-5555",
+      "address": "dfffffffff",
+      "profession": "dfdf",
+      "idGroup": [
+        {
+          "id": "2567",
+          "name": "dfffffff",
+          "description": "dfffffffff"
+        }
+      ],
+      "status": "true",
+      "password": "fdfd@G88",
+      "confirmPassword": "fdfd@G88"
+    },
+    {
+      "id": "b653",
+      "firstName": "ronaldo",
+      "lastName": "ronaldo",
+      "phone": "44444444",
+      "email": "ronaldo@gmail.com",
+      "cin": "4444-444-4444",
+      "address": "portogal",
+      "profession": "footballeur professionnel",
+      "idGroup": [
+        {
+          "id": "8",
+          "name": "HR Group",
+          "description": "Group for human resources",
+          "users": 18
+        }
+      ],
+      "status": "true",
+      "password": "GGjjj@77",
+      "confirmPassword": "GGjjj@77"
+    },
+    {
+      "id": "f4da",
+      "firstName": "feiz",
+      "lastName": "feiz",
+      "phone": "44444444",
+      "email": "feiz@gmail.com",
+      "cin": "7777-777-7777",
+      "address": "tunis",
+      "profession": "ing",
+      "idGroup": [
+        {
+          "id": "3",
+          "name": "Guest Group",
+          "description": "Group for guest users",
+          "users": 15
+        },
+        {
+          "id": "9",
+          "name": "Finance Group",
+          "description": "Group for finance team",
+          "users": 12
+        },
+        {
+          "id": "4d2a",
+          "name": "d",
+          "description": "df"
+        },
+        {
+          "id": "2567",
+          "name": "dfffffff",
+          "description": "dfffffffff"
+        },
+        {
+          "id": "8",
+          "name": "HR Group",
+          "description": "Group for human resources",
+          "users": 18
+        }
+      ],
+      "status": "true",
+      "password": "Hss@dd555",
+      "confirmPassword": "Hss@dd555"
+    },
+    {
+      "id": "d62f",
+      "firstName": "nour",
+      "lastName": "nour",
+      "phone": "55555555",
+      "email": "nour@gmail.com",
+      "cin": "8888-888-8888",
+      "address": "tunis",
+      "profession": "ingénieur ",
+      "idGroup": [
+        {
+          "id": "3",
+          "name": "Guest Group",
+          "description": "Group for guest users"
+        },
+        {
+          "id": "6",
+          "name": "Marketing Group",
+          "description": "Group for marketing team"
+        },
+        {
+          "id": "8",
+          "name": "HR Group",
+          "description": "Group for human resources"
+        },
+        {
+          "id": "9",
+          "name": "Finance Group",
+          "description": "Group for finance team"
+        }
+      ],
+      "status": "true",
+      "password": "GG@hh888",
+      "confirmPassword": "GG@hh888"
+    },
+    {
+      "id": "7ca9",
+      "firstName": "aya",
+      "lastName": "aya",
+      "phone": "35555555",
+      "email": "aya@gmail.com",
+      "cin": "4555-555-5555",
+      "address": "tunis",
+      "profession": "ing",
+      "idGroup": [
+        {
+          "id": "3",
+          "name": "Guest Group",
+          "description": "Group for guest users"
+        },
+        {
+          "id": "9",
+          "name": "Finance Group",
+          "description": "Group for finance team"
+        }
+      ],
+      "status": "true",
+      "password": "Ahgg@5555",
+      "confirmPassword": "Ahgg@5555"
+    },
+    {
+      "id": "99e8",
+      "firstName": "sds",
+      "lastName": "sds",
+      "phone": "45455445",
+      "email": "sds@gmail.com",
+      "cin": "3666-666-6666",
+      "address": "dd",
+      "profession": "dd",
+      "idGroup": [
+        {
+          "id": "3",
+          "name": "Guest Group",
+          "description": "Group for guest users"
+        },
+        {
+          "id": "6",
+          "name": "Marketing Group",
+          "description": "Group for marketing team"
+        },
+        {
+          "id": "8",
+          "name": "HR Group",
+          "description": "Group for human resources"
+        },
+        {
+          "id": "9",
+          "name": "Finance Group",
+          "description": "Group for finance team"
+        },
+        {
+          "id": "2567",
+          "name": "dfffffff",
+          "description": "dfffffffff"
+        },
+        {
+          "id": "5d91",
+          "name": "rrrrrrrr\"z",
+          "description": "rrrrdddd"
+        },
+        {
+          "id": "4d2a",
+          "name": "d",
+          "description": "df"
+        }
+      ],
+      "status": "true",
+      "password": "hdsjGGG@77",
+      "confirmPassword": "hdsjGGG@77"
+    },
+    {
+      "id": "63dc",
+      "firstName": "housssinnnn",
+      "lastName": "fffffff",
+      "phone": "54555555",
+      "email": "hdsiiiiiiiiiiii@gmail.com",
+      "cin": "5555-555-5555",
+      "address": "fffffff",
+      "profession": "fsfdsd",
+      "idGroup": [
+        {
+          "id": "4d2a",
+          "name": "d",
+          "description": "df"
+        }
+      ],
+      "status": "true",
+      "password": "fdssfd@ffGG55",
+      "confirmPassword": "fdssfd@ffGG55"
+    }
+  ]
+}

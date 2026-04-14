@@ -1,0 +1,61 @@
+<div class="glass-navbar-wrapper" [ngClass]="{
+  'glass-navbar-container': this.bSConfig.layout === 'horizontal' && this.bSConfig.subLayout === 'horizontal-2',
+  'glass-navbar-collapsed': navCollapsed
+}">
+  <app-nav-content (onNavMobCollapse)="navMobCollapse()" [navCollapsed]="navCollapsed"></app-nav-content>
+</div>
+
+<style>
+  .glass-navbar-wrapper {
+    position: relative;
+    background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .glass-navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Collapsed Navigation */
+  .glass-navbar-collapsed .glass-nav-mtext {
+    display: none;
+  }
+
+  .glass-navbar-collapsed .glass-dropdown-icon {
+    display: none;
+  }
+
+  .glass-navbar-collapsed .glass-nav-micon {
+    margin-right: 0;
+  }
+
+  .glass-navbar-collapsed .glass-nav-link {
+    justify-content: center;
+    padding: 12px;
+  }
+
+  .glass-navbar-collapsed .glass-user-info {
+    display: none;
+  }
+
+  .glass-navbar-collapsed .glass-user-profile {
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .glass-navbar-collapsed .glass-nav-caption .glass-caption-label {
+    justify-content: center;
+  }
+
+  .glass-navbar-collapsed .caption-text {
+    display: none;
+  }
+
+  .glass-navbar-collapsed .caption-decoration {
+    display: none;
+  }
+</style>

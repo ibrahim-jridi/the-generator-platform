@@ -1,0 +1,9 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="202510012025" author="a.nasri">
+        <sqlFile path="config/liquibase/sql/2025/100920256481_add_description_role_agence.sql" relativeToChangelogFile="false"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,220 @@
+<div [formGroup]="searchForm">
+<div class="row" *ngIf="!selectedUser">
+  <legend class="mb-3 p-3">{{"abonnements.legend.choix" | translate}}</legend>
+  <div class="col-4">
+    <div class="fv-row mb-5">
+      <label class="fs-5 fw-bold form-label mb-2 required-label">
+        <span class="required">{{ "abonnements.typeAbonner" | translate }}</span>
+        <span  class="text-danger">*</span>
+      </label>
+      <div class="w-100">
+        <select class="form-control" id="subscribe" formControlName="subscribe" (change)="onSubscribeChange($event)">
+          <option *ngFor="let subscribe of subscribes" [value]="subscribe">{{ getTranslation(subscribe) }}</option>
+        </select>
+        <span *ngIf="this.searchForm.get('subscribe')!.touched && this.searchForm.get('subscribe')!.hasError('required')"
+              class="text-danger">{{'abonnements.errors.requiredSubscribe' | translate}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+  <ng-container *ngIf="searchForm.get('subscribe').value === 'PHYSICAL'">
+    <div class="row">
+      <legend class="px-3" *ngIf="!selectedUser">{{'abonnements.legend.search' | translate}}</legend>
+      <legend><p class="mb-4 px-3" *ngIf="!selectedUser">{{'abonnements.legend.message' | translate}}</p></legend>
+      <legend class="mb-0 p-3" *ngIf="selectedUser">{{"abonnements.legend.informationAbonne" | translate}}</legend>
+      <div class="col-4" *ngIf="selectedUser">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span class="required">{{ "abonnements.typeAbonner" | translate }}</span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid" [value]="('abonnements.' + selectedUser?.userType | translate)" disabled/>
+          </div>
+        </div>
+      </div>
+        <div class="col" *ngIf="!selectedUser">
+            <div class="fv-row mb-3">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                    <span>{{ 'abonnements.individualChamps.cni' | translate }}</span>
+                </label>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-solid pl-2"
+                           placeholder="XXXX-XXX-XXXX" formControlName="cni" (input)="onCinInput($event)" (change)="updateCNIFormValues()" />
+                    <ul class="list-group max-height-list-scroll" *ngIf="cniSuggestions.length > 0">
+                        <li class="list-group-item" *ngFor="let suggestion of cniSuggestions" (click)="updateCniFromSuggestion(suggestion)">{{ suggestion }}</li>
+                    </ul>
+                    <span *ngIf="this.searchForm.get('cni')!.touched && this.searchForm.get('cni')!.hasError('')"
+                          class="text-danger">{{ 'abonnements.individualChamps.cni' | translate }}</span>
+                    <div *ngIf="cni.invalid && (cni.dirty || cni.touched)"
+                         class="text-danger error">
+                        <div *ngIf="cni.errors?.pattern">
+                            {{ 'abonnements.validation.invalidCinFormat' | translate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div class="col">
+        <div class="fv-row mb-3">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span class="required">{{ 'abonnements.individualChamps.nameClient' | translate }}</span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid" formControlName="nameClient"
+                   placeholder="{{ 'abonnements.individualChamps.fields.insertNameClient' | translate }}" (input)="onNoSpecialCharactersInputClient($event); updateNameClientFormValues()"/>
+            <ul class="list-group max-height-list-scroll" *ngIf="nameClientSuggestions.length > 0">
+              <li class="list-group-item" *ngFor="let suggestion of nameClientSuggestions" (click)="updateNameClientFromSuggestion(suggestion)">{{ suggestion }}</li>
+            </ul>
+          </div>
+          <span *ngIf="searchForm.get('nameClient')!.touched && searchForm.get('nameClient')!.hasError('invalidNameClientFormat')"
+                class="text-danger fs-2">{{ 'abonnements.validation.nameClient_invalid' | translate }}</span>
+        </div>
+      </div>
+      <div class="col">
+        <div class="fv-row mb-3">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span class="required">{{ 'abonnements.individualChamps.codeClient' | translate }}</span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid input-suggestion" formControlName="codeClient"
+                   placeholder="{{ 'abonnements.individualChamps.fields.insertCodeClient' | translate }}" (change)="updateCodeClientFormValues()"/>
+            <ul class="list-group max-height-list-scroll" *ngIf="codeClientSuggestions.length > 0">
+              <li class="list-group-item" *ngFor="let suggestion of codeClientSuggestions" (click)="updateCodeClientFromSuggestion(suggestion)">{{ suggestion }}</li>
+            </ul>
+          </div>
+          <span *ngIf="searchForm.get('codeClient')!.touched && searchForm.get('codeClient')!.hasError('invalidCodeClientFormat')"
+                class="text-danger fs-2">{{ 'abonnements.validation.codeClient_invalid' | translate }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4" *ngIf="selectedUser">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span>{{ 'abonnements.individualChamps.cni' | translate }}</span>
+          </label>
+          <div class="w-100">
+            <input type="text" class="form-control form-control-solid" formControlName="cni" disabled/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="(searchForm.get('codeClient')!.valid || searchForm.get('cni')!.valid || searchForm.get('nameClient')!.valid) && !(searchForm.get('codeClient')!.value && searchForm.get('cni')!.value && searchForm.get('nameClient')!.value) ||
+                            (searchForm.get('cni')!.touched && searchForm.get('cni')!.hasError('required')) && !(searchForm.get('codeClient')!.valid || searchForm.get('cni')!.valid || searchForm.get('nameClient')!.valid) ||
+                            (searchForm.get('codeClient')!.touched && searchForm.get('codeClient')!.hasError('required')) && !(searchForm.get('codeClient')!.valid || searchForm.get('cni')!.valid || searchForm.get('nameClient')!.valid) ||
+                            (searchForm.get('nameClient')!.touched && searchForm.get('nameClient')!.hasError('required')) && !(searchForm.get('codeClient')!.valid || searchForm.get('cni')!.valid || searchForm.get('nameClient')!.valid)">
+          <div class="col">
+              <div class="fv-row">
+                  <div class="callout callout-danger">
+                      <ng-container *ngIf="(searchForm.get('codeClient')!.valid || searchForm.get('cni')!.valid || searchForm.get('nameClient')!.valid) && !(searchForm.get('codeClient')!.value && searchForm.get('cni')!.value && searchForm.get('nameClient')!.value)">
+                          <h6>{{ 'abonnements.validation.client_not_exists' | translate }}</h6>
+                      </ng-container>
+                      <ng-container *ngIf="(searchForm.get('cni')!.touched && searchForm.get('cni')!.hasError('required')) && !(searchForm.get('codeClient')!.valid || searchForm.get('cni')!.valid || searchForm.get('nameClient')!.valid ) ||
+                          (searchForm.get('codeClient')!.touched && searchForm.get('codeClient')!.hasError('required')) && !(searchForm.get('codeClient')!.valid || searchForm.get('cni')!.valid || searchForm.get('nameClient')!.valid) ||
+                          (searchForm.get('nameClient')!.touched && searchForm.get('nameClient')!.hasError('required')) && !(searchForm.get('codeClient')!.valid || searchForm.get('cni')!.valid || searchForm.get('nameClient')!.valid)">
+                          <h6>{{ 'abonnements.validation.required_fields' | translate }}</h6>
+                      </ng-container>
+                  </div>
+              </div>
+          </div>
+    </div>
+  </ng-container>
+
+
+
+  <ng-container *ngIf="searchForm.get('subscribe').value === 'MORALE'">
+    <legend *ngIf="!selectedUser" class="px-3">{{"abonnements.legend.search" | translate}}</legend>
+    <legend *ngIf="!selectedUser"><p class="mb-4 px-3">{{"abonnements.legend.message" | translate}}</p></legend>
+  <div class="row">
+    <legend class="mb-0 p-3" *ngIf="selectedUser">{{"abonnements.legend.informationAbonne" | translate}}</legend>
+    <div class="col-4" *ngIf="selectedUser">
+      <div class="fv-row mb-5">
+        <label class="fs-5 fw-bold form-label mb-2 required-label">
+          <span class="required">{{ "abonnements.typeAbonner" | translate }}</span>
+        </label>
+        <div class="w-100">
+          <input type="text" class="form-control form-control-solid" [value]="('abonnements.' + selectedUser?.userType | translate)" disabled/>
+        </div>
+      </div>
+    </div>
+    <div class="col" *ngIf="!selectedUser">
+      <div class="fv-row mb-3">
+        <label class="fs-5 fw-bold form-label mb-2 required-label">
+          <span class="required">{{ "abonnements.entrepriseChamps.rccm" | translate }}</span>
+        </label>
+        <div class="w-100">
+          <input type="text" class="form-control form-control-solid" formControlName="rccm" (input)="onNoSpecialCharactersInputRCCM($event); updateRCCMFormValues()"
+                 placeholder="{{ 'abonnements.entrepriseChamps.fields.insertRCCM' | translate }}"/>
+          <ul class="list-group max-height-list-scroll" *ngIf="rccmSuggestions.length > 0">
+            <li class="list-group-item" *ngFor="let suggestion of rccmSuggestions" (click)="updateRCCMFromSuggestion(suggestion)">{{ suggestion }}</li>
+          </ul>
+        </div>
+        <span *ngIf="this.searchForm.get('rccm')!.touched && this.searchForm.get('rccm')!.hasError('')"></span>
+      </div>
+    </div>
+    <div class="col">
+      <div class="fv-row mb-3">
+        <label class="fs-5 fw-bold form-label mb-2 required-label">
+          <span class="required">{{ "abonnements.entrepriseChamps.nameEntreprise" | translate }}</span>
+        </label>
+        <div class="w-100">
+          <input type="text" class="form-control form-control-solid" formControlName="nameEntreprise"
+                 placeholder="{{ 'abonnements.entrepriseChamps.fields.insertNameEntreprise' | translate }}" (input)="onNoSpecialCharactersInputEntreprise($event); updateNameEntrepriseFormValues()"/>
+          <ul  class="list-group max-height-list-scroll" *ngIf="nameEntrepriseSuggestions.length > 0">
+            <li class="list-group-item" *ngFor="let suggestion of nameEntrepriseSuggestions" (click)="updateNameEntrepriseFromSuggestion(suggestion)">{{ suggestion }}</li>
+          </ul>
+        </div>
+        <span *ngIf="searchForm.get('nameEntreprise')!.touched && searchForm.get('nameEntreprise')!.hasError('invalidCodeClientFormat')"
+              class="text-danger fs-2">{{ 'abonnements.validation.codeClient_invalid' | translate }}</span>
+      </div>
+    </div>
+    <div class="col">
+      <div class="fv-row mb-3">
+        <label class="fs-5 fw-bold form-label mb-2 required-label">
+          <span class="required">{{ "abonnements.individualChamps.codeClient" | translate }}</span>
+        </label>
+        <div class="w-100">
+          <input type="text" class="form-control form-control-solid" formControlName="codeEntreprise"
+                 placeholder="{{ 'abonnements.entrepriseChamps.fields.insertCodeEntreprise' | translate }}" (input)="updateCodeEntrepriseFormValues()"/>
+          <ul class="list-group max-height-list-scroll" *ngIf="codeEntrepriseSuggestions.length > 0">
+            <li class="list-group-item" *ngFor="let suggestion of codeEntrepriseSuggestions" (click)="updateCodeEntrepriseFromSuggestion(suggestion)">{{ suggestion }}</li>
+          </ul>
+        </div>
+        <span *ngIf="searchForm.get('codeEntreprise')!.touched && searchForm.get('codeEntreprise')!.hasError('invalidCodeClientFormat')"
+              class="text-danger fs-2">{{ 'abonnements.validation.codeClient_invalid' | translate }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4" *ngIf="selectedUser">
+      <div class="fv-row mb-3">
+        <label class="fs-5 fw-bold form-label mb-2 required-label">
+          <span class="required">{{ "abonnements.entrepriseChamps.rccm" | translate }}</span>
+        </label>
+        <div class="w-100">
+          <input type="text" class="form-control form-control-solid" formControlName="rccm" disabled/>
+      </div>
+    </div>
+  </div>
+  </div>
+    <div class="row" *ngIf="(searchForm.get('codeEntreprise')!.valid || searchForm.get('rccm')!.valid || searchForm.get('nameEntreprise')!.valid) && !(searchForm.get('codeEntreprise')!.value && searchForm.get('rccm')!.value && searchForm.get('nameEntreprise')!.value) ||
+                            (searchForm.get('rccm')!.touched && searchForm.get('rccm')!.hasError('required')) && !(searchForm.get('codeEntreprise')!.valid || searchForm.get('rccm')!.valid || searchForm.get('nameEntreprise')!.valid) ||
+                            (searchForm.get('codeEntreprise')!.touched && searchForm.get('codeEntreprise')!.hasError('required')) && !(searchForm.get('codeEntreprise')!.valid || searchForm.get('rccm')!.valid || searchForm.get('nameEntreprise')!.valid) ||
+                            (searchForm.get('nameEntreprise')!.touched && searchForm.get('nameEntreprise')!.hasError('required')) && !(searchForm.get('codeEntreprise')!.valid || searchForm.get('rccm')!.valid || searchForm.get('nameEntreprise')!.valid)">
+      <div class="col">
+        <div class="fv-row">
+          <div class="callout callout-danger">
+            <ng-container *ngIf="(searchForm.get('codeEntreprise')!.valid || searchForm.get('rccm')!.valid || searchForm.get('nameEntreprise')!.valid) && !(searchForm.get('codeEntreprise')!.value && searchForm.get('rccm')!.value && searchForm.get('nameEntreprise')!.value)">
+              <h6>{{ 'abonnements.validation.client_not_exists' | translate }}</h6>
+            </ng-container>
+            <ng-container *ngIf="(searchForm.get('rccm')!.touched && searchForm.get('rccm')!.hasError('required')) && !(searchForm.get('codeEntreprise')!.valid || searchForm.get('rccm')!.valid || searchForm.get('nameEntreprise')!.valid ) ||
+                          (searchForm.get('codeEntreprise')!.touched && searchForm.get('codeEntreprise')!.hasError('required')) && !(searchForm.get('codeEntreprise')!.valid || searchForm.get('rccm')!.valid || searchForm.get('nameEntreprise')!.valid) ||
+                          (searchForm.get('nameEntreprise')!.touched && searchForm.get('nameEntreprise')!.hasError('required')) && !(searchForm.get('codeEntreprise')!.valid || searchForm.get('rccm')!.valid || searchForm.get('nameEntreprise')!.valid)">
+              <h6>{{ 'abonnements.validation.required_fields' | translate }}</h6>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+</ng-container>
+</div>

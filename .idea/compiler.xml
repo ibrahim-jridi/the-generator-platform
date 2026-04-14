@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="bs-gateway" />
+        <module name="bs-user-management" />
+        <module name="bs-audit-management" />
+        <module name="bs-workflow-management" />
+        <module name="bs-payment" />
+        <module name="bs_discovery" />
+        <module name="bs-form-management" />
+        <module name="bs-file-management" />
+        <module name="bs-report-management" />
+        <module name="bs-notification-management" />
+        <module name="bs-connector-management" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bs-audit-management" target="17" />
+      <module name="bs-connector-management" target="17" />
+      <module name="bs-file-management" target="17" />
+      <module name="bs-form-management" target="17" />
+      <module name="bs-gateway" target="17" />
+      <module name="bs-notification-management" target="17" />
+      <module name="bs-payment" target="17" />
+      <module name="bs-report-management" target="17" />
+      <module name="bs-user-management" target="17" />
+      <module name="bs-workflow-management" target="17" />
+      <module name="bs_discovery" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

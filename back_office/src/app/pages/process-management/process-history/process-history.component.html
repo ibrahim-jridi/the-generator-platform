@@ -1,0 +1,13 @@
+<app-form-task
+  *ngFor="let task of tasks"
+  [isCollapsed]="task.isCollapsed"
+  [name]="task.name"
+  [assignee]="task.assignee"
+  [startTime]="task.startTime"
+  [endTime]="task.endTime"
+  [submission]="task.submission"
+  [disabled]="task.disabled"
+  [taskId]="task.id"
+  [task]="task"
+  [form]="task.form">
+</app-form-task>

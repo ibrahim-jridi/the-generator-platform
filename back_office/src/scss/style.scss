@@ -1,0 +1,109 @@
+// Theme Font
+@import './themes/font/theme-font';
+
+// theme scrollbar
+// @import './themes/plugin/perfect-scrollbar';
+
+// main framework
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import "node_modules/bootstrap/scss/variables-dark";
+
+@import "node_modules/bootstrap/scss/maps";
+@import 'node_modules/bootstrap/scss/mixins';
+@import "node_modules/bootstrap/scss/root";
+
+
+// bootstrap
+@import "node_modules/bootstrap/scss/bootstrap";
+
+//Material icon
+@import "node_modules/material-icons/iconfont/material-icons.css";
+
+@import 'node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import './settings/custom-variables'; // Your custom variables
+@import './settings/theme-variables';
+
+// ng module
+@import './ng-module/ng-module';
+
+
+// icon
+@import './themes/font/_webfont-icon';
+@import './themes/font/datta-icon';
+@import './themes/font/feather';
+@import './themes/font/fontawesome';
+@import './themes/font/cryptofont';
+
+// bootstrap css
+@import './themes/bootstrap-overlay/card';
+@import './themes/bootstrap-overlay/button';
+@import './themes/bootstrap-overlay/radiobox-checkbox';
+@import './themes/bootstrap-overlay/switches';
+@import './themes/bootstrap-overlay/badge';
+
+@import './themes/general';
+@import './themes/generic';
+@import './themes/plugin/animate';
+
+// theme layouts
+@import './themes/layouts/menu-lite';
+@import './themes/layouts/menu-ng';
+@import './themes/layouts/modeler-toolbar';
+@import './layout-dark';
+@import './layout-rtl';
+
+// Dashboard Widgets
+@import './themes/dashboard/widget';
+
+// custom plugin
+@import './themes/plugin/sweatalert';
+@import './themes/plugin/lightbox';
+@import './themes/plugin/notification';
+@import './themes/plugin/pnotify';
+@import './themes/plugin/bar-rating';
+@import './themes/plugin/rangeslider';
+@import './themes/plugin/daterange';
+@import './themes/plugin/tags-input';
+@import './themes/plugin/maxlength';
+@import './themes/plugin/wizard';
+@import './themes/plugin/select2';
+@import './themes/plugin/data-tables';
+@import './themes/plugin/mat-calendar';
+@import './themes/plugin/full-calendar';
+@import './themes/plugin/progress-bar';
+@import './themes/plugin/snotify';
+@import './themes/plugin/modal';
+@import './themes/plugin/loader';
+
+// Charts
+@import './themes/plugin/highcharts';
+@import './themes/plugin/peitychart';
+
+// pages
+@import './themes/pages/authentication';
+@import './themes/pages/pages';
+@import './themes/pages/user';
+@import './themes/pages/task-board';
+@import './themes/pages/bpmn-modeler';
+@import './themes/pages/dmn-modeler';
+@import './themes/pages/group';
+@import './themes/pages/ged';
+@import './themes/pages/task-validate';
+@import './themes/pages/formio';
+@import './themes/pages/mail-activation';
+@import './themes/pages/form';
+@import './themes/pages/process';
+@import './themes/pages/dashboard';
+@import './themes/pages/info-card';
+@import './themes/pages/chart';
+@import './themes/pages/formio-form';
+@import './themes/pages/service-panel';
+@import './themes/pages/notif';
+@import './themes/pages/_menu-configuration.scss';
+// custom
+@import './themes/custom';
+
+//selectMultiple
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~intl-tel-input/build/css/intlTelInput.css";

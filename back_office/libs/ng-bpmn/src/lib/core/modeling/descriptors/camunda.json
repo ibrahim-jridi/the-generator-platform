@@ -1,0 +1,1232 @@
+{
+  "name": "Camunda",
+  "uri": "http://camunda.org/schema/1.0/bpmn",
+  "prefix": "camunda",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "associations": [],
+  "types": [
+    {
+      "name": "ProcessProp",
+      "extends": [
+        "bpmn:Process"
+      ],
+      "properties": [
+        {
+          "name": "versionTag",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "startable",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "historyTimeToLive",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "taskPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "candidateStarterUsers",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "candidateStarterGroups",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "categoryProcess",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "ExecutionListner",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "values",
+          "isMany": true,
+          "type": "ParameterExecution"
+        }
+      ]
+    },
+    {
+      "name": "ParameterExecution",
+      "properties": [
+        {
+          "name": "event",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "listnerType",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "class",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "expression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "delegateExpression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "format",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "script",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "resource",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "extensions",
+          "type": "Extensions"
+        }
+      ]
+    },
+    {
+      "name": "Extensions",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "extensions",
+          "isMany": true,
+          "type": "Extension"
+        }
+      ]
+    },
+    {
+      "name": "Extension",
+      "properties": [
+        {
+          "name": "name",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "value",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "Properties",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "values",
+          "isMany": true,
+          "type": "property"
+        }
+      ]
+    },
+    {
+      "name": "Property",
+      "properties": [
+        {
+          "name": "name",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "value",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "UserTaskProp",
+      "extends": [
+        "bpmn:UserTask"
+      ],
+      "properties": [
+        {
+          "name": "user",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "variable",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "groupToCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "roleToCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "assignee",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "candidateUsers",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "candidateGroups",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "dueDate",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "followUpDate",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "formRef",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "formRefBinding",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "formKey",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "typeForm",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "formRefVersion",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "priority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "StartEventProp",
+      "extends": [
+        "bpmn:StartEvent"
+      ],
+      "properties": [
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "formRef",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "formRefBinding",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "formKey",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "typeForm",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "formRefVersion",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "initiator",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "ExclusiveGatewayProp",
+      "extends": [
+        "bpmn:ExclusiveGateway"
+      ],
+      "properties": [
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "ParallelGatewayProp",
+      "extends": [
+        "bpmn:ParallelGateway"
+      ],
+      "properties": [
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "EventBasedGatewayProp",
+      "extends": [
+        "bpmn:EventBasedGateway"
+      ],
+      "properties": [
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "InclusiveGatewayProp",
+      "extends": [
+        "bpmn:InclusiveGateway"
+      ],
+      "properties": [
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "ComplexGatewayProp",
+      "extends": [
+        "bpmn:ComplexGateway"
+      ],
+      "properties": [
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "ServiceTaskProp",
+      "extends": [
+        "bpmn:ServiceTask"
+      ],
+      "properties": [
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "topic",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "class",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "delegateExpression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "expression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "resultVariable",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "connectorId",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRefTenantId",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRef",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "template",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "Fields",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "values",
+          "isMany": true,
+          "type": "Field"
+        }
+      ]
+    },
+    {
+      "name": "Field",
+      "properties": [
+        {
+          "name": "name",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "value",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "InputOutputConnector",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "values",
+          "isMany": true,
+          "type": "InputParameter"
+        },
+        {
+          "name": "valuesOutput",
+          "isMany": true,
+          "type": "OutputParameter"
+        }
+      ]
+    },
+    {
+      "name": "InputOutput",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "values",
+          "isMany": true,
+          "type": "InputParameter"
+        },
+        {
+          "name": "valuesOutput",
+          "isMany": true,
+          "type": "OutputParameter"
+        }
+      ]
+    },
+    {
+      "name": "InputParameter",
+      "properties": [
+        {
+          "name": "name",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "scriptFormat",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "resource",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "script",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "assignmentType",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "expression",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "OutputParameter",
+      "properties": [
+        {
+          "name": "name",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "scriptFormat",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "resource",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "script",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "assignmentType",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "expression",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "InputMapping",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "values",
+          "isMany": true,
+          "type": "In"
+        }
+      ]
+    },
+    {
+      "name": "In",
+      "properties": [
+        {
+          "name": "source",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "target",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "sourceExpression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "ReceiveTaskProp",
+      "extends": [
+        "bpmn:ReceiveTask"
+      ],
+      "properties": [
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "SendTaskProp",
+      "extends": [
+        "bpmn:SendTask"
+      ],
+      "properties": [
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "topic",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "class",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "delegateExpression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "expression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "resultVariable",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "connectorId",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "sendTask",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "notification",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "sendTo",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "userCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "groupCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "roleCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "notifType",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "messageSubject",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "messageBody",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRefTenantId",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRef",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "notificationList",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "startCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "stopCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "variableNotif",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "EndEventProp",
+      "extends": [
+        "bpmn:EndEvent"
+      ],
+      "properties": [
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "SubProcessProp",
+      "extends": [
+        "bpmn:SubProcess"
+      ],
+      "properties": [
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "failedJobRetryTimeCycle",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "BusinessRuleTaskProp",
+      "extends": [
+        "bpmn:BusinessRuleTask"
+      ],
+      "properties": [
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "topic",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "class",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "delegateExpression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "expression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "resultVariable",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "connectorId",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "decisionRefBinding",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRef",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRefTenantId",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRefVersion",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRefVersionTag",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "extensionElement",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "SequenceFlowProp",
+      "isAbstract": true,
+      "extends": [
+        "bpmn:SequenceFlow"
+      ],
+      "properties": [
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "language",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "expression",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "typeScript",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "resource",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "script",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "ParticipantProp",
+      "extends": [
+        "bpmn:Participant"
+      ],
+      "properties": [
+        {
+          "name": "versionTag",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "startable",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "historyTimeToLive",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "jobPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "taskPriority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "candidateStarterUsers",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "candidateStarterGroups",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "CallActivityProp",
+      "extends": [
+        "bpmn:CallActivity"
+      ],
+      "properties": [
+        {
+          "name": "inVariablesCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "inLocalCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },        {
+          "name": "outVariablesCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        },
+        {
+          "name": "outLocalCheck",
+          "isAttr": true,
+          "type": "Boolean"
+        }
+      ]
+    }
+  ]
+}

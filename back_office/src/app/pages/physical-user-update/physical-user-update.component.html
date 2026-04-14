@@ -1,0 +1,762 @@
+<div class="glass-profile-container">
+  <div class="glass-card">
+    <div class="card-header-gradient">
+      <h3 class="header-title">{{ 'Profile information' | translate }}</h3>
+      <div class="header-decoration"></div>
+    </div>
+
+    <div class="card-body">
+      <form id="user-form" [formGroup]="userForm">
+        <!-- Row 1: First Name & Last Name -->
+        <div class="form-row-modern">
+          <div class="form-col-modern">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.FIRST_NAME" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" class="modern-input"
+                       [class.is-invalid]="userForm.get('firstName')?.touched && userForm.get('firstName')?.invalid"
+                       placeholder="{{ 'users.fields.INSERT_FIRST_NAME' | translate }}"
+                       formControlName="firstName" />
+              </div>
+              <div class="error-container">
+                <span *ngIf="userForm.get('firstName')!.touched && userForm.get('firstName')!.hasError('required')"
+                      class="error-text">{{'users.errors.REQUIRED_FIRST_NAME' | translate}}</span>
+                <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+                  <div *ngIf="firstName.errors?.pattern" class="error-text">
+                    {{'users.errors.INVALID_FIRST_NAME' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-col-modern">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.LAST_NAME" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" class="modern-input"
+                       [class.is-invalid]="userForm.get('lastName')?.touched && userForm.get('lastName')?.invalid"
+                       placeholder="{{ 'users.fields.INSERT_LAST_NAME' | translate }}"
+                       formControlName="lastName" />
+              </div>
+              <div class="error-container">
+                <span *ngIf="userForm.get('lastName')!.touched && userForm.get('lastName')!.hasError('required')"
+                      class="error-text">{{'users.errors.REQUIRED_LAST_NAME' | translate}}</span>
+                <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+                  <div *ngIf="lastName.errors?.pattern" class="error-text">
+                    {{'users.errors.INVALID_LAST_NAME' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Email & Birthdate -->
+        <div class="form-row-modern">
+          <div class="form-col-modern">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.EMAIL" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="email" class="modern-input"
+                       [class.is-invalid]="userForm.get('email')?.touched && userForm.get('email')?.invalid"
+                       placeholder="{{ 'users.fields.INSERT_EMAIL' | translate }}"
+                       formControlName="email" />
+              </div>
+              <div class="error-container">
+                <span *ngIf="userForm.get('email')!.touched && userForm.get('email')!.hasError('required')"
+                      class="error-text">{{'users.errors.REQUIRED_EMAIL' | translate}}</span>
+                <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                  <div *ngIf="email.errors?.pattern" class="error-text">
+                    {{'users.errors.INVALID_EMAIL' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-col-modern">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.BIRTHDATE" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-calendar-alt input-icon"></i>
+                <input type="date" class="modern-input date-input"
+                       [class.is-invalid]="userForm.get('birthDate')?.touched && userForm.get('birthDate')?.invalid"
+                       formControlName="birthDate" [max]="minDate" (keydown)="preventKeyInput($event)" />
+              </div>
+              <div class="error-container">
+                <div *ngIf="userForm.get('birthDate')?.touched && userForm.get('birthDate')?.hasError('required')"
+                     class="error-text">{{'users.errors.REQUIRED_BIRTHDATE' | translate}}</div>
+                <div *ngIf="userForm.get('birthDate')?.touched && userForm.get('birthDate')?.hasError('invalidDateFormat')"
+                     class="error-text">
+                  {{ 'users.errors.INVALID_BIRTHDATE_FORMAT' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Passport (conditional) -->
+        <div class="form-row-modern" *ngIf="userForm.get('country')?.value?.code !== Constants.TUNISIE.toUpperCase()">
+          <div class="form-col-modern">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.PASSPORT" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-passport input-icon"></i>
+                <input type="text" class="modern-input"
+                       [class.is-invalid]="userForm.get('passport')?.touched && userForm.get('passport')?.invalid"
+                       placeholder="{{ 'users.fields.INSERT_PASSPORT' | translate }}"
+                       formControlName="passport" />
+              </div>
+              <div class="error-container">
+                <div *ngIf="userForm.get('passport')?.touched && userForm.get('passport')?.hasError('required')"
+                     class="error-text">{{'users.errors.PASSPORT_REQUIRED' | translate}}</div>
+                <div *ngIf="passport.invalid && (passport.dirty || passport.touched)" class="error-text">
+                  <span>passport invalid</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 4: Gender, Address, Role, Country -->
+        <div class="form-row-modern">
+          <div class="form-col-modern">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.GENDER" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-venus-mars input-icon"></i>
+                <app-custom-select
+                  disabled="true"
+                  [items]="genderList"
+                  bindValue="id"
+                  bindLabel="label"
+                  [multiple]="false"
+                  [showCheckbox]="false"
+                  placeholder="{{currentGender?.label}}"
+                  formControlName="gender">
+                </app-custom-select>
+              </div>
+              <div class="error-container">
+                <span *ngIf="userForm.get('gender')!.touched && userForm.get('gender')!.hasError('required')"
+                      class="error-text">{{ 'users.errors.REQUIRED_gender' | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-col-modern">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.ADDRESS" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-map-marker-alt input-icon"></i>
+                <input type="text" class="modern-input"
+                       [class.is-invalid]="userForm.get('address')?.touched && userForm.get('address')?.invalid"
+                       placeholder="{{ 'users.fields.INSERT_ADDRESS' | translate }}"
+                       formControlName="address" />
+              </div>
+              <div class="error-container">
+                <div *ngIf="userForm.get('address')?.touched && userForm.get('address')?.hasError('required')"
+                     class="error-text">{{'users.errors.REQUIRED_ADDRESS' | translate}}</div>
+                <div *ngIf="address.errors?.pattern" class="error-text">
+                  {{'users.errors.INVALID_ADDRESS_PATTERN' | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row-modern">
+          <div class="form-col-modern">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.ROLE" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-user-tag input-icon"></i>
+                <input type="text" class="modern-input disabled-input"
+                       [class.is-invalid]="userForm.get('role')?.touched && userForm.get('role')?.invalid"
+                       formControlName="role" />
+              </div>
+              <div class="error-container">
+                <span *ngIf="userForm.get('role')!.touched && userForm.get('role')!.hasError('required')"
+                      class="error-text">{{ 'users.errors.REQUIRED_ROLE' | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-col-modern">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.COUNTRY" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-globe input-icon"></i>
+                <input type="text" class="modern-input"
+                       formControlName="country" value="{{userCountry?.label}}" />
+              </div>
+              <div class="error-container">
+                <div *ngIf="userForm.get('country')?.touched && userForm.get('country')?.hasError('required')"
+                     class="error-text">
+                  {{ 'users.errors.REQUIRED_COUNTRY' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 5: CIN & Phone Number -->
+        <div class="form-row-modern">
+          <div class="form-col-modern" *ngIf="userForm.get('country')?.value?.code === Constants.TUNISIE.toUpperCase()">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.fields.CIN" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field">
+                <i class="fas fa-id-card input-icon"></i>
+                <input type="text" class="modern-input"
+                       [class.is-invalid]="userForm.get('cin')?.touched && userForm.get('cin')?.invalid"
+                       placeholder="{{ 'users.fields.CIN' | translate }}"
+                       formControlName="cin" (keydown)="onCinKeydown($event)" />
+              </div>
+              <div class="error-container">
+                <div *ngIf="userForm.get('cin')?.touched && userForm.get('cin')?.hasError('required')"
+                     class="error-text">{{'users.errors.REQUIRED_CIN' | translate}}</div>
+                <div *ngIf="cin.invalid && (cin.dirty || cin.touched)">
+                  <div *ngIf="cin.errors?.pattern" class="error-text">
+                    {{'users.errors.INVALID_CIN' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-col-modern" [class.full-width]="userForm.get('country')?.value?.code !== Constants.TUNISIE.toUpperCase()">
+            <div class="input-wrapper">
+              <label class="input-label-modern">
+                <span class="label-text">{{ "users.PHONE_NUMBER" | translate }}</span>
+                <span class="required-badge">*</span>
+              </label>
+              <div class="input-field phone-field">
+                <i class="fas fa-phone-alt input-icon"></i>
+                <ngx-intl-tel-input
+                  [cssClass]="'modern-input phone-input'"
+                  [enableAutoCountrySelect]="true"
+                  formControlName="phoneNumber"
+                  [selectedCountryISO]="selectedCountry"
+                  [enablePlaceholder]="true"
+                  [phoneValidation]="true"
+                  (keydown)="preventPrefixRemoval($event)"
+                  (focusout)="restorePrefix()">
+                </ngx-intl-tel-input>
+              </div>
+              <div class="error-container">
+                <div *ngIf="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.hasError('required')"
+                     class="error-text">{{'users.errors.PHONE_REQUIRED' | translate}}</div>
+                <div *ngIf="userForm.get('phoneNumber')?.invalid && (userForm.get('phoneNumber')?.dirty || userForm.get('phoneNumber')?.touched)"
+                     class="error-text">
+                  {{'users.errors.INVALID_PHONE' | translate}}
+                </div>
+                <div *ngIf="userForm.get('phoneNumber')?.errors?.pattern" class="error-text">
+                  {{'users.errors.INVALID_PHONE' | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <app-custom-button
+            class="action-btn"
+            [buttonText]="'button.CANCEL' | translate"
+            [buttonClass]="'btn-cancel'"
+            [buttonType]="'button'"
+            [buttonDisabled]="false"
+            [tooltip]="'button.CANCEL' | translate"
+            (clicked)="updateUserModal.show()">
+          </app-custom-button>
+
+          <app-custom-button
+            class="action-btn"
+            [buttonText]="'button.SAVE' | translate"
+            [buttonClass]="'btn-save'"
+            [buttonType]="'submit'"
+            [buttonDisabled]="userForm?.invalid"
+            [tooltip]="'button.SAVE' | translate"
+            (clicked)="updateUser()">
+          </app-custom-button>
+
+          <app-custom-button
+            class="action-btn"
+            [buttonText]="'button.UPDATE_PROFILE' | translate"
+            [buttonClass]="'btn-update'"
+            [buttonType]="'submit'"
+            [buttonDisabled]="userForm?.invalid"
+            [tooltip]="'button.SAVE' | translate"
+            (clicked)="updateUserProfile()">
+          </app-custom-button>
+        </div>
+
+        <!-- Modal -->
+        <app-ui-modal #updateUserModal id="deleteRoleModal" dialogClass="modal-dialog-centered" [hideHeader]="true">
+          <div class="glass-modal-body">
+            <div class="modal-close">
+              <i class="icon-delete-modal feather icon-x" (click)="updateUserModal.hide()"></i>
+            </div>
+            <div class="modal-content-center">
+              <img src="/assets/images/alert.svg" class="modal-icon" alt="alert">
+              <p class="modal-message">
+                {{ 'button.CONFIRM_CANCEL' | translate }} {{ user?.firstName }} {{ user?.lastName }}
+              </p>
+              <div class="modal-actions">
+                <app-custom-button
+                  class="ms-2"
+                  [buttonText]="'button.CONFIRM' | translate"
+                  [buttonClass]="'btn-modal-confirm'"
+                  [buttonType]="'button'"
+                  [buttonDisabled]="false"
+                  (clicked)="back(); updateUserModal.hide()">
+                </app-custom-button>
+                <app-custom-button
+                  class="ms-2"
+                  [buttonText]="'button.CANCEL' | translate"
+                  [buttonClass]="'btn-modal-cancel'"
+                  (clicked)="updateUserModal.hide()"
+                  [buttonType]="'button'"
+                  [buttonDisabled]="false">
+                </app-custom-button>
+              </div>
+            </div>
+          </div>
+        </app-ui-modal>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Glassmorphism Container */
+  .glass-profile-container {
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glass-card {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 28px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+  }
+
+  /* Card Header */
+  .card-header-gradient {
+    background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-header-gradient::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(10%, 10%); }
+  }
+
+  .header-title {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-decoration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #FFD700, #FF6B6B, #4ECDC4);
+  }
+
+  /* Card Body */
+  .card-body {
+    padding: 32px;
+  }
+
+  /* Form Layout */
+  .form-row-modern {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .form-col-modern {
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .form-col-modern.full-width {
+    flex: 2;
+  }
+
+  /* Input Wrapper */
+  .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .input-label-modern {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #4A5568;
+  }
+
+  .label-text {
+    color: #2D3748;
+  }
+
+  .required-badge {
+    background: #FEE2E2;
+    color: #DC2626;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 20px;
+  }
+
+  /* Input Field */
+  .input-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 14px;
+    color: #8B5CF6;
+    font-size: 16px;
+    z-index: 1;
+  }
+
+  .modern-input {
+    width: 100%;
+    padding: 12px 12px 12px 42px;
+    font-size: 14px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+    color: #1A202C;
+  }
+
+  .modern-input:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  }
+
+  .modern-input.is-invalid {
+    border-color: #DC2626;
+    background: #FEF2F2;
+  }
+
+  .modern-input.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  }
+
+  .disabled-input {
+    background: #F7FAFC;
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  .date-input {
+    color-scheme: light;
+  }
+
+  /* Phone Input */
+  .phone-field {
+    width: 100%;
+  }
+
+  .phone-input {
+    width: 100% !important;
+    padding: 12px 12px 12px 42px !important;
+  }
+
+  /* Error Container */
+  .error-container {
+    min-height: 20px;
+  }
+
+  .error-text {
+    font-size: 11px;
+    color: #DC2626;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .error-text::before {
+    content: "⚠";
+    font-size: 10px;
+  }
+
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .btn-cancel,
+  .btn-save,
+  .btn-update {
+    padding: 10px 24px;
+    border-radius: 40px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .btn-cancel {
+    background: #FFFFFF;
+    color: #64748B;
+    border: 2px solid #E2E8F0;
+  }
+
+  .btn-cancel:hover {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+  }
+
+  .btn-save,
+  .btn-update {
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+    color: white;
+    border: none;
+  }
+
+  .btn-save:hover,
+  .btn-update:hover {
+    background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+  }
+
+  /* Modal Styles */
+  .glass-modal-body {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    position: relative;
+  }
+
+  .modal-close {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .icon-delete-modal {
+    font-size: 24px;
+    cursor: pointer;
+    color: #64748B;
+    transition: color 0.2s;
+  }
+
+  .icon-delete-modal:hover {
+    color: #DC2626;
+  }
+
+  .modal-content-center {
+    text-align: center;
+  }
+
+  .modal-icon {
+    width: 80px;
+    margin-bottom: 24px;
+  }
+
+  .modal-message {
+    font-size: 18px;
+    font-weight: 500;
+    color: #2D3748;
+    margin-bottom: 32px;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .btn-modal-confirm {
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+    color: white;
+    padding: 10px 32px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-modal-confirm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+  }
+
+  .btn-modal-cancel {
+    background: #F1F5F9;
+    color: #64748B;
+    padding: 10px 32px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-modal-cancel:hover {
+    background: #E2E8F0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .glass-profile-container {
+      padding: 12px;
+    }
+
+    .card-header-gradient {
+      padding: 20px 24px;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .form-row-modern {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-col-modern {
+      min-width: 100%;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+    }
+
+    .action-btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .glass-card {
+      border-radius: 20px;
+    }
+
+    .header-title {
+      font-size: 20px;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .modern-input {
+      padding: 10px 10px 10px 38px;
+      font-size: 13px;
+    }
+  }
+
+  /* Animation */
+  @keyframes fadeSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .glass-card {
+    animation: fadeSlideUp 0.5s ease-out;
+  }
+
+  /* Custom Select Override */
+  app-custom-select ::ng-deep .ng-select {
+    width: 100%;
+  }
+
+  app-custom-select ::ng-deep .ng-select .ng-select-container {
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    min-height: 48px;
+    padding-left: 32px;
+  }
+
+  app-custom-select ::ng-deep .ng-select.ng-select-focused .ng-select-container {
+    border-color: #8B5CF6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  }
+</style>

@@ -1,0 +1,92 @@
+<div class="station-section">
+  <app-custom-table
+      [hidHeader]="true"
+      [idTable]="'listMembersassignés'"
+      [customHeader]="true"
+      [tollTableData]="designations"
+      [colonnesName]="tableColumns"
+      [actionListButton]="actionButton"
+      [activeExport]="false"
+      (loadingNewPage)="nextPage($event)"
+      [actionActiveButton]="true"
+      [pageSize]="pageSize"
+      [lazyLoading]="true"
+      [options]="true"
+      [columnsClass]="'toll-table-style'"
+      [tableClass]="'table table-striped mt-3 toll-table-style'"
+      [noBorder]="true"
+      [totalSize]="totalCount"
+      [activeFilter]="false"
+      (buttonAction)="buttonAction($event)"
+      [Tablename]="'menu.LIST_OF_USERS' | translate"
+      (pageSizeChange)="onPageSizeChange($event)">
+  </app-custom-table>
+
+  <app-ui-modal #deleteUserModal id="deleteUserModal" dialogClass="modal-dialog-centered" [hideHeader]="true">
+    <div class="app-modal-body delete-modal">
+      <div class="d-flex justify-content-end pb-4">
+        <i class="icon-delete-modal feather icon-x" (click)="deleteUserModal.hide()"></i>
+      </div>
+
+      <form [formGroup]="designationForm" (ngSubmit)="saveDesignationUser()">
+        <div class="col-12">
+          <p class="text-modal-big text-center">
+            {{ 'designation.TITLE' | translate }}
+          </p>
+
+          <p class="text-modal-big text-left">
+            {{ 'designation.ROLE_LIST' | translate }}
+          </p>
+
+          <app-custom-select
+              formControlName="role"
+              [items]="role_ectd"
+              bindValue="id"
+              bindLabel="label"
+              [multiple]="false"
+              [showCheckbox]="false"
+              placeholder="{{ 'designation.SELECT_ROLE' | translate }}">
+          </app-custom-select>
+          <div
+              *ngIf="designationForm.get('role')?.touched && designationForm.get('role')?.hasError('required')"
+              class="text-danger">
+            {{ 'designation.errors.REQUIRED_ROLE' | translate }}
+          </div>
+
+          <br>
+
+          <p class="text-modal-big">
+            {{ 'designation.REQUEST' | translate }}
+          </p>
+
+          <app-custom-select
+              formControlName="requests"
+              [items]="applications_id"
+              bindValue="label"
+              bindLabel="label"
+              [multiple]="true"
+              [showCheckbox]="false"
+              placeholder="{{ 'designation.SELECT_REQUEST' | translate }}">
+          </app-custom-select>
+        </div>
+
+        <br><br>
+
+        <div class="action d-flex justify-content-center button-space">
+          <app-custom-button class="ms-2" [buttonText]="'button.CANCEL' | translate"
+                             [buttonClass]="'btn custom-btn-secondary'"
+                             (clicked)="deleteUserModal.hide()"
+                             [buttonType]="'button'"
+                             [buttonDisabled]="false">
+          </app-custom-button>
+
+          <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate"
+                             [buttonClass]="'btn custom-btn-primary'"
+                             [buttonType]="'submit'"
+                             [buttonDisabled]="!designationForm.get('role')?.value">
+          </app-custom-button>
+        </div>
+      </form>
+    </div>
+  </app-ui-modal>
+</div>

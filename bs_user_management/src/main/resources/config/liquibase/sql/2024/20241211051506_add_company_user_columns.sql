@@ -1,0 +1,6 @@
+ALTER TABLE "bs_user"
+    ADD COLUMN IF NOT EXISTS tax_registration VARCHAR,
+    ADD COLUMN IF NOT EXISTS legal_status VARCHAR,
+    ADD COLUMN IF NOT EXISTS activity_domain VARCHAR,
+    ADD COLUMN IF NOT EXISTS user_type VARCHAR,
+    ADD COLUMN IF NOT EXISTS social_reason VARCHAR;

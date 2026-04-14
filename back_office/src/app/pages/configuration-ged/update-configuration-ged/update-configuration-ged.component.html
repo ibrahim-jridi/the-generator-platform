@@ -1,0 +1,55 @@
+<div class="section-internal-user">
+  <div class="row">
+    <div class="col-md-12">
+      <form id="size-config-form" [formGroup]="sizeConfigForm">
+
+        <div class="row">
+
+          <div class="col">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span><b>{{ "sizeConfig.EXTENSION" | translate }}</b></span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-solid pl-2"
+                       placeholder="{{ 'sizeConfig.EXTENSION_PLACEHOLDER' | translate }}" formControlName="extension"/>
+                <span
+                  *ngIf="this.sizeConfigForm.get('extension')!.touched && this.sizeConfigForm.get('extension')!.hasError('required')"
+                  class="text-danger">{{ 'sizeConfig.failedRequired' | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span><b>{{ "sizeConfig.MAX_SIZE" | translate }}</b></span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <input type="number" class="form-control form-control-solid pl-2"
+                       placeholder="{{ 'sizeConfig.MAX_SIZE_PLACEHOLDER' | translate }}" formControlName="maxSize"/>
+                <span
+                  *ngIf="this.sizeConfigForm.get('maxSize')!.touched && this.sizeConfigForm.get('maxSize')!.hasError('required')"
+                  class="text-danger">{{ 'sizeConfig.failedRequired' | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="action d-flex justify-content-end">
+          <app-custom-button class="ml-2" [buttonText]="'button.CANCEL' | translate" [buttonClass]="'btn custom-btn-secondary'"
+                             [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.CANCEL' | translate"
+                             (clicked)="back()"></app-custom-button>
+
+          <app-custom-button class="ml-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary'"
+                             [buttonType]="'submit'" [buttonDisabled]="sizeConfigForm.invalid"
+                             [tooltip]="'button.SAVE' | translate"
+                             (clicked)="updateSizeConfig()"></app-custom-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

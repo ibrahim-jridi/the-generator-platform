@@ -1,0 +1,46 @@
+.chart-container {
+  position: relative;
+  width: calc(100% - 20px);
+  display: flex;
+  justify-content: space-between;
+}
+
+.chart-title {
+  text-align: start;
+  font-weight: 700;
+  font-size: 18px;
+  color: $dark-blue;
+}
+
+.chart-number{
+  font-size: 14px;
+  font-weight: 700;
+  color: $primary-violet-green;
+  margin-right: 5px;
+}
+
+.chart-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: $light-gray;
+}
+
+.chart-column {
+  width: 41%;
+  margin: 35px 30px 0 0;
+  box-shadow: 0px 3.5px 5.5px 0px rgba(0, 0, 0, 0.0196078431);
+  background-color: $white;
+  border-radius: 8px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  padding: 11px;
+}
+
+.chart-spline {
+  width: 58%;
+  margin-top: 35px;
+  box-shadow: 0px 3.5px 5.5px 0px rgba(0, 0, 0, 0.0196078431);
+  background-color: $white;
+  border-radius: 8px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  padding: 11px;
+}

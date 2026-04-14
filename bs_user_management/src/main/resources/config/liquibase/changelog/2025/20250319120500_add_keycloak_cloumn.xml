@@ -1,0 +1,10 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+  <changeSet id="20251903120500" author="ibrahim jridi">
+    <sqlFile path="config/liquibase/sql/2025/20250319120500_add_keycloak_column.sql"
+      relativeToChangelogFile="false"/>
+  </changeSet>
+</databaseChangeLog>

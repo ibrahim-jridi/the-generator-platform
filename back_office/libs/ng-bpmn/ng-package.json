@@ -1,0 +1,21 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/libs/ng-bpmn",
+  "lib": {
+    "entryFile": "src/index.ts"
+  },
+  "assets": ["docs"],
+  "allowedNonPeerDependencies": [
+    "bpmn-js",
+    "diagram-js",
+    "bpmn-js-properties-panel",
+    "diagram-js-minimap",
+    "dmn-js",
+    "dmn-js-properties-panel",
+    "cmmn-js",
+    "cmmn-js-properties-panel",
+    "@bpmn-io/add-exporter",
+    "hotkeys-js",
+    "file-saver"
+  ]
+}

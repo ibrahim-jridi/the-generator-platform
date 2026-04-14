@@ -1,0 +1,11 @@
+<div class="station-section">
+
+  <app-custom-table [hidHeader]="true" [idTable]="'listTransaction'" [customHeader]="true" [tollTableData]="transaction"
+                  [colonnesName]="tableColumns" [actionListButton]="actionButton" [activeExport]="false"
+                  (loadingNewPage)="nextPage($event)" [actionActiveButton]="true" [pageSize]="pageSize" [lazyLoading]="false"
+                  [options]="true" [columnsClass]="'toll-table-style'" [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true" [totalSize]="totalElements"
+                  [activeFilter]="false" (buttonAction)="buttonAction($event)" [Tablename]="'menu.LIST_OF_TRANSACTION' | translate">
+  </app-custom-table>
+
+
+  </div>

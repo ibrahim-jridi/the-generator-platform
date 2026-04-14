@@ -1,0 +1,9 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="181220259678" author="a.nasri">
+        <sqlFile path="config/liquibase/sql/2025/181220259678_add_locale_role_to_pm.sql" relativeToChangelogFile="false"/>
+    </changeSet>
+</databaseChangeLog>

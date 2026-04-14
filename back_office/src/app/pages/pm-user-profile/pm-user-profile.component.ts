@@ -1,0 +1,430 @@
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {CountryISO} from "ngx-intl-tel-input";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
+import {Group} from "../../shared/models/group.model";
+import {Role} from "../../shared/models/role.model";
+import {NationalityList} from "../../shared/utils/Nationalities";
+import {RegexConstants} from "../../shared/utils/regex-constants";
+import {Observable, Subscription, throwError} from "rxjs";
+import {
+  PaginationArgs,
+  PaginationSortArgs,
+  PaginationSortOrderType
+} from "../../shared/models/paginationArgs.model";
+import {NavigationExtras, Router} from "@angular/router";
+import {AppToastNotificationService} from "../../shared/services/appToastNotification.service";
+import {UserService} from "../../shared/services/user.service";
+import {RoleService} from "../../shared/services/role.service";
+import {GroupsService} from "../../shared/services/groups.service";
+import {GenderEnumsTranslationService} from "../../shared/enums/gender.enum";
+import {TokenUtilsService} from "../../shared/services/token-utils.service";
+import {nationalitiesEnum} from "../../shared/enums/nationalities-enum";
+import {Constants} from "../../shared/utils/constants";
+import {StatusEnumsTranslationService} from "../../shared/enums/status.enum";
+import {LegalStatusClass} from "../../shared/enums/legal-status.enum";
+import {RegistryStatusClass} from "../../shared/enums/registryStatus.enum";
+import {CompanyUserModel} from "../../shared/models/company-user-model";
+import {ActivityDomainClass} from "../../shared/enums/activity-domain.enum";
+import {catchError, map} from "rxjs/operators";
+import {ReportService} from "../../shared/services/report.service";
+import {Nationalities} from "../../shared/enums/nationality.enum";
+import {User} from "../../shared/models/user.model";
+
+@Component({
+  selector: 'app-pm-user-profile',
+  templateUrl: './pm-user-profile.component.html',
+  styleUrl: './pm-user-profile.component.scss'
+})
+export class PmUserProfileComponent implements OnInit{
+  protected user: any;
+  protected companyUserForm: any;
+  protected groups: Group[];
+  protected roles: Role[];
+  public countries: any[];
+  disabled: boolean = true;
+  public nationalityList = NationalityList;
+  public selectedCountry: CountryISO = CountryISO.Tunisia;
+  public phoneNumberPrefix: string = RegexConstants.PHONE_PREFIX;
+  public countryISOValues = Object.values(CountryISO);
+  public userCountry: { phonePrefix: string; flagClass: string; code: string; label: string };
+  public genderList: { id: string; label: any }[] = [];
+  protected readonly Constants = Constants;
+  public activityTypesForm: FormGroup;
+  public currentLegalStatus: { id: string; label: any };
+  public state = window.history.state;
+  public morale: boolean = false;
+  public isLoading: boolean = false;
+  public progressBarValue: number = 0;
+  public photoFile: File | null = null;
+  public photoFilePatent: File | null = null;
+  private subscriptions: Subscription = new Subscription();
+  public physique: boolean = false;
+  isLoadingFilePatent: boolean = false;
+  private readonly paginationSortArgs: PaginationSortArgs = new PaginationSortArgs('last_modified_date', PaginationSortOrderType.DESC);
+  private paginationArgs: PaginationArgs;
+  public totalCount: number;
+  protected userId: string;
+  protected tasks: any[] = [];
+  protected taskId: string;
+  public currentRegistryStatus: { id: string; label: any };
+  protected registryStatusList: { id: string; label: any }[] = [];
+  public statusList: { id: string; label: any }[] = [];
+  protected userForm: any;
+  public currentStatus: string;
+  public allowedExtensions: string[] = ['pdf'];
+  public fileStatus: File;
+  public filePatent: File;
+  public legalStatusList: any[];
+  protected connectedUserId: string;
+
+  @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('filePatentInput') filePatentInput: ElementRef;
+  constructor(
+      private translatePipe: TranslatePipe,
+      private router: Router,
+      private toastrService: AppToastNotificationService,
+      private fb: FormBuilder,
+      private userService: UserService,
+      private roleService: RoleService,
+      private groupsService: GroupsService,
+      private translateservice: TranslateService,
+      private genderEnumsTranslationService: GenderEnumsTranslationService,
+      private tokenUtilisService: TokenUtilsService,
+      private statusEnumsTranslationService: StatusEnumsTranslationService,
+      private legalStatusClass: LegalStatusClass,
+      private registryStatusTranslatioService: RegistryStatusClass,
+      private activityDomainClass: ActivityDomainClass,
+      private reportService : ReportService
+
+
+  ) {
+    this.legalStatusList = this.legalStatusClass.getLegalStatus();
+  }
+
+  public ngOnInit(): void {
+    this.connectedUserId = this.tokenUtilisService.getUserId();
+    this.subscriptions.add(
+        this.genderEnumsTranslationService.genderList$.subscribe((list) => {
+          this.genderList = list;
+        })
+    );
+    this.subscriptions.add(
+        this.statusEnumsTranslationService.statusList$.subscribe((list) => {
+          this.statusList = list;
+        })
+    );
+    this.subscriptions.add(
+        this.registryStatusTranslatioService.registryStatusList$.subscribe((list) => {
+          this.registryStatusList = list;
+        })
+    )
+    this.translateservice.onLangChange.subscribe(() => {
+      this.mapToCountryISO(this.nationalityList);
+      this.patchFormData();
+    });
+    this.countries = this.mapToCountryISO(this.nationalityList);
+    this.state = window.history.state;
+    this.userId = this.state.userId;
+    this.initCompanyUserForm()
+    this.handleOnGetUser(this.userId);
+    this.loadRoles();
+  }
+
+  private initCompanyUserForm(): void {
+    this.companyUserForm = this.fb.group({
+      email: [{value: '', disabled: true}, [Validators.required, Validators.email, Validators.pattern(RegexConstants.EMAIL)]],
+      phoneNumber: [{value: '', disabled: true}, [Validators.required]],
+      address: [{value: '', disabled: true}, [Validators.required, Validators.pattern(RegexConstants.ADDRESS_LENGTH)]],
+      taxRegistration:[{value: '', disabled: true}],
+      socialReason:[{value: '', disabled: true}],
+      legalStatus:[{value: '', disabled: true}],
+      denomination: [{value: '', disabled: true}],
+      registryStatus: [{value: '', disabled: true}],
+      fileStatus: [{value: '', disabled: true}],
+      filePatent: [{value: '', disabled: true}],
+      role: [{value: '', disabled: true}],
+    });
+
+  }
+  public initActivityTypesForm(): void {
+    this.activityTypesForm = this.fb.group({
+      basicActivityTypeCode: [{ value: '', disabled: true }],
+      basicActivityTypeName: [{ value: '', disabled: true }],
+      secondaryActivityTypeCode: [{ value: '', disabled: true }],
+      secondaryActivityTypeName: [{ value: '', disabled: true }],
+      secondaryActivityTypes: this.fb.array(
+          this.user?.activitiesType.map(() => this.fb.group({
+            code: [{ value: '', disabled: true }],
+            name: [{ value: '', disabled: true }],
+          }))
+      ),
+    });
+
+  }
+
+  addSecondaryActivityType(): void {
+    const secondaryActivityGroup = this.fb.group({
+      code: [{value: '', disabled: true}, Validators.required],
+      name: [{value: '', disabled: true}, Validators.required]
+    });
+    this.secondaryActivityTypes.push(secondaryActivityGroup);
+  }
+  get secondaryActivityTypes(): FormArray {
+    return this.activityTypesForm.get('secondaryActivityTypes') as FormArray;
+  }
+
+  private patchFormData(): void {
+    const groupLabels = this.user?.groups.map((group) => group.label);
+    const roleLabels = this.user?.roles.map((role) => role.description);
+    let nationalId = '';
+    const registryStatus = this.getCurrentCompanyStatus?.(this.user) ?? null;
+    const legalStatus = this.getCurrentLegalStatus?.(this.user) ?? null;
+    this.getFile(this.user.fileStatus, 'bs-bucket-' + this.user.taxRegistration.replace(/\s/g, '')).subscribe((fileStatusFile) => {
+      this.photoFile = fileStatusFile;
+    });
+    this.getFile(this.user.filePatent, 'bs-bucket-' + this.user.taxRegistration.replace(/\s/g, '')).subscribe((filePatentFile) => {
+      this.photoFilePatent = filePatentFile;
+    });
+    this.currentLegalStatus = this.legalStatusList?.find(
+        el => el.id === this.user?.legalStatus
+    ) ?? null;
+    this.companyUserForm.patchValue({
+      taxRegistration: this.user?.taxRegistration ?? '',
+      legalStatus: legalStatus?.label ?? '',
+      socialReason: this.user?.socialReason ?? '',
+      phoneNumber: this.user?.phoneNumber ?? '',
+      registryStatus: registryStatus?.label ?? '',
+      email: this.user?.email ?? '',
+      address: this.user?.address ?? '',
+      denomination: this.user?.denomination ?? '',
+      fileStatus: this.user?.fileStatus ?? '',
+      filePatent: this.user?.filePatent ?? '',
+      activityTypes: this.user?.activitiesType ?? [],
+      role: [roleLabels?.join(', ') ?? ''],
+    });
+      if (this.user.activitiesType
+      ) {
+        const activities = [...this.user.activitiesType];
+
+        const basicActivityType = activities[0];
+        this.activityTypesForm.patchValue({
+          basicActivityTypeCode: basicActivityType?.code || '',
+          basicActivityTypeName: basicActivityType?.name || '',
+        });
+        this.activityTypesForm.get('basicActivityTypeId')?.setValue(basicActivityType?.id || null);
+        const secondaryActivityType = activities[1];
+        this.activityTypesForm.patchValue({
+          secondaryActivityTypeCode: secondaryActivityType?.code || '',
+          secondaryActivityTypeName: secondaryActivityType?.name || '',
+        });
+        this.activityTypesForm.disable();
+        this.secondaryActivityTypes.controls.forEach(control => control.disable());
+      }
+      this.companyUserForm.updateValueAndValidity();
+
+  }
+
+
+  private getFieldsTraduction() {
+    const country = this.getCountry();
+    const translatedCountryLabel = country
+        ? this.translateservice.instant(`users.nationalities.${country.label.replace(/\s+/g, '_').toLowerCase()}`) || country.label
+        : '';
+
+    this.phoneNumberPrefix = country?.phonePrefix;
+    const countryLabel = country.label;
+    this.selectedCountry = CountryISO[countryLabel];
+
+    const status = this.currentStatus;
+    const translatedStatusLabel = status ? this.translateservice.instant(`users.${status}`) || status : '';
+  }
+
+  private getUserNationality() {
+    let nationalId = '';
+    if (this.user?.nationality === Nationalities.TUNISIAN.toString()) {
+      nationalId = this.user.nationalId;
+      this.companyUserForm.get('cin')?.setValidators([Validators.required, Validators.pattern(RegexConstants.CIN)]);
+      this.companyUserForm.get('passport')?.clearValidators();
+    } else {
+      nationalId = this.user?.nationalId;
+      this.companyUserForm.get('cin')?.clearValidators();
+      this.companyUserForm.get('passport')?.setValidators([Validators.required, Validators.pattern(RegexConstants.PASSPORT)]);
+      this.companyUserForm.get('phoneNumber')?.clearValidators();
+    }
+    return nationalId;
+  }
+
+  protected getCurrentStatus(user: User) {
+    if (user?.isActive === true) {
+      const status = this.statusList.find((item) => item?.id === Constants.ACTIF_STATUS);
+      this.currentStatus = status.id;
+    } else {
+      const status = this.statusList.find((item) => item?.id === Constants.NOT_ACTIF_STATUS);
+      this.currentStatus = status.id;
+    }
+  }
+
+
+  public getCountry(): { phonePrefix: string; flagClass: string; code: string; label: string } {
+    const matchedNationality = nationalitiesEnum.find((n) => n.nationality.toUpperCase() === this.user?.nationality.toString());
+
+    if (matchedNationality) {
+      this.userCountry = this.nationalityList.find((item) => item.code === matchedNationality.code);
+      return this.userCountry;
+    } else return this.userCountry;
+  }
+
+  protected getCurrentCompanyStatus(companyUser: CompanyUserModel): { id: string; label: string } | null {
+    if (!companyUser?.registryStatus) return null;
+
+    const registryId = companyUser.registryStatus?.toUpperCase?.();
+    const found = this.registryStatusList?.find(item => item?.id === registryId) ?? null;
+
+    this.currentRegistryStatus = found;
+    return found;
+  }
+
+  protected getCurrentLegalStatus(companyUser: CompanyUserModel): { id: string; label: string } | null {
+    if (!companyUser?.legalStatus) return null;
+
+    const legalId = companyUser.legalStatus?.toUpperCase?.();
+    const found = this.legalStatusList?.find(item => item?.id === legalId) ?? null;
+
+    this.currentLegalStatus = found;
+    return found;
+  }
+
+
+  public handleOnGetUser(id: string): void {
+    this.userService.getUserById(id).subscribe({
+      next: (data: any) => {
+        this.user = data;
+        this.getCurrentStatus(this.user);
+        if(this.user?.userType === 'COMPANY'){
+          this.initActivityTypesForm();
+          this.morale = true
+          this.physique = false;
+        }else{
+          this.physique = true;
+          this.morale = false
+        }
+        this.patchFormData();
+      },
+      error: () => {
+        this.toastrService.onError(this.translatePipe.transform('users.errors.FAILED_TO_LOAD_USER'), this.translatePipe.transform('menu.ERROR'));
+      }
+    });
+  }
+
+
+  loadRoles(): void {
+    this.roleService.findAllRoles().subscribe((res) => {
+      this.roles = res.map((role) => {
+        return {
+          ...role,
+          disabled: role.label === 'DEFAULT_ROLE'
+        };
+      });
+    });
+  }
+
+
+
+  public get denomination() {
+    return this.companyUserForm?.get('denomination')!;
+  }
+
+  public get socialReason() {
+    return this.companyUserForm?.get('socialReason')!;
+  }
+
+  public get taxRegistration() {
+    return this.companyUserForm?.get('taxRegistration')!;
+  }
+
+  public get email() {
+    return this.companyUserForm?.get('email')!;
+  }
+
+  public get legalStatus() {
+    return this.companyUserForm?.get('legalStatus')!;
+  }
+
+  public get registryStatus() {
+    return this.companyUserForm?.get('registryStatus')!;
+  }
+
+  public get phoneNumber() {
+    return this.companyUserForm?.get('phoneNumber');
+  }
+
+  public get address() {
+    return this.companyUserForm?.get('address');
+  }
+
+
+  public get activityDomain() {
+    return this.companyUserForm?.get('activityDomain');
+  }
+
+
+  public mapToCountryISO(nationalities: any[]): {
+    code: string;
+    label: string;
+    phonePrefix: string;
+    countryISO: CountryISO | null;
+  }[] {
+    return nationalities.map((country) => {
+      const matchingISO = this.countryISOValues.find((iso) => iso.toLowerCase() === country?.code.toLowerCase());
+      return {
+        ...country,
+        countryISO: matchingISO || null
+      };
+    });
+  }
+  private getFile(fileName: string, bucketName: string): Observable<File> {
+    return this.reportService.getFile(fileName, bucketName).pipe(
+        map((blob: Blob) => {
+          this.isLoadingFilePatent = false;
+          const file = new File([blob], fileName, {type: blob.type});
+          return file;
+        }),
+        catchError((error) => {
+          this.isLoadingFilePatent = false;
+          return throwError(() => new Error('Error downloading file'));
+        })
+    );
+  }
+
+  public fetchAndDownloadFile(fileName: string): void {
+    const bucketName = 'bs-bucket-' + this.user.taxRegistration.replace(/\s/g, '')
+    this.reportService
+    .getFileUrl(fileName, bucketName)
+    .subscribe({
+      next: (fileUrl: string) => {
+        this.downloadFile(fileUrl, fileName);
+      },
+      error: (error) => {
+        alert("Failed to fetch the file. Please try again.");
+      },
+    });
+  }
+
+  public downloadFile(fileUrl: string, fileName: string): void {
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = fileName;
+    link.target = "_blank";
+    link.click();
+  }
+  updateCompanyUser(){
+    const navigationExtras: NavigationExtras = {
+      state: {
+        userId: this.userId
+      }
+    };
+    this.router.navigate(['/pages/pm-user-update-profile',this.userId], navigationExtras);
+  }
+
+}

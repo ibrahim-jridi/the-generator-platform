@@ -1,0 +1,76 @@
+import {Component, OnInit} from '@angular/core';
+import {NavigationExtras, Router} from '@angular/router';
+import {TokenUtilsService} from '../../shared/services/token-utils.service';
+import {AppToastNotificationService} from '../../shared/services/appToastNotification.service';
+import {TranslatePipe} from '@ngx-translate/core';
+import {CamundaService} from '../../shared/services/camunda.service';
+import {LoaderService} from "../../shared/services/loader.service";
+
+@Component({
+  selector: 'app-declaration-interests-management',
+  templateUrl: './best-practise-management.component.html',
+  styleUrls: ['./best-practise-management.component.scss']
+})
+export class BestPractiseManagementComponent implements OnInit {
+  constructor(
+    private tokenUtilisService: TokenUtilsService,
+    private toastrService: AppToastNotificationService,
+    private translatePipe: TranslatePipe,
+    private router: Router,
+    private camundaService: CamundaService,
+    private tokenUtilsService: TokenUtilsService,
+    private loaderService: LoaderService
+  ) {}
+
+  ngOnInit() {
+    const processKey: string = 'BEST_PRACTISE';
+    const userQualified = this.tokenUtilisService.isPM();
+    if (userQualified) {
+      this.startProcessByKeyAndRedirectToValidateTask(processKey);
+    } else if (!this.tokenUtilisService.isPM()) {
+      this.toastrService.onError(this.translatePipe.transform('individual.NOT_ALLOWED_PP'), this.translatePipe.transform('menu.ERROR'));
+      this.router.navigate(['/pages/dashboard']);
+    } else {
+      this.toastrService.onError(this.translatePipe.transform('task.SHOULD_COMPLETE_PROFILE'), this.translatePipe.transform('menu.ERROR'));
+      this.router.navigate(['/pages/dashboard']);
+    }
+  }
+
+  startProcessByKeyAndRedirectToValidateTask(processKey: string) {
+    this.loaderService.show();
+    const userId = this.tokenUtilsService.getUserId();
+    const variables = {
+      starter: userId
+    };
+    this.camundaService.startProcessOnceByKeyAndGetStartedInstance(processKey, variables).subscribe(
+      (res) => {
+        this.camundaService.getTaskByProcessInstanceId(res.processInstanceId).subscribe(
+          (data) => {
+            this.loaderService.hide();
+            const navigationExtras: NavigationExtras = {
+              state: {
+                processInstanceId: data.executionId,
+                taskId: data.id
+              }
+            };
+            this.router.navigate(['pages/task-management/task-list/validate-task', data.name], navigationExtras);
+          },
+          (error) => {
+            this.loaderService.hide();
+            const navigationExtras: NavigationExtras = {
+              state: {
+                processInstanceId: res.processInstanceId
+              }
+            };
+            this.router.navigate(['pages/instance-management/view-history'], navigationExtras);
+          }
+        );
+        console.log(res);
+      },
+      (err) => {
+        this.loaderService.hide();
+        console.log(err);
+      }
+    );
+  }
+}

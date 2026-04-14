@@ -1,0 +1,894 @@
+<div class="glass-dashboard-container">
+  <div class="row">
+    <!-- Banner Section -->
+    <ng-container *ngIf="banner">
+      <div class="col-md-12 row pr-0 pl-0 mt-2">
+        <app-card [blockClass]="blockClass" [captionClass]="captionClass" [cardCaption]="cardCaption"
+                  [cardClass]="cardClass" [headerClass]="headerClass" [noBorders]="noBorder"
+                  [cardTitle]="cardTitle" [customHeader]="customHeader" [footerClass]="footerClass"
+                  [hidHeader]="hidHeader" [isCardFooter]="isCardFooter" [options]="options">
+        </app-card>
+
+        <div class="glass-banner">
+          <div class="row align-items-center">
+            <!-- Date Range Picker -->
+            <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
+              <p class="banner-label">Choix de la période</p>
+              <div class="date-range-wrapper">
+                <mat-date-range-input [rangePicker]="picker" class="glass-date-input">
+                  <input matStartDate placeholder="Début" class="date-input-field" (dateChange)="dateRange('start', $event)">
+                  <input matEndDate placeholder="Fin" class="date-input-field" (dateChange)="dateRange('end', $event)">
+                </mat-date-range-input>
+                <button class="calendar-glass-btn" mat-icon-button (click)="picker.open()">
+                  <i class="feather icon-calendar"></i>
+                </button>
+                <mat-date-range-picker #picker class="custom-datepicker"></mat-date-range-picker>
+              </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="col-12 col-md-9">
+              <div class="stats-grid">
+                <div class="stat-card" *ngFor="let stat of totalStats">
+                  <p class="stat-label">{{ stat.name }}</p>
+                  <h3 class="stat-value">{{ stat.count }}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Main Content Card -->
+    <div class="col-sm-12 pl-0 pr-0">
+      <app-card [blockClass]="blockClass" [captionClass]="captionClass" [cardCaption]="cardCaption"
+                [cardClass]="cardClass" [headerClass]="headerClass" [noBorders]="noBorder"
+                [cardTitle]="cardTitle" [customHeader]="customHeader" [footerClass]="footerClass"
+                [hidHeader]="hidHeader" [isCardFooter]="isCardFooter" [options]="options">
+
+        <!-- Toolbar Section -->
+        <div class="glass-toolbar">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-3">
+              <div class="select-page-container" *ngIf="!activeFilterInput">
+                <div class="custom-select-page-box" (click)="toggleOptions()" (keydown)="handleKeyPress($event)" (clickOutside)="clickOutsideOptions()">
+                  {{ pageSize }}
+                  <div class="icon-select-page-container">
+                    <i class="fa" [ngClass]="{'fa-caret-up': showOptions, 'fa-caret-down': !showOptions}"></i>
+                  </div>
+                </div>
+                <div class="options-glass" *ngIf="showOptions">
+                  <div class="option" *ngFor="let size of pageSizes" (click)="selectPageSize(size)" (keydown)="handleKeyPress($event)">
+                    {{ size }}
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="!isSuperAdmin">
+                <div class="view-toggle">
+                  <button class="toggle-glass-btn" [class.active]="isCardView" (click)="setViewMode(true)">
+                    <i class="feather icon-grid"></i>
+                    <span>Cartes</span>
+                  </button>
+                  <button class="toggle-glass-btn" [class.active]="!isCardView" (click)="setViewMode(false)">
+                    <i class="feather icon-list"></i>
+                    <span>Liste</span>
+                  </button>
+                </div>
+              </ng-container>
+            </div>
+
+            <div class="col-12 col-md-9">
+              <div class="toolbar-actions">
+                <!-- Search -->
+                <div class="search-glass-wrapper">
+                  <ng-container *ngIf="activeFilter">
+                    <input type="text" class="search-glass-input"
+                           placeholder="{{ 'tooltip.SEARCH' | translate }}"
+                           [(ngModel)]="searchText" (input)="filterTableData()" />
+                  </ng-container>
+                  <button class="search-glass-btn" [ngbTooltip]="'tooltip.SEARCH' | translate"
+                          (click)="toggleSearch()" [class.active]="activeFilter"
+                          #s="ngbTooltip" (mouseover)="s.open()" (mouseleave)="s.close()">
+                    <i class="feather icon-search"></i>
+                  </button>
+                </div>
+
+                <!-- Export -->
+                <div class="export-glass-wrapper">
+                  <ng-container *ngIf="activeExport">
+                    <div class="export-styled">
+                      <div class="btn-group dropdown-menu-right" ngbDropdown [placement]="'bottom-left'">
+                        <button class="export-glass-btn" ngbDropdownToggle type="button" id="dropdownMenuButton"
+                                aria-haspopup="true" aria-expanded="false"
+                                [ngbTooltip]="'tooltip.EXPORT' | translate"
+                                #t="ngbTooltip" (mouseover)="t.open()" (mouseleave)="t.close()">
+                          <i class="feather icon-download"></i>
+                          <span>Exporter</span>
+                        </button>
+                        <div ngbDropdownMenu class="dropdown-menu-right mt-1">
+                          <button class="dropdown-item" (click)="exportTable('pdf')"><i class="feather icon-pdf"></i> {{ 'demo.table.EXPORT_PDF' | translate }}</button>
+                          <button class="dropdown-item" (click)="exportTable('json')"><i class="feather icon-json"></i> {{ 'demo.table.EXPORT_JSON' | translate }}</button>
+                          <button class="dropdown-item" (click)="exportTable('csv')"><i class="feather icon-csv"></i> {{ 'demo.table.EXPORT_CSV' | translate }}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Card View -->
+        <ng-container *ngIf="isCardView && cardViewType === 'user-view'">
+          <div class="glass-cards-grid">
+            <div class="row">
+              <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let cardData of tollTableDataLocal">
+                <div class="glass-user-card">
+                  <div class="card-body text-center">
+                    <div class="avatar-wrapper">
+                      <img class="user-avatar" src="../../../../../assets/images/user/avatar-default.svg" alt="Avatar" />
+                      <div class="avatar-status online"></div>
+                    </div>
+                    <h5 class="user-name">{{ cardData.userFullName }}</h5>
+                    <p class="user-role">{{ cardData.userRole }}</p>
+                    <p class="user-gate">{{ cardData.gateInfo }}</p>
+                    <span class="status-badge" [ngClass]="{'badge-opened': cardData.gateStatus === 'OPENED', 'badge-closed': cardData.gateStatus === 'CLOSED'}">
+                      {{ cardData.gateStatus }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Gate Card View -->
+        <ng-container *ngIf="isCardView && cardViewType === 'gate-view'">
+          <div class="glass-cards-grid">
+            <div class="row">
+              <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let cardData of tollTableDataLocal">
+                <div class="glass-gate-card">
+                  <div class="card-header-info">
+                    <div class="gate-info">
+                      <h5 class="gate-name">{{ cardData.label }}</h5>
+                      <p class="gate-direction">{{ cardData.gateDirection }}</p>
+                    </div>
+                    <div class="gate-status-wrapper">
+                      <span class="status-badge" [ngClass]="{'badge-opened': cardData.sessionStatus === 'OPENED', 'badge-closed': cardData.sessionStatus === 'CLOSED'}">
+                        {{ cardData.sessionStatus }}
+                      </span>
+                      <div class="gate-actions" ngbDropdown>
+                        <button class="action-menu-btn" ngbDropdownToggle>
+                          <i class="feather icon-more-vertical"></i>
+                        </button>
+                        <ul class="action-dropdown" ngbDropdownMenu>
+                          <li class="dropdown-item">Voir détails</li>
+                          <li class="dropdown-item">Cloturer voie</li>
+                          <li class="dropdown-item">Ouvrir voie</li>
+                          <li class="dropdown-item">Accés périphériques</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="gate-image-wrapper">
+                    <img class="gate-image" src="../../../../../assets/images/gateCard.svg" alt="Gate" />
+                    <p class="agent-name">{{ cardData.agentName }}</p>
+                    <p class="gate-type">{{ cardData.gateType }}</p>
+                  </div>
+                  <div class="gate-stats">
+                    <div class="stat-item">
+                      <span class="stat-label">Traffic</span>
+                      <span class="stat-amount">{{ cardData.amount }} F</span>
+                    </div>
+                    <div class="stat-item">
+                      <span class="stat-label">Caisse</span>
+                      <span class="stat-amount">{{ cardData.amount }} F</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- List View -->
+        <ng-container *ngIf="!isCardView">
+          <div class="glass-table-container">
+            <div class="dt-responsive table-responsive toll_table p-b-5">
+              <table [ngClass]="tableClass" aria-describedby="tolltable" id="tolltable" class="glass-table">
+                <thead>
+                <tr>
+                  <th class="text-center">
+                    <div class="checkbox-wrapper">
+                      <label [for]="idTable + 'checkAll'" class="custom-checkbox">
+                        <input (change)="checkboxAllEmitter($event)" [checked]="checkAllActive" [id]="idTable + 'checkAll'" type="checkbox"/>
+                        <span class="checkbox-mark"></span>
+                      </label>
+                    </div>
+                  </th>
+                  <ng-container *ngFor="let column of colonnesName">
+                    <th class="text-left">
+                      <div class="column-header">
+                          <span *ngIf="!openFilters.has(column.colonneName)" class="column-title" (click)="showFilterInput(column.colonneName)">
+                            {{ column.colonneName | translate }}
+                            <i class="feather icon-filter filter-icon"></i>
+                          </span>
+                        <div *ngIf="openFilters.has(column.colonneName)" class="filter-wrapper">
+                          <input *ngIf="!column.colonneName.toLowerCase().includes('date')" class="filter-input" type="text"
+                                 placeholder="Filtrer" [(ngModel)]="column.filterValue" (input)="filterColumn(column)"/>
+                          <input *ngIf="column.colonneName.toLowerCase().includes('date')" class="filter-input" type="date"
+                                 [(ngModel)]="column.filterValue" (input)="filterColumn(column)"/>
+                          <button class="filter-clear" (click)="hideFilterInput(column)">
+                            <i class="feather icon-x"></i>
+                          </button>
+                        </div>
+                        <span *ngIf="!openFilters.has(column.colonneName)" [class]="selectedClass(column.colonneNameId)"
+                              (click)="changeSorting(column.colonneNameId)"></span>
+                      </div>
+                    </th>
+                  </ng-container>
+                  <ng-container *ngIf="actionActiveButton">
+                    <th class="text-center">
+                      <span class="column-title">{{ 'demo.table.ACTIONS' | translate }}</span>
+                    </th>
+                  </ng-container>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let lineData of tollTableDataLocal; let j=index">
+                  <tr [attr.data-selected]="existInCheckedLines(lineData)" (click)="lineClickdAction(lineData)" class="table-row">
+                    <td (click)="$event.stopPropagation()" class="text-center">
+                      <div class="checkbox-wrapper">
+                        <label [for]="getLabel(lineData)" class="custom-checkbox">
+                          <input (change)="checkboxEmitter($event, lineData)"
+                                 [checked]="checkAll && !existInUncheckedLines(lineData) || existInCheckedLines(lineData)"
+                                 [id]="getLabel(lineData)" type="checkbox"/>
+                          <span class="checkbox-mark"></span>
+                        </label>
+                      </div>
+                    </td>
+                    <ng-container *ngFor="let colCurrent of colonnesName let i=index">
+                      <ng-container *ngIf="i+1 != colonnesName.length">
+                        <ng-container *ngIf="colCurrent.selectOption; else noSelectOptionN">
+                          <td (click)="$event.stopPropagation()">
+                            <!-- todo ng select -->
+                          </td>
+                        </ng-container>
+                        <ng-template #noSelectOptionN>
+                          <ng-container *ngIf="!colCurrent.isHtlmCode">
+                            <ng-container *ngIf="!isDate(lineData[colCurrent.colonneNameId])">
+                              <td class="text-left">
+                                <span class="{{colCurrent.styleColonne}}">{{ lineData[colCurrent.colonneNameId] }}</span>
+                              </td>
+                            </ng-container>
+                            <ng-container *ngIf="isDate(lineData[colCurrent.colonneNameId])">
+                              <td class="text-left">
+                                <span class="{{colCurrent.styleColonne}}">{{ lineData[colCurrent.colonneNameId] | date: "dd/MM/yyyy" }}</span>
+                              </td>
+                            </ng-container>
+                          </ng-container>
+                          <ng-container *ngIf="colCurrent.isHtlmCode">
+                            <td [attr.id]="colCurrent.colonneNameId + i" class="htmlToAppend">
+                                <span [innerHTML]="resolve(colCurrent.colonneNameId, lineData)" class="{{colCurrent.styleColonne}}">
+                                  {{ lineData[colCurrent.colonneNameId] }}
+                                </span>
+                            </td>
+                          </ng-container>
+                        </ng-template>
+                      </ng-container>
+                      <ng-container *ngIf="i+1 === colonnesName.length">
+                        <ng-container *ngIf="colCurrent.selectOption; else noSelectOption">
+                          <td (click)="$event.stopPropagation()">
+                            <!-- todo ng select -->
+                            <ng-container *ngIf="showButtonOverlay">
+                              <div class="action-overlay">
+                                <ng-container *ngFor="let buttonOverlay of overlayListButton">
+                                  <button (click)="overlayButtonActionDo(buttonOverlay, lineData)"
+                                          [ngClass]="buttonOverlay.classButton" [ngbTooltip]="buttonOverlay.tooltipButton | translate" type="button">
+                                    <em [ngClass]="buttonOverlay.classIcon"></em>
+                                  </button>
+                                </ng-container>
+                              </div>
+                            </ng-container>
+                          </td>
+                          <ng-container *ngIf="showButtonAction">
+                            <td (click)="$event.stopPropagation()">
+                              <div class="action-buttons-group">
+                                <ng-container *ngFor="let buttonAction of actionListButton">
+                                  <button (click)="buttonActionDo(buttonAction, lineData)"
+                                          [hidden]="!isActions(lineData, buttonAction, myFields[i+1])"
+                                          [ngClass]="buttonAction.classButton" [ngbTooltip]="buttonAction.tooltipButton | translate" type="button">
+                                    <em [ngClass]="buttonAction.classIcon"></em>
+                                  </button>
+                                </ng-container>
+                              </div>
+                            </td>
+                          </ng-container>
+                        </ng-container>
+                        <ng-template #noSelectOption>
+                          <ng-container *ngIf="!colCurrent.isHtlmCode">
+                            <td (click)="$event.stopPropagation()">
+                              <span class="{{colCurrent.styleColonne}}">{{ lineData[colCurrent.colonneNameId] }}</span>
+                              <ng-container *ngIf="showButtonOverlay">
+                                <div class="action-overlay">
+                                  <ng-container *ngFor="let buttonOverlay of overlayListButton">
+                                    <button (click)="overlayButtonActionDo(buttonOverlay, lineData)"
+                                            [hidden]="!isActions(lineData, buttonOverlay, myFields[i+1])"
+                                            [ngClass]="buttonOverlay.classButton" [ngbTooltip]="buttonOverlay.tooltipButton | translate" type="button">
+                                      <em [ngClass]="buttonOverlay.classIcon"></em>
+                                    </button>
+                                  </ng-container>
+                                </div>
+                              </ng-container>
+                            </td>
+                            <ng-container *ngIf="showButtonAction">
+                              <td (click)="$event.stopPropagation()">
+                                <div class="action-buttons-group">
+                                  <ng-container *ngFor="let buttonAction of actionListButton">
+                                    <button (click)="buttonActionDo(buttonAction, lineData)"
+                                            [hidden]="!isActions(lineData, buttonAction, myFields[i+1])"
+                                            [ngClass]="buttonAction.classButton" [ngbTooltip]="buttonAction.tooltipButton | translate" type="button">
+                                      <em [ngClass]="buttonAction.classIcon"></em>
+                                    </button>
+                                  </ng-container>
+                                </div>
+                              </td>
+                            </ng-container>
+                          </ng-container>
+                          <ng-container *ngIf="colCurrent.isHtlmCode">
+                            <ng-container *ngIf="colCurrent.isDynamicHtmlCode">
+                              <td>
+                                  <span [innerHTML]="resolve(colCurrent.colonneNameId, lineData)" class="{{colCurrent.styleColonne}}">
+                                    {{ lineData[colCurrent.colonneNameId] }}
+                                  </span>
+                              </td>
+                            </ng-container>
+                            <ng-container *ngIf="!colCurrent.isDynamicHtmlCode">
+                              <td [attr.id]="colCurrent.colonneNameId + i" class="htmlToAppend"></td>
+                            </ng-container>
+                          </ng-container>
+                        </ng-template>
+                      </ng-container>
+                    </ng-container>
+                  </tr>
+                </ng-container>
+                <ng-container *ngIf="!tollTableDataLocal || tollTableDataLocal.length === 0">
+                  <tr>
+                    <td colspan="100%">
+                      <div class="empty-state">
+                        <i class="feather icon-inbox"></i>
+                        <span>{{ "demo.table.EMPTY_TABLE" | translate }}</span>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+
+              <!-- Pagination -->
+              <ngb-pagination (pageChange)="loadPage($event)" *ngIf="totalSize>pageSize" [(page)]="currentPageNumber"
+                              [collectionSize]="totalSize" [ellipses]="false" [maxSize]="maxSize" [pageSize]="pageSize"
+                              [rotate]="rotate" [boundaryLinks]="true"
+                              class="glass-pagination d-flex justify-content-end p-t-10">
+                <ng-template ngbPaginationFirst><img height="14" width="14" [src]="'assets/icons/first.svg'" /></ng-template>
+                <ng-template ngbPaginationPrevious><img [src]="'assets/icons/previous.svg'" /></ng-template>
+                <ng-template ngbPaginationNext><img [src]="'assets/icons/next.svg'" /></ng-template>
+                <ng-template ngbPaginationLast><img [src]="'assets/icons/last.svg'" /></ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+        </ng-container>
+      </app-card>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Glassmorphism Dashboard Container */
+  .glass-dashboard-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  /* Glass Banner */
+  .glass-banner {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(109, 40, 217, 0.95));
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 24px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .banner-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  /* Date Range Picker */
+  .date-range-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 4px 8px;
+  }
+
+  .glass-date-input {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .date-input-field {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .date-input-field::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .calendar-glass-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 10px;
+    padding: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .calendar-glass-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Statistics Grid */
+  .stats-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .stat-card {
+    text-align: center;
+  }
+
+  .stat-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  /* Glass Toolbar */
+  .glass-toolbar {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Custom Select */
+  .custom-select-page-box {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    min-width: 80px;
+  }
+
+  .options-glass {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 4px;
+    z-index: 1000;
+    min-width: 80px;
+  }
+
+  .option {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .option:hover {
+    background: #f1f5f9;
+  }
+
+  /* Toggle Buttons */
+  .view-toggle {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .toggle-glass-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #64748b;
+  }
+
+  .toggle-glass-btn.active {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    color: white;
+    border-color: transparent;
+  }
+
+  /* Toolbar Actions */
+  .toolbar-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .search-glass-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .search-glass-input {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px 16px;
+    width: 250px;
+    transition: all 0.3s;
+  }
+
+  .search-glass-input:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  }
+
+  .search-glass-btn, .export-glass-btn {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .search-glass-btn:hover, .export-glass-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  }
+
+  /* Glass User Card */
+  .glass-user-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+  }
+
+  .glass-user-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #8B5CF6;
+  }
+
+  .avatar-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+
+  .avatar-status.online {
+    background: #10b981;
+  }
+
+  .user-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 4px;
+  }
+
+  .user-role {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 8px;
+  }
+
+  .user-gate {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 12px;
+  }
+
+  /* Glass Gate Card */
+  .glass-gate-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+  }
+
+  .glass-gate-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .gate-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 4px;
+  }
+
+  .gate-direction {
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  .gate-status-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .action-menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+  }
+
+  /* Status Badges */
+  .status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .badge-opened {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .badge-closed {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  /* Gate Stats */
+  .gate-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .stat-item {
+    text-align: center;
+    flex: 1;
+  }
+
+  .stat-item .stat-label {
+    color: #64748b;
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .stat-item .stat-amount {
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* Glass Table */
+  .glass-table-container {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .glass-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .glass-table thead th {
+    background: #f8fafc;
+    padding: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .glass-table tbody td {
+    padding: 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-size: 14px;
+  }
+
+  .table-row:hover {
+    background: #f8fafc;
+    cursor: pointer;
+  }
+
+  /* Checkbox */
+  .custom-checkbox {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .checkbox-mark {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cbd5e1;
+    border-radius: 4px;
+    background: white;
+    transition: all 0.2s;
+  }
+
+  .custom-checkbox input:checked + .checkbox-mark {
+    background: #8B5CF6;
+    border-color: #8B5CF6;
+  }
+
+  .custom-checkbox input:checked + .checkbox-mark:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  /* Action Buttons */
+  .action-buttons-group {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .action-buttons-group button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .action-buttons-group button:hover {
+    background: #f1f5f9;
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #94a3b8;
+  }
+
+  .empty-state i {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  /* Glass Pagination */
+  .glass-pagination ::ng-deep .page-link {
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    margin: 0 4px;
+    border-radius: 8px;
+  }
+
+  .glass-pagination ::ng-deep .page-item.active .page-link {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    border-color: transparent;
+    color: white;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .glass-dashboard-container {
+      padding: 12px;
+    }
+
+    .glass-banner {
+      padding: 16px 20px;
+    }
+
+    .stats-grid {
+      margin-top: 16px;
+    }
+
+    .toolbar-actions {
+      margin-top: 16px;
+      justify-content: flex-start;
+    }
+
+    .search-glass-input {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="carousel-container">
+    <div class="carousel-buttons">
+      <button class="left-arrow-btn" (click)="scrollCarousel(-1)"></button>
+      <button class="right-arrow-btn" (click)="scrollCarousel(1)"></button>
+    </div>
+    <div class="cards-carousel" #carousel>
+      <div class="card-item" *ngFor="let card of filteredCards">
+        <app-info-card
+          [cardData]="card"
+          [isSelected]="selectedCard === card"
+          (click)="onCardClick(card)">
+        </app-info-card>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="isAdmin" [ngClass]="{ 'fade-in': fadeInEffect }">
+      <app-chart [card]="selectedCard"></app-chart>
+    </div>
+<!--    <div *ngIf="!isAdmin" [ngClass]="{ 'fade-in': fadeInEffect }">-->
+<!--      <app-service-panel [cardData]="selectedCard"></app-service-panel>-->
+<!--    </div>-->
+  </div>
+</div>

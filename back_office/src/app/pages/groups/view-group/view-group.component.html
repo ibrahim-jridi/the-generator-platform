@@ -1,0 +1,186 @@
+<div class="dpm-group-section">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="action d-flex justify-content-end">
+        <app-custom-button class="ml-2" [buttonText]="'button.DELETE' | translate"
+                           [buttonClass]="'btn custom-btn-secondary ms-2'"
+                           [buttonIcon]="'icon-delete-style icon-delete'" [buttonType]="'button'"
+                           [buttonDisabled]="false"
+                           [tooltip]="'button.delete' | translate"
+                           (clicked)="deleteGroupModal.show()"></app-custom-button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="row">
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label">{{ "groups.NAME" | translate }}</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2"
+                         value="{{this.group?.label}}"
+                         disabled />
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label">{{ "groups.DESCRIPTION" | translate }}</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2"
+                         value="{{this.group?.description}}"
+                         disabled />
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-6">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label">{{ "groups.STATUS" | translate }}</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2"
+                         value="{{this.group?.status}}"
+                         disabled />
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="hasParent" class="col-6">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label">{{ "groups.PARENT_GROUP" | translate }}</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2"
+                         value="{{parentGroupName}}"
+                         disabled />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="users.length > 0">
+      <app-custom-table [hidHeader]="true" [banner]="false" [idTable]="'listUsers'"
+                      [customHeader]="true"
+                      [tollTableData]="users"
+                      [colonnesName]="tableColumns"
+                      [activeExport]="false"
+                      [actionActiveButton]="false" [lazyLoading]="false"
+                      [options]="false" [columnsClass]="'toll-table-style'"
+                      [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true"
+                      [activeFilter]="false" [Tablename]="'menu.LIST_OF_USERS' | translate">
+      </app-custom-table>
+    </div>
+
+  </div>
+
+  <app-ui-modal #deleteGroupModal id="deleteGroupModal"
+                dialogClass="modal-dialog-centered custom-large-modal"
+                [hideHeader]="true">
+    <div class="app-modal-body delete-modal text-center">
+
+      <div class="justify-content-end">
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                (click)="deleteGroupModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="col-12">
+        <div>
+          <img src="assets/images/user/warning.svg" alt="Warning Sign" class="warning-icon">
+        </div>
+        <p *ngIf="users.length > 0"
+           class="font-weight-bold mt-3 text-delete-warning">
+          {{ 'groups.CONTAINS_USERS' | translate }}
+        </p>
+
+        <p *ngIf="users.length  == 0"
+           class="font-weight-bold mt-3 text-delete-warning">
+          {{ 'groups.DELETE_WARNING_ALERT' | translate }}
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p *ngIf="users.length > 0"  class="text-muted" style="font-size: 1rem;">
+          {{ 'groups.DELETE_WARNING' | translate }}
+        </p>
+        <p *ngIf="users.length  == 0" class="text-muted" style="font-size: 1rem;">
+          {{ 'groups.DELETE_MESSAGE' | translate }}
+        </p>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+
+        <app-custom-button
+          class="mx-2"
+          *ngIf="users.length > 0"
+          [buttonText]="'groups.REASSIGN_USERS' | translate"
+          [buttonClass]="'btn btn-primary huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="reassignUsers(groupId, group.label); deleteGroupModal.hide();">
+        </app-custom-button>
+
+        <app-custom-button
+          *ngIf="users.length == 0"
+          class="mx-2"
+          [buttonText]="'button.CANCEL' | translate"
+          [buttonClass]="'btn btn-secondary  mr-3'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="deleteGroupModal.hide()">
+        </app-custom-button>
+
+        <app-custom-button
+          class="mx-2"
+          *ngIf="users.length > 0"
+          [buttonText]="'groups.DELETE_ANYWAY' | translate"
+          [buttonClass]="'btn btn-danger huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="permanentlyDeleteGroup(); deleteGroupModal.hide()">
+        </app-custom-button>
+
+        <app-custom-button
+          class="mx-2"
+          *ngIf="users.length  == 0"
+          [buttonText]="'groups.CONFIRM_DELETE_ACTION' | translate"
+          [buttonClass]="'btn btn-danger huge-button'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="safeDeleteGroup(); deleteGroupModal.hide()">
+        </app-custom-button>
+      </div>
+      <div *ngIf="users.length > 0"
+           class="d-flex justify-content-center mt-4 align-items-center">
+        <app-custom-button
+          class="mx-2"
+          [buttonText]="'button.CANCEL' | translate"
+          [buttonClass]="'btn btn-secondary  mr-3'"
+          [buttonType]="'button'"
+          [buttonDisabled]="false"
+          (clicked)="deleteGroupModal.hide()">
+        </app-custom-button>
+      </div>
+    </div>
+  </app-ui-modal>
+</div>

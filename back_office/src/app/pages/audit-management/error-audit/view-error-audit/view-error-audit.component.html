@@ -1,0 +1,89 @@
+<div class="section-audit">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col">
+          <div class="fv-row mb-5">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "audit.CREATED_DATE" | translate }}</span>
+            </label>
+            <div class="form-group">
+              <input type="text" disabled class="form-control form-control-solid pl-2"
+                     [value]="formatDate(errorAudit?.createdDate)"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="fv-row mb-5">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "audit.URL" | translate }}</span>
+            </label>
+            <div class="form-group">
+              <input type="text" disabled class="form-control form-control-solid pl-2" value="{{errorAudit?.url}}"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="fv-row mb-5">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "audit.STATUS" | translate }}</span>
+            </label>
+            <div class="form-group">
+              <input type="text" disabled class="form-control form-control-solid pl-2"
+                     value="{{ translateStatus(errorAudit?.errorStatus) }}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="fv-row mb-5">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "audit.TYPE" | translate }}</span>
+            </label>
+            <div class="form-group">
+              <input type="text" disabled class="form-control form-control-solid pl-2"
+                     value="{{ translateType(errorAudit?.errorType) }}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="fv-row mb-5">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "audit.METHOD" | translate }}</span>
+            </label>
+            <div class="form-group">
+              <input type="text" disabled class="form-control form-control-solid pl-2"
+                     value="{{ errorAudit?.method }}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="fv-row mb-5">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ "audit.VIEW_USER" | translate }}</span>
+            </label>
+            <div class="form-group">
+              <input type="text" disabled class="form-control form-control-solid pl-2"
+                     value="{{ user?.firstName }} {{ user?.lastName}}"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div class="fv-row mb-5">
+          <label class="fs-5 fw-bold form-label mb-2 required-label">
+            <span class="custom-label">{{ "audit.DESCRIPTION" | translate }}</span>
+          </label>
+          <div class="form-group">
+            <textarea class="form-control" disabled rows="4" cols="50">{{ errorAudit?.description }}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

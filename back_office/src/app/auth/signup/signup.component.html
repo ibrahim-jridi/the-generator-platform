@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Glassmorphism Signup | Créer mon compte</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Angular Material Icons (optional but for mat-datepicker etc) -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 20%, #0f2c3b, #05161e);
+      font-family: 'Inter', 'Cairo', sans-serif;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+
+    /* Subtle animated pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(rgba(255,255,240,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Main glass card container */
+    .container_welcome {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(20px) saturate(200%);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 35px 65px -20px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .container_welcome:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 40px 75px -18px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Content padding */
+    .right-section {
+      padding: 2rem 2.2rem 1.8rem 2.2rem;
+    }
+
+    /* Welcome header */
+    .welcome-header {
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .icon-circle {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(145deg, #ffffff, #f5f8fc);
+      border-radius: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem auto;
+      box-shadow: 0 12px 22px -12px rgba(0, 0, 0, 0.12);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .icon-circle i {
+      font-size: 2.3rem;
+      color: #1f6e8a;
+    }
+
+    .right-section > p:first-of-type {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #0a1c28 !important;
+      margin-bottom: 0.3rem;
+      background: linear-gradient(135deg, #1a445b, #0a293b);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent !important;
+    }
+
+    .sub-caption {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #2c5a6e !important;
+      margin-bottom: 1.8rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+      display: inline-block;
+      width: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Form styling - grid layout */
+    .form-content {
+      width: 100%;
+    }
+
+    .step-content {
+      width: 100%;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem 1.5rem;
+    }
+
+    /* Full width items */
+    .full-width-item {
+      grid-column: span 2;
+    }
+
+    /* Material form field overrides for glass design */
+    .label-title {
+      font-weight: 600;
+      color: #000000 !important;
+      font-size: 0.8rem;
+      margin-bottom: 0.25rem;
+      display: block;
+      letter-spacing: -0.2px;
+    }
+
+    /* Target mat-form-field to look modern */
+    mat-form-field {
+      width: 100%;
+    }
+
+    /* Custom styling for mat-form-field (these will apply when Angular compiles) */
+    ::ng-deep .mat-mdc-form-field {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 14px;
+    }
+
+    ::ng-deep .mat-mdc-text-field-wrapper {
+      background: rgba(255, 255, 255, 0.85) !important;
+      border-radius: 14px !important;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    ::ng-deep .mat-mdc-form-field-flex {
+      background: transparent;
+    }
+
+    /* fallback for inputs inside mat-form-field */
+    .fix-right-input input, .custom-date-field input {
+      color: #000 !important;
+    }
+
+    .error-fields {
+      color: #d14545 !important;
+      font-size: 0.7rem;
+    }
+
+    /* Checkbox styling */
+    mat-checkbox {
+      margin-top: 0.75rem;
+      color: #000000 !important;
+    }
+
+    ::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
+      background-color: #1f6e8a !important;
+      border-color: #1f6e8a !important;
+    }
+
+    mat-checkbox a {
+      color: #1f6e8a !important;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    mat-checkbox a:hover {
+      text-decoration: underline;
+    }
+
+    /* Form actions buttons */
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 0.5rem;
+    }
+
+    .previous-button, .next-button {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: none;
+      background: transparent;
+    }
+
+    .previous-button {
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      color: #000000 !important;
+    }
+
+    .previous-button:hover {
+      background: rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .next-button {
+      background: #0f2c3b;
+      color: white !important;
+      box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.25);
+    }
+
+    .next-button:hover:not(:disabled) {
+      background: #05161e;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    .next-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #3c6e86;
+    }
+
+    /* Language switcher row */
+    .language-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0.9rem 2rem 1.2rem 2rem;
+      background: rgba(0, 0, 0, 0.01);
+      border-top: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    .language-rtl {
+      direction: rtl;
+    }
+
+    .language {
+      direction: ltr;
+    }
+
+    .text-language {
+      font-weight: 700;
+      color: #000000 !important;
+      font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.06);
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      letter-spacing: 0.3px;
+    }
+
+    app-language-switcher {
+      display: inline-block;
+    }
+
+    /* RTL adjustments */
+    .language-rtl .form-actions {
+      flex-direction: row-reverse;
+    }
+
+    /* Responsive */
+    @media (max-width: 680px) {
+      .row {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+      .right-section {
+        padding: 1.5rem;
+      }
+      .language-wrapper {
+        padding: 0.8rem 1.2rem;
+      }
+      .right-section > p:first-of-type {
+        font-size: 1.4rem;
+      }
+      .icon-circle {
+        width: 55px;
+        height: 55px;
+      }
+      .icon-circle i {
+        font-size: 1.8rem;
+      }
+    }
+
+    /* Additional spacing for date picker */
+    .custom-date-field {
+      width: 100%;
+    }
+
+    /* mt-3 class */
+    .mt-3 {
+      margin-top: 0.75rem;
+    }
+
+    .ms-2 {
+      margin-left: 0.5rem;
+    }
+
+    .d-flex {
+      display: flex;
+    }
+
+    .flex-row {
+      flex-direction: row;
+    }
+
+    /* Fix for mat-error inside checkbox */
+    mat-checkbox .error-fields {
+      display: block;
+      margin-top: 0.3rem;
+      font-size: 0.7rem;
+    }
+
+    /* Ensure all text is black/dark */
+    .mat-mdc-form-field, .mat-mdc-form-field input, .mat-mdc-select-value-text {
+      color: #000 !important;
+    }
+
+    ::ng-deep .mat-mdc-form-field-label {
+      color: rgba(0, 0, 0, 0.6) !important;
+    }
+  </style>
+</head>
+<body>
+<!--
+  =================================================================
+  GLASS CARD SIGNUP FORM - TUNISIAN CIN REGISTRATION
+
+  ✅ COMPLETELY PRESERVED Angular functionality:
+     - FormGroup: informationFormGroup
+     - All formControlName bindings: cin, lastName, firstName, gender, birthDate, age, phoneNumber, address, email, checkbox
+     - Validators & error messages intact
+     - Methods: submit(), onCancel(), keypress_charNum(), keypress_char(), onLanguageChanged()
+     - Language switcher + RTL support
+     - mat-datepicker, mat-select, mat-checkbox
+     - Translation pipes {{ 'signup.XXX' | translate }}
+     - (click) handlers and [disabled] logic
+
+  ✅ DESIGN IMPROVEMENTS:
+     - Removed extra container overhead, made responsive glass card
+     - 2-column grid layout for compact yet spacious form
+     - Modern dark gradient background with glass blur
+     - All text forced to black/dark tones
+     - Enhanced button styles with hover effects
+     - Added subtle icon and gradient title
+     - Better spacing and visual hierarchy
+  =================================================================
+-->
+<div class="container_welcome welcome-content auto-height">
+  <div class="right-section">
+    <!-- Enhanced header with icon -->
+    <div class="welcome-header">
+      <div class="icon-circle">
+        <i class="fas fa-user-plus"></i>
+      </div>
+      <p>{{ 'signup.POUR_CREER_VOTRE_COMPTE' | translate }}</p>
+      <div class="sub-caption">
+        <i class="fas fa-id-card"></i> {{ 'signup.INFORMATIONS' | translate }}
+      </div>
+    </div>
+
+    <!-- ========== ORIGINAL FORM: ALL DIRECTIVES INTACT ========== -->
+    <form [formGroup]="informationFormGroup" class="form-content">
+      <div class="step-content">
+        <div class="row">
+          <!-- CIN Field -->
+          <div>
+            <span class="label-title">{{ 'signup.NUMERO_CIN' | translate }} <span class="text-danger">*</span></span>
+            <mat-form-field appearance="outline" class="fix-right-input">
+              <input matInput class="error-fields" formControlName="cin"
+                     placeholder="{{ 'signup.SAISIR_NUMERO_CIN' | translate }}"
+                     (keypress)="keypress_charNum($event)" required>
+              <mat-error *ngIf="informationFormGroup.get('cin')?.hasError('required')">
+                {{ 'signup.CIN_OBLIGATOIRE' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('cin')?.hasError('maxlength') || informationFormGroup.get('cin')?.hasError('minlength')">
+                {{ 'signup.CIN_TAILLE' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('cin')?.hasError('cinStartWithError')">
+                {{ 'signup.CIN_START_WITH_ERROR' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Last Name -->
+          <div>
+            <span class="label-title">{{ 'signup.NOM' | translate }} <span class="text-danger">*</span></span>
+            <mat-form-field appearance="outline" class="fix-right-input">
+              <input matInput class="error-fields" formControlName="lastName"
+                     placeholder="{{ 'signup.SAISIR_NOM' | translate }}"
+                     (keypress)="keypress_char($event)" required>
+              <mat-error class="error-fields" *ngIf="informationFormGroup.get('lastName')?.hasError('required')">
+                {{ 'signup.NOM_REQUIS' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('lastName')?.hasError('maxlength') || informationFormGroup.get('lastName')?.hasError('minlength')">
+                {{ 'signup.NOM_TAILLE' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('lastName')?.touched && informationFormGroup.get('lastName')?.hasError('whitespace')">
+                {{ 'signup.INVALID_WHITE_SPACE' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- First Name -->
+          <div>
+            <span class="label-title">{{ 'signup.PRENOM' | translate }} <span class="text-danger">*</span></span>
+            <mat-form-field appearance="outline" class="fix-right-input">
+              <input matInput class="error-fields" formControlName="firstName"
+                     placeholder="{{ 'signup.SAISIR_PRENOM' | translate }}"
+                     (keypress)="keypress_char($event)" required>
+              <mat-error class="error-fields" *ngIf="informationFormGroup.get('firstName')?.hasError('required')">
+                {{ 'signup.PRENOM_REQUIS' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('firstName')?.hasError('maxlength') || informationFormGroup.get('firstName')?.hasError('minlength')">
+                {{ 'signup.PRENOM_TAILLE' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('firstName')?.touched && informationFormGroup.get('firstName')?.hasError('whitespace')">
+                {{ 'signup.INVALID_WHITE_SPACE' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Gender -->
+          <div>
+            <span class="label-title">{{ 'signup.GENRE' | translate }} <span class="text-danger">*</span></span>
+            <mat-form-field appearance="outline" class="fix-right-input">
+              <mat-select formControlName="gender" placeholder="{{ 'signup.SELECT_GENDER' | translate }}">
+                <mat-option *ngFor="let gender of genders" [value]="gender">{{ 'users.' + gender | translate }}</mat-option>
+              </mat-select>
+              <mat-error class="error-fields" *ngIf="informationFormGroup.get('gender')?.hasError('required')">
+                {{ 'signup.GENRE_REQUIS' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Birth Date -->
+          <div>
+            <span class="label-title">{{ 'signup.DATE_NAISSANCE' | translate }} <span class="text-danger">*</span></span>
+            <mat-form-field class="custom-date-field">
+              <input matInput [max]="maxBirthDate" [min]="minBirthDate" [matDatepicker]="picker"
+                     placeholder="{{ 'signup.DATE_NAISSANCE' | translate }}"
+                     formControlName="birthDate" readonly>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error class="error-fields" *ngIf="informationFormGroup.get('birthDate')?.hasError('required')">
+                {{ 'signup.DATE_NAISSANCE_REQUIS' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Age -->
+          <div>
+            <span class="label-title">{{ 'signup.AGE' | translate }} <span class="text-danger">*</span></span>
+            <mat-form-field appearance="outline" class="fix-right-input">
+              <input matInput class="error-fields" formControlName="age"
+                     placeholder="{{ 'signup.AGE_PLACEHOLDER' | translate }}" readonly required>
+              <mat-error class="error-fields" *ngIf="informationFormGroup.get('age')?.hasError('required')">
+                {{ 'signup.AGE_REQUIS' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Phone Number -->
+          <div>
+            <span class="label-title">{{ 'signup.NUMERO_TELEPHONE' | translate }} <span class="text-danger">*</span></span>
+            <mat-form-field appearance="outline" class="fix-right-input">
+              <input matInput class="error-fields" formControlName="phoneNumber"
+                     placeholder="{{ 'signup.SAISIR_TELEPHONE' | translate }}"
+                     (keypress)="keypress_charNum($event)" required>
+              <mat-error class="error-fields" *ngIf="informationFormGroup.get('phoneNumber')?.hasError('required')">
+                {{ 'signup.TELEPHONE_REQUIS' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('phoneNumber')?.hasError('maxlength') || informationFormGroup.get('phoneNumber')?.hasError('minlength')">
+                {{ 'signup.TELEPHONE_TAILLE_TN' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('phoneNumber')?.hasError('invalidRegionalCode')">
+                {{ 'signup.INVALID_REGIONAL_CODE' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Address -->
+          <div class="full-width-item">
+            <span class="label-title">{{ 'signup.ADRESSE' | translate }} <span class="text-danger">*</span></span>
+            <mat-form-field appearance="outline" class="fix-right-input">
+              <input matInput class="error-fields" formControlName="address"
+                     placeholder="{{ 'signup.SAISIR_ADRESSE' | translate }}" required>
+              <mat-error class="error-fields" *ngIf="informationFormGroup.get('address')?.hasError('required')">
+                {{ 'signup.ADDRESSE_REQUIS' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('address')?.hasError('minlength') && !informationFormGroup.get('address')?.hasError('whitespace')">
+                {{ 'signup.ADDRESSE_TAILLE' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('address')?.touched && informationFormGroup.get('address')?.hasError('whitespace')">
+                {{ 'signup.INVALID_WHITE_SPACE' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('address')?.touched && informationFormGroup.get('address')?.errors?.pattern && !informationFormGroup.get('address')?.hasError('whitespace')">
+                {{ 'users.errors.INVALID_ADDRESS_PATTERN' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Email -->
+          <div class="full-width-item">
+            <span class="label-title">{{ 'signup.EMAIL' | translate }} <span class="text-danger">*</span></span>
+            <mat-form-field appearance="outline" class="fix-right-input">
+              <input matInput class="error-fields" formControlName="email"
+                     placeholder="{{ 'signup.SAISIR_EMAIL' | translate }}" required>
+              <mat-error class="error-fields" *ngIf="informationFormGroup.get('email')?.hasError('required')">
+                {{ 'signup.EMAIL_REQUIS' | translate }}
+              </mat-error>
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('email')?.hasError('email') || informationFormGroup.get('email')?.hasError('pattern')">
+                {{ 'signup.EMAIL_INVALIDE' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Terms Checkbox -->
+          <div class="full-width-item">
+            <mat-checkbox formControlName="checkbox" id="checkbox" class="mt-3">
+              {{ 'signup.CONNAISSANCE' | translate }}
+              <a href="assets/politique-confidentialite.pdf" target="_blank" rel="noopener noreferrer">
+                {{ 'signup.POLITIQUE' | translate }}
+              </a>
+              {{ 'signup.PROTECTIONS' | translate }}
+              <mat-error *ngIf="informationFormGroup.get('checkbox')?.touched && !informationFormGroup.get('checkbox')?.value" class="error-fields">
+                {{ 'signup.ACCEPT_TERMS_REQUIRED' | translate }}
+              </mat-error>
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button mat-button (click)="onCancel()" class="previous-button">{{ 'signup.PRECEDENT' | translate }}</button>
+        <button mat-button [disabled]="informationFormGroup.invalid" (click)="submit()" class="next-button">
+          {{ 'signup.SINSCRIRE' | translate }}
+          <i class="fa fa-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Language Switcher (original structure) -->
+  <div class="language-wrapper" [ngClass]="language == 'Ar' ? 'language-rtl' : 'language'">
+    <app-language-switcher (languageChanged)="onLanguageChanged($event)"></app-language-switcher>
+    <span class="text-language">{{ language }}</span>
+  </div>
+</div>
+</body>
+</html>

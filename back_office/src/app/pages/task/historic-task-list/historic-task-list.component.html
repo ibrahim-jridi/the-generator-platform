@@ -1,0 +1,10 @@
+<div class="station-section">
+  <app-custom-table [hidHeader]="true" [banner]="false"  [idTable]="'taskList'" [customHeader]="true" [tollTableData]="tasks"
+                  [colonnesName]="tableColumns" [actionListButton]="actionButton" [activeExport]="false"
+                  [actionActiveButton]="true" [pageSize]="pageSize" [lazyLoading]="true" (buttonAction)="buttonAction($event)"
+                  (loadingNewPage)="nextPage($event)" (pageSizeChange)="onPageSizeChange($event)"
+                  [options]="true" [columnsClass]="'toll-table-style'" [tableClass]="'table table-striped mt-3 toll-table-style'"
+                  [noBorder]="true" [totalSize]="totalCount" [activeFilter]="true"
+                  [Tablename]="'menu.historic_task' | translate">
+  </app-custom-table>
+</div>

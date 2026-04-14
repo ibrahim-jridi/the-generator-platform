@@ -1,0 +1,26 @@
+entity ConfigurationReport {
+    id UUID
+    name String
+    address String
+    postalCode String
+    phone String
+    fax String
+    email String
+    logo String
+    footer String
+}
+
+
+entity ReportTemplate {
+    id UUID
+    type String
+    path String
+}
+
+paginate all with pagination
+
+dto * with mapstruct
+
+service all with serviceImpl
+
+filter all

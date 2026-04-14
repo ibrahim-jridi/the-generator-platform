@@ -1,0 +1,187 @@
+.btn-custom-toggle-input:checked + .btn-custom-circle {
+  background-color: $medium-green;
+  color: white;
+}
+
+.btn-custom-toggle-input:checked + .btn-custom-circle::before {
+  content: "✔";
+  color: white;
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.btn-custom-toggle-input:checked + .btn-custom-circle + span {
+  color: white;
+}
+
+.btn-custom-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border: 2px solid $medium-green;
+  border-radius: 15px;
+  background-color: white;
+  font-size: 10px;
+  color: $medium-green;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.btn-custom-toggle-input {
+  display: none;
+}
+
+.btn-custom-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid $medium-green;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.custom-radio {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  gap: 0.5rem;
+  color: $medium-green;
+}
+
+.custom-radio input {
+  display: none;
+}
+
+.radio-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid $medium-green;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.radio-circle::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: $medium-green;
+  display: none;
+}
+
+.custom-radio input:checked + .radio-circle::after {
+  display: block;
+}
+
+
+label.custom-label {
+  margin-bottom: 1rem;
+}
+
+.notification-label {
+  display: inline-block;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+.frequency-option {
+  border: 1px solid #b0b0b0;
+  border-radius: 5px;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #fff;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.frequency-option:hover {
+  background-color: #f8f9fa;
+  border-color: #c8d0da;
+}
+
+
+.frequency-daily-container {
+  border: 2px solid $medium-green;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #ffffff;
+}
+
+
+.frequency-daily-container .form-control {
+  border: 1px solid #d3dce6;
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-size: 14px;
+}
+
+
+.form-control {
+  border: 1px solid #b0b0b0;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.form-control:focus {
+  border-color: $medium-green;
+  outline: none;
+}
+
+.align-right {
+  text-align: left;
+}
+
+.small-width {
+  width: 260px;
+  margin-left: auto;
+}
+
+.radio-group {
+  display: flex;
+  gap: 5px;
+}
+
+.personnalisee-container .input-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+
+.personnalisee-container .form-control {
+  flex-grow: 1;
+  max-width: 800px;
+  min-width: 600px;
+  height: 38px;
+}
+
+.custom-radio-notif-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-top: 0.2rem;
+
+}
+
+
+
+
+

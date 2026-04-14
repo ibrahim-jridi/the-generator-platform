@@ -1,0 +1,120 @@
+<ul class="navbar-nav ms-auto">
+    <li>
+      <div class="dropdown notification-dropdown" ngbDropdown placement="auto" (openChange)="onDropdownToggle()">
+        <a ngbDropdownToggle href="javascript:" class="notification-icon">
+          <ng-container *ngIf="notifications$ | async as notifications;">
+            <ng-container *ngIf="notifications?.length > 0 && showBadge">
+              <span class="notification-badge">{{ this.notificationsCount}}</span>
+            </ng-container>
+          </ng-container>
+          <i class="icon feather icon-bell fs-5"></i>
+        </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right notification">
+                <div class="noti-head">
+                    <h6 class="d-inline-block m-b-0">{{'menu.NOTIF'|translate}}</h6>
+                </div>
+                <ng-scrollbar  autoHeightDisabled="false" [style.max-height]="'300px'">
+                    <ul class="noti-body">
+                        <ng-container *ngIf="notifications$ | async as notifications;">
+                          <ng-container *ngIf="notifications?.length > 0;">
+                        </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="(notifications$ | async) as notifications">
+                        <li class="notification" *ngFor="let notification of notifications" [ngClass]="{ 'bg-success': !notification.isSeen }" (click)="onChangeIsSeen(notification)" >
+                          <div class="media" *ngIf="notification !== undefined">
+                            <img class="img-radius" src="assets/images/user/avatar-default.svg" alt="Generic placeholder image" />
+                            <div class="media-body">
+                              <span class="n-created-date">{{notification?.notificationDate}}</span>
+                              <p>
+                                <strong>{{notification?.name}} - {{notification?.taskDTO?.name}}</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i></span>
+                              </p>
+                            </div>
+                          </div>
+                        </li>
+                      </ng-container>
+                        <ng-container *ngIf="expiredNotifications?.length > 0 else noNotifications;">
+                          <li class="notification" *ngFor="let expired of expiredNotifications" [ngClass]="{ 'bg-success': !expired.isSeen }" (click)="onChangeIsSeen(expired)">
+                            <div class="media">
+                              <img class="img-radius" src="assets/images/user/avatar-default.svg" alt="Generic placeholder image" />
+                              <div class="media-body">
+                                <span class="n-created-date">{{expired?.notificationDate }}</span>
+                                <p><strong>{{expired?.name}} - {{expired?.eventNotification?.taskName}}</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i></span></p>
+                              </div>
+                            </div>
+                          </li>
+                        </ng-container>
+                          <ng-template #noNotifications>
+                            <li class="notification">
+                              <p>{{'menu.NOTIF_CONTENT'|translate}}</p>
+                            </li>
+                          </ng-template>
+                      </ul>
+
+                </ng-scrollbar>
+                <div class="noti-footer">
+                </div>
+            </div>
+        </div>
+    </li>
+  <app-language-switcher (languageChanged)="onLanguageChanged($event)"></app-language-switcher>
+  <li>
+    <div class="lang">
+    <span>{{ language }}</span>
+    </div>
+  </li>
+  <li class="text-name ml-4">
+    <div class="media">
+      <div class="media-body">
+        <div>
+          <span *ngIf="firstNamePart&&!morale" class="n-time">{{ firstNamePart }}</span>
+          <span *ngIf="lastNamePart&&!morale" class="custom-name">{{ lastNamePart }}</span>
+          <span class="user-username" *ngIf="morale">{{ userDenomination }}</span>
+        </div>
+
+      </div>
+    </div>
+  </li>
+  <li class="ml-4">
+    <img src="assets/images/user/avatar-default.svg"
+    [alt]="firstName"
+    />
+  </li>
+  <li>
+    <div class="dropdown drp-user" ngbDropdown placement="auto">
+      <a href="javascript:" ngbDropdownToggle data-toggle="dropdown">
+        <img src="assets/images/arrow.svg" class="img-radius" alt="" />
+      </a>
+      <div [ngClass]="{'dropdown-menu-right': currentLanguage !== 'ar'}" class="dropdown-menu  profile-notification"
+        ngbDropdownMenu>
+        <div class="pro-head">
+          <!--          <img src="assets/images/user/avatar-3.jpg" class="img-radius" alt="User-Profile-Image" />-->
+          <div class="user-info">
+            <span class="user-name">{{ firstName }}</span>
+            <span class="user-username">{{ username }}</span>
+          </div>
+          <a href="javascript:" class="dud-logout" title="Logout">
+            <i class="feather icon-log-out"></i>
+          </a>
+        </div>
+        <ul class="pro-body">
+          <li (click)="handleOnViewUser()">
+            <a href="javascript:void(0)" class="dropdown-item">
+              <i class="feather icon-user"></i> {{'menu.PROFILE'|translate}}
+            </a>
+          </li>
+<!--          <li>-->
+<!--            <a href="javascript:" class="dropdown-item"><i-->
+<!--                class="feather icon-mail"></i>{{'menu.MESSAGE'|translate}}</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="javascript:" class="dropdown-item"><i class="feather icon-lock"></i>-->
+<!--              {{'menu.LOCK_SCREEN'|translate}}</a>-->
+<!--          </li>-->
+          <li>
+            <a href="javascript:" class="dropdown-item" (click)="logout()"><i class="feather icon-log-out"></i>
+              {{'menu.LOGOUT'|translate}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+</ul>

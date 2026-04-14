@@ -1,0 +1,136 @@
+import {
+  getBusinessObject
+} from 'bpmn-js/lib/util/ModelUtil';
+
+import {
+  createElement,
+  createParameters,
+  getParameters,
+  getParametersExtension,
+  nextId
+} from '../utilIn';
+
+
+
+import { without } from 'min-dash';
+import ParameterPropsIn from './ParameterProps';
+
+
+
+export default function CamundaInMappingProps({ element, injector }) {
+
+  const parameters = getParameters(element) || [];
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+    commandStack = injector.get('commandStack');
+
+  const items = parameters.map((parameter, index) => {
+    const id = element.id + '-parameter-' + index;
+
+    return {
+      id,
+      label: parameter.get('type') || '',
+      entries: ParameterPropsIn({
+        idPrefix: id,
+        element,
+        parameter
+      }),
+      autoFocusEntry: id + '-type',
+      remove: removeFactory({ commandStack, element, parameter })
+    };
+  });
+
+  return {
+    items,
+    add: addFactory({ element, bpmnFactory, commandStack })
+  };
+}
+
+function removeFactory({ commandStack, element, parameter }) {
+  return function(event) {
+    event.stopPropagation();
+
+    const extension = getParametersExtension(element);
+
+    if (!extension) {
+      return;
+    }
+
+    const parameters = without(extension.get('values'), parameter);
+
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: extension,
+      properties: {
+        values: parameters
+      }
+    });
+  };
+}
+
+function addFactory({ element, bpmnFactory, commandStack }) {
+  return function(event) {
+    event.stopPropagation();
+
+    const commands = [];
+
+    const businessObject = getBusinessObject(element);
+
+    let extensionElements = businessObject.get('extensionElements');
+
+    if (!extensionElements) {
+      extensionElements = createElement(
+        'bpmn:ExtensionElements',
+        { values: [] },
+        businessObject,
+        bpmnFactory
+      );
+
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: businessObject,
+          properties: { extensionElements }
+        }
+      });
+    }
+
+    let extension = getParametersExtension(element);
+
+    if (!extension) {
+      extension = createParameters({
+        values: []
+      }, extensionElements, bpmnFactory);
+
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), extension ]
+          }
+        }
+      });
+    }
+
+    const newParameter = createElement('camunda:In', {
+      source: '',
+      target: ''
+    }, extension, bpmnFactory);
+
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        element,
+        moddleElement: extension,
+        properties: {
+          values: [ ...extension.get('values'), newParameter ]
+        }
+      }
+    });
+
+    commandStack.execute('properties-panel.multi-command-executor', commands);
+  };
+}

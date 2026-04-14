@@ -1,0 +1,10 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+  <changeSet id="20241216161200" author="w.hmouda">
+    <sqlFile path="config/liquibase/sql/2024/20241216160210_init_activity_type_db.sql"
+      relativeToChangelogFile="false"/>
+  </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,127 @@
+<div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="action d-flex justify-content-end">
+          <app-custom-button class="ms-2" [buttonText]="'button.EDIT' | translate" [buttonClass]="'btn custom-btn-primary'"
+                             [buttonIcon]="'icon-style icon-Edit'" [buttonType]="'button'" [buttonDisabled]="false"
+                             [tooltip]="'button.EDIT' | translate" (clicked)="updateUser()"></app-custom-button>
+          <app-custom-button class="ms-2" [buttonText]="'button.DELETE' | translate" [buttonClass]="'btn custom-btn-secondary ms-2'"
+                             [buttonIcon]="'icon-delete-style icon-delete'" [buttonType]="'button'" [buttonDisabled]="false"
+                             [tooltip]="'button.DELETE' | translate" (clicked)="deleteUserModal.show()"></app-custom-button>
+        </div>
+        <br>
+      </div>
+      <div class="col-md-12">
+        <form id="user-form" [formGroup]="userForm">
+          <div class="row">
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span>{{ "users.FIRST_NAME" | translate }}</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2" formControlName="firstName" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span>{{ "users.LAST_NAME" | translate }}</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2" formControlName="lastName" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span>{{ "users.PHONE" | translate }}</span>
+                </label>
+                <div class="form-group">
+                  <input type="tel" class="form-control form-control-solid pl-2" formControlName="phoneNumber" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+<!--          <div class="row">-->
+<!--            <div class="col">-->
+<!--              <div class="fv-row mb-5">-->
+<!--                <label class="fs-5 fw-bold form-label mb-2 required-label">-->
+<!--                  <span>{{ "login.NOM_UTILISATEUR" | translate }}</span>-->
+<!--                  <span class="text-danger">*</span>-->
+<!--                </label>-->
+<!--                <div class="form-group">-->
+<!--                  <input type="text" class="form-control form-control-solid pl-2"-->
+<!--                         placeholder="{{ 'login.NOM_UTILISATEUR' | translate }}" formControlName="username" />-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--              <div class="fv-row mb-5">-->
+<!--                <label class="fs-5 fw-bold form-label mb-2 required-label">-->
+<!--                  <span>{{ "users.EMAIL" | translate }}</span>-->
+<!--                </label>-->
+<!--                <div class="form-group">-->
+<!--                  <input type="email" class="form-control form-control-solid pl-2" formControlName="email" />-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col">-->
+<!--              <div class="fv-row mb-5">-->
+<!--                <label class="fs-5 fw-bold form-label mb-2 required-label">-->
+<!--                  <span>{{ "users.CIN" | translate }}</span>-->
+<!--                </label>-->
+<!--                <div class="form-group">-->
+<!--                  <input type="text" class="form-control form-control-solid pl-2" formControlName="cin" />-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col">-->
+<!--              <div class="fv-row mb-5">-->
+<!--                <label class="fs-5 fw-bold form-label mb-2 required-label">-->
+<!--                  <span>{{ "users.address" | translate }}</span>-->
+<!--                </label>-->
+<!--                <div class="form-group">-->
+<!--                  <input type="text" class="form-control form-control-solid pl-2" formControlName="address" />-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+        </form>
+      </div>
+    </div>
+
+    <app-ui-modal #deleteUserModal dialogClass="modal-dialog-centered" [hideHeader]="true">
+      <div class="app-modal-body delete-modal">
+        <div class="justify-content-end">
+          <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                  (click)="deleteUserModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="col-12 text-center">
+          <p class="text-modal-big">
+            <i class="fa fa-trash"></i> {{ 'button.CONFIRM_DELETE' | translate }}
+          </p>
+        </div>
+        <br>
+        <div class="col-12 text-center">
+          <app-custom-button class="ms-2" [buttonText]="'Yes'" [buttonClass]="'btn custom-btn-primary'" [buttonType]="'button'"
+                             [buttonDisabled]="false" (clicked)="deleteUser(); deleteUserModal.hide()"></app-custom-button>
+          <app-custom-button class="ms-2" [buttonText]="'No'" [buttonClass]="'btn custom-btn-secondary'" [buttonType]="'button'"
+                             [buttonDisabled]="false" (clicked)="deleteUserModal.hide()"></app-custom-button>
+        </div>
+      </div>
+    </app-ui-modal>
+  </div>
+

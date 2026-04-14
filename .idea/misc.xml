@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/bs_gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_payment/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_discovery/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_file_management/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_form_management/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_user_management/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_audit_management/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_report_management/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_workflow_management/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_connector_management/pom.xml" />
+        <option value="$PROJECT_DIR$/bs_notification_management/pom.xml" />
+      </list>
+    </option>
+  </component>
+</project>

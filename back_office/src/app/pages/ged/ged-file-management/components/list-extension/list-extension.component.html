@@ -1,0 +1,12 @@
+<div class="row-flex">
+  <div class="col-sm-12 mt-4 p-0">
+    <mat-card>
+      <mat-card-content>
+        <app-data-table [ELEMENT_DATA]="sizeConfigs" (event)="refresh($event)" (newDataListEvent)="search($event)"
+          #dataTableComponent></app-data-table>
+        <mat-paginator #paginator class="paginator" (page)="changePage($event)" [pageIndex]="pageIndex"
+          [length]="totalElements" [pageSize]="pageSize" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

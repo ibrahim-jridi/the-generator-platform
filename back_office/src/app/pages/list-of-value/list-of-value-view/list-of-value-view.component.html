@@ -1,0 +1,16 @@
+<div class="col">
+  <div class="fv-row mb-5" *ngIf="formData">
+    <label class="fs-5 fw-bold form-label mb-2 required-label">
+      <span class="custom-label">{{ "menu.LIST_OF_VALUES" | translate }}</span>
+      <span class="text-danger">*</span>
+    </label>
+    <div class="w-100">
+      <select class="form-control" [multiple]="ismultiple">
+        <option [value]="null" hidden>{{"listOfValues.fields.SELECT_KEY" | translate}}</option>
+        <option *ngFor="let entry of formData ">
+          {{ entry.key }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>

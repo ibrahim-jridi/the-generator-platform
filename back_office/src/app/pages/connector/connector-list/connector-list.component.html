@@ -1,0 +1,15 @@
+<div class="connector-section">
+  <div class="action d-flex justify-content-end">
+
+    <app-custom-button [buttonText]="'button.ADD' | translate" [buttonClass]="'custom-button'"
+                       [buttonIcon]="'icon-style icon-Add'" [buttonType]="'button'" [buttonDisabled]="false"
+                       (clicked)="redirectToAddConnector()"></app-custom-button>
+  </div>
+  <br>
+
+  <app-custom-table [hidHeader]="true" [customHeader]="true" [columnsClass]="'toll-table-style'" [tableClass]="'table table-striped mt-3 toll-table-style'" [noBorder]="true" [activeExport]="true"
+                  [tollTableData]="connectors" [colonnesName]="colonnesName" [actionListButton]="actionButton" [activeFilter]="false"
+                  [actionActiveButton]="true" [lazyLoading]="true" [pageSize]="pageSize" (loadingNewPage)="nextPage($event)"
+                  [totalSize]="totalCount" (lineClicked)="lineClicked($event)" [Tablename]="'connector.connector-management' | translate"
+                  (buttonAction)="buttonAction($event)" (pageSizeChange)="onPageSizeChange($event)"></app-custom-table>
+</div>

@@ -1,0 +1,59 @@
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" exporter="@DenysVuika@ng-bpmn" exporterVersion="1.0.0" expressionLanguage="http://www.w3.org/1999/XPath" id="Definitions_1yhnvej" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0" targetNamespace="http://bpmn.io/schema/bpmn" typeLanguage="http://www.w3.org/2001/XMLSchema">
+    <bpmn:process id="process" name="process" isExecutable="true" camunda:categoryProcess="creationEntreprise" camunda:historyTimeToLive="180" >
+<bpmn:startEvent id="StartEvent_1" isInterrupting="true" parallelMultiple="false">
+<bpmn:outgoing>Flow_073vzt2</bpmn:outgoing>
+</bpmn:startEvent>
+<bpmn:sequenceFlow id="Flow_073vzt2" sourceRef="StartEvent_1" targetRef="Activity_1g819k4"/>
+        <bpmn:userTask camunda:assignee="13c9a935-7d64-4740-a3ce-1e0ecde7d2c1"
+                       camunda:formKey="5f4e4a59-0ec4-4ca4-a364-a673a573d7ec" camunda:groupToCheck="false"
+                       camunda:roleToCheck="false" camunda:user="true" camunda:variable="false" completionQuantity="1"
+                       id="Activity_1g819k4" implementation="##unspecified" isForCompensation="false" name="task1"
+                       startQuantity="1">
+<bpmn:incoming>Flow_073vzt2</bpmn:incoming>
+<bpmn:outgoing>Flow_0l7uxxy</bpmn:outgoing>
+</bpmn:userTask>
+        <bpmn:userTask camunda:assignee="13c9a935-7d64-4740-a3ce-1e0ecde7d2c1"
+                       camunda:formKey="5f4e4a59-0ec4-4ca4-a364-a673a573d7ec" camunda:groupToCheck="false"
+                       camunda:roleToCheck="false" camunda:user="true" camunda:variable="false" completionQuantity="1"
+                       id="Activity_0yezk5c" implementation="##unspecified" isForCompensation="false" name="task2"
+                       startQuantity="1">
+<bpmn:incoming>Flow_0l7uxxy</bpmn:incoming>
+<bpmn:outgoing>Flow_1j4x3e0</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:sequenceFlow id="Flow_0l7uxxy" sourceRef="Activity_1g819k4" targetRef="Activity_0yezk5c"/>
+<bpmn:endEvent id="Event_0p5kij6">
+<bpmn:incoming>Flow_1j4x3e0</bpmn:incoming>
+</bpmn:endEvent>
+<bpmn:sequenceFlow id="Flow_1j4x3e0" sourceRef="Activity_0yezk5c" targetRef="Event_0p5kij6"/>
+</bpmn:process>
+<bpmndi:BPMNDiagram id="BPMNDiagram_1">
+<bpmndi:BPMNPlane bpmnElement="Process_0mqj1le" id="BPMNPlane_1">
+<bpmndi:BPMNShape bpmnElement="StartEvent_1" id="_BPMNShape_StartEvent_2">
+<dc:Bounds height="36" width="36" x="179" y="159"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="Activity_1g819k4" id="Activity_04oaili_di">
+<dc:Bounds height="80" width="100" x="270" y="137"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="Activity_0yezk5c" id="BPMNShape_00c00mj">
+<dc:Bounds height="80" width="100" x="410" y="137"/>
+<bpmndi:BPMNLabel/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape bpmnElement="Event_0p5kij6" id="Event_0p5kij6_di">
+<dc:Bounds height="36" width="36" x="552" y="159"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNEdge bpmnElement="Flow_073vzt2" id="Flow_073vzt2_di">
+<di:waypoint x="215" y="177"/>
+<di:waypoint x="270" y="177"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="Flow_0l7uxxy" id="Flow_0l7uxxy_di">
+<di:waypoint x="370" y="177"/>
+<di:waypoint x="410" y="177"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge bpmnElement="Flow_1j4x3e0" id="Flow_1j4x3e0_di">
+<di:waypoint x="510" y="177"/>
+<di:waypoint x="552" y="177"/>
+</bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane>
+</bpmndi:BPMNDiagram>
+</bpmn:definitions>

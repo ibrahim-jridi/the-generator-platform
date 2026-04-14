@@ -1,0 +1,5 @@
+<app-loader [isLoading]="loaderService.isLoading$ | async"></app-loader>
+<router-outlet>
+</router-outlet>
+<ng-snotify [ngClass]="styleSnotify"></ng-snotify>
+<app-modal></app-modal>

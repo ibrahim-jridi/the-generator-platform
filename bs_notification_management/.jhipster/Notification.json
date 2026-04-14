@@ -1,0 +1,46 @@
+{
+  "annotations": {
+    "changelogDate": "20240908210920"
+  },
+  "applications": "*",
+  "clientRootFolder": "bsNotificationManagement",
+  "databaseType": "sql",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "body",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "creationDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "display",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "senderId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "recipiantId",
+      "fieldType": "UUID"
+    }
+  ],
+  "microserviceName": "bsNotificationManagement",
+  "name": "Notification",
+  "relationships": [],
+  "searchEngine": "no"
+}

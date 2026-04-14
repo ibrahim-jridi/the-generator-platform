@@ -1,0 +1,59 @@
+<div class="full-screen-div">
+  <div class="login-container">
+    <div class="row login-content">
+      <div class="col-5 logo-section">
+        <img src="" alt="Logo">
+      </div>
+      <div class="col-7 form-section">
+        <div class="d-flex flex-row"
+             [ngClass]=" language == 'Ar' ? 'language-section-rtl' : 'language-section' ">
+          <app-language-switcher
+              (languageChanged)="onLanguageChanged($event)"></app-language-switcher>
+          <span class="text-language">{{ language }}</span>
+        </div>
+        <img src="/assets/images/hand-icon.svg" alt="Welcome Icon" class="welcome-icon">
+        <h2 class="h2-login">{{'login.BIENVENUE' | translate}}</h2>
+        <h3 class="form-description">{{'login.CONNEXION_EN_TANT_QUE_ADMIN'| translate}}</h3>
+        <p>{{'login.CONNECTEZ_VOUS_ET_BENEFICIEZ_DES_SERVICES_DE_LAGENCE_ADMIN' | translate}}</p>
+        <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+          <div class="input-container">
+            <label for="username">{{ 'login.NOM_UTILISATEUR' | translate }}</label>
+            <input id="username" formControlName="username" type="email"
+                   placeholder="Example@gmail.com"/>
+            <div *ngIf="signinForm.get('username').invalid && signinForm.get('username').touched"
+                 class="error-fields">
+              {{ 'login.NOM_UTILISATEUR_INVALIDE' | translate }}
+            </div>
+          </div>
+
+          <div class="input-container">
+            <label for="password">{{'login.MOT_DE_PASSE'| translate}}</label>
+            <input [type]="fieldTextType ? 'text' : 'password'" id="password"
+                   formControlName="password"
+                   placeholder="{{'login.MOT_DE_PASSE'| translate}}"/>
+            <mat-icon class="icon"
+                      (click)="toggleFieldTextType()">{{ fieldTextType ? 'visibility'
+                : 'visibility_off' }}
+            </mat-icon>
+          </div>
+          <div *ngIf="signinForm.get('password').invalid && signinForm.get('password').touched"
+               class="error-fields">
+            {{'login.MOT_DE_PASSE_REQUIS' | translate}}
+          </div>
+
+          <a class="forgot-password"
+             href="/auth/reset-password-request">{{'login.MOT_DE_PASSE_OUBLIE' | translate}}</a>
+          <button class="button-login"
+                  [disabled]="signinForm.invalid">{{'login.SE_CONNECTER' | translate}}</button>
+
+        </form>
+        <!--        <p class="create-account">{{'login.VOUS_NAVEZ_PAS_DE_COMPTE' | translate}} <a href="/auth/signup"> {{'login.CREER_VOTRE_COMPTE'| translate}}</a></p>-->
+
+        <div class="back-button-container">
+          <button class="back-button" (click)="goBack()">{{'login.PRECEDENT' | translate}}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

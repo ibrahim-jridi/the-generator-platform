@@ -1,0 +1,18 @@
+<div class="container_welcome">
+  <div class="left-section">
+    <img src="" class="logo">
+  </div>
+  <app-language-switcher></app-language-switcher>
+  <div class="right-section">
+    <div class="text-center">
+      <p *ngIf="isLoading">{{ 'mailActivation.ACTIVATION_IN_PROGRESS' | translate }}</p>
+      <h5 *ngIf="isActivated" [ngClass]="{'activated-text': isActivated}">
+        {{ 'mailActivation.EMAIL_ACTIVATED' | translate }}!</h5>
+      <p *ngIf="isTokenExpired">{{'mailActivation.TOKEN_EXPIRED'| translate }}</p>
+      <p *ngIf="!isActivated && !isLoading && !isTokenExpired">{{ 'mailActivation.ACTIVATION_FAILED' | translate }}</p>
+    </div>
+    <div class="button-container text-center">
+      <button mat-button  (click)="goToLoginPage()" class="next-button">{{ 'button.INFORM' | translate }}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,195 @@
+<div class="dpm-group-section">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <div class="action d-flex justify-content-end" *ngIf="showButton">
+          <app-custom-button class="ms-2" [buttonText]="'button.EDIT' | translate"
+                             [buttonClass]="'btn custom-btn-primary'"
+                             [buttonIcon]="'icon-style icon-Edit'" [buttonType]="'button'"
+                             [buttonDisabled]="false"
+                             [tooltip]="'button.EDIT' | translate"
+                             (clicked)="updateRole()"></app-custom-button>
+          <app-custom-button class="ms-2" [buttonText]="'button.DELETE' | translate"
+                             [buttonClass]="'btn custom-btn-secondary ms-2'"
+                             [buttonIcon]="'icon-delete-style icon-delete'" [buttonType]="'button'"
+                             [buttonDisabled]="false"
+                             [tooltip]="'button.DELETE' | translate"
+                             (clicked)="deleteRoleModal.show()"></app-custom-button>
+        </div>
+        <br>
+      </div>
+      <form id="user-form" [formGroup]="roleForm">
+
+        <div class="row">
+
+          <div class="col-6">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span class="custom-label">{{ "role.LABELLE" | translate }}</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-solid pl-2"
+                       formControlName="labelle" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span class="custom-label">{{ "role.DESCRIPTION" | translate }}</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-solid pl-2"
+                       formControlName="description" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="col-mb-5">
+              <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span
+                  class="custom-label">{{ "groups.STATUS" | translate }}</span>
+              </label>
+              <div class="form-group">
+
+                <input type="text" class="form-control form-control-solid pl-2"
+                       value="{{roleStatus}}"
+                       disabled />
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="col-mb-5">
+              <label class="fs-5 fw-bold form-label mb-2 required-label">
+                <span
+                  class="custom-label">{{ "role.NUMBER_OF_SELECTED_PERMISSIONS" | translate }}</span>
+              </label>
+              <div class="form-group">
+
+                <input type="number" class="form-control form-control-solid pl-2"
+                       value="{{permissionsCount}}"
+                       disabled />
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col mt-2">
+          <div class="fv-row mb-5">
+            <div class="bg-primary">
+              <div class="row view-header">
+                <h5 class="text-white">{{ 'role.PERMISSION_LIST' | translate }}</h5>
+              </div>
+            </div>
+            <div class="pt-2 authorities-container">
+              <ng-scrollbar autoHeightDisabled="false" [style.max-height]="'270px'"
+                            [style.min-height]="'270px'">
+                <div class="row authority view-label" *ngFor="let authority of authorities">
+                  <div class="col-md-5 label ml-3">{{ authority.label | translate }}</div>
+                </div>
+              </ng-scrollbar>
+            </div>
+          </div>
+        </div>
+
+      </form>
+      <app-ui-modal #deleteRoleModal id="deleteRoleModal"
+                    dialogClass="modal-dialog-centered custom-large-modal"
+                    [hideHeader]="true">
+        <div class="app-modal-body delete-modal text-center">
+
+          <div class="justify-content-end">
+            <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                    (click)="deleteRoleModal.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="col-12">
+            <div>
+              <img src="assets/images/user/warning.svg" alt="Warning Sign" class="warning-icon">
+            </div>
+            <p *ngIf="hasUsers"
+               class="font-weight-bold mt-3 text-delete-warning">
+              {{ 'role.CONTAINS_USERS' | translate }}
+            </p>
+
+            <p *ngIf="!hasUsers"
+               class="font-weight-bold mt-3 text-delete-warning">
+              {{ 'role.DELETE_WARNING_ALERT' | translate }}
+            </p>
+          </div>
+
+          <div class="col-12">
+            <p *ngIf="hasUsers"  class="text-muted" style="font-size: 1rem;">
+              {{ 'role.DELETE_WARNING' | translate }}
+            </p>
+            <p *ngIf="!hasUsers" class="text-muted" style="font-size: 1rem;">
+              {{ 'role.DELETE_MESSAGE' | translate }}
+            </p>
+          </div>
+
+          <div class="d-flex justify-content-center mt-4">
+
+            <app-custom-button
+              class="mx-2"
+              *ngIf="hasUsers"
+              [buttonText]="'role.REASSIGN_USERS' | translate"
+              [buttonClass]="'btn btn-primary huge-button'"
+              [buttonType]="'button'"
+              [buttonDisabled]="false"
+              (clicked)="reassignUsers(roleId, roleName); deleteRoleModal.hide();">
+            </app-custom-button>
+
+            <app-custom-button
+              *ngIf="!hasUsers"
+              class="mx-2"
+              [buttonText]="'button.CANCEL' | translate"
+              [buttonClass]="'btn btn-secondary  mr-3'"
+              [buttonType]="'button'"
+              [buttonDisabled]="false"
+              (clicked)="deleteRoleModal.hide()">
+            </app-custom-button>
+
+            <app-custom-button
+              class="mx-2"
+              *ngIf="hasUsers"
+              [buttonText]="'role.DELETE_ANYWAY' | translate"
+              [buttonClass]="'btn btn-danger huge-button'"
+              [buttonType]="'button'"
+              [buttonDisabled]="false"
+              (clicked)="permanentlyDeleteRole(); deleteRoleModal.hide()">
+            </app-custom-button>
+
+            <app-custom-button
+              class="mx-2"
+              *ngIf="!hasUsers"
+              [buttonText]="'role.CONFIRM_DELETE_ACTION' | translate"
+              [buttonClass]="'btn btn-danger huge-button'"
+              [buttonType]="'button'"
+              [buttonDisabled]="false"
+              (clicked)="safeDeleteRole(); deleteRoleModal.hide()">
+            </app-custom-button>
+          </div>
+          <div *ngIf="hasUsers"
+               class="d-flex justify-content-center mt-4 align-items-center">
+            <app-custom-button
+              class="mx-2"
+              [buttonText]="'button.CANCEL' | translate"
+              [buttonClass]="'btn btn-secondary  mr-3'"
+              [buttonType]="'button'"
+              [buttonDisabled]="false"
+              (clicked)="deleteRoleModal.hide()">
+            </app-custom-button>
+          </div>
+        </div>
+      </app-ui-modal>
+
+    </div>
+  </div>
+</div>

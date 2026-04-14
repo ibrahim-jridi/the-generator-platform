@@ -1,0 +1,138 @@
+<div class="section-internal-user">
+  <div class="row">
+    <div class="col-md-12">
+      <form id="user-form" [formGroup]="valueForm">
+        <div class="row">
+          <!-- <div class="col-md-4">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2">
+                <span>{{ "listOfValues.id" | translate }}</span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-solid pl-2"
+                       placeholder="{{ 'listOfValues.fields.insertID' | translate }}" formControlName="id" />
+                <span *ngIf="valueForm.get('id')?.touched && valueForm.get('id')?.hasError('required')"
+                      class="text-danger">{{'listOfValues.errors.requiredID' | translate}}</span>
+              </div>
+            </div>
+          </div> -->
+          <div class="col-md-4">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2">
+                <span class="custom-label">{{ "listOfValues.name" | translate }}</span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-solid pl-2 custom-placeholder-input"
+                       placeholder="{{ 'listOfValues.fields.INSERT_NAME' | translate }}" formControlName="label" />
+                <span *ngIf="valueForm.get('label')?.touched && valueForm.get('label')?.hasError('required')"
+                      class="text-danger">{{'listOfValues.errors.REQUIRED_NAME' | translate}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2">
+                <span class="custom-label">{{ "listOfValues.DESCRIPTION" | translate }}</span>
+                <span class="text-danger">*</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-solid pl-2 custom-placeholder-input"
+                       placeholder="{{ 'listOfValues.fields.INSERT_DESCRIPTION' | translate }}" formControlName="description" />
+                <span *ngIf="valueForm.get('description')?.touched && valueForm.get('description')?.hasError('required')"
+                      class="text-danger">{{'listOfValues.errors.REQUIRED_DESCRIPTION' | translate}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2">
+                <span class="custom-label">{{ "listOfValues.ISMULTIPLE" | translate }}</span>
+              </label>
+              <div class="form-group">
+                <input type="checkbox" class="form-check-input"  formControlName="ismultiple" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2">
+                <span class="custom-label">{{ "listOfValues.ISREQUIRED" | translate }}</span>
+              </label>
+              <div class="form-group">
+                <input type="checkbox"  class="form-check-input" formControlName="isrequired" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="fv-row mb-5">
+              <label class="fs-5 fw-bold form-label mb-2">
+                <span class="custom-label">{{ "listOfValues.PLACEHOLDER" | translate }}</span>
+              </label>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-solid pl-2" formControlName="placeholder" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div formArrayName="values">
+          <div *ngFor="let valueGroup of values.controls; let i = index" [formGroupName]="i" class="row align-items-end">
+            <div class="col-md-5">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label">{{ "listOfValues.VALUE" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2 custom-placeholder-input"
+                         placeholder="{{ 'listOfValues.fields.INSERT_VALUE' | translate }}" formControlName="value"  (input)="onChangeInput($event,i)"/>
+                  <span *ngIf="valueGroup.get('value')?.touched && valueGroup.get('value')?.hasError('required')"
+                        class="text-danger">{{'listOfValues.errors.REQUIRED_VALUE' | translate}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="fv-row mb-5">
+                <label class="fs-5 fw-bold form-label mb-2 required-label">
+                  <span class="custom-label">{{ "listOfValues.KEY" | translate }}</span>
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-solid pl-2 custom-placeholder-input"
+                         placeholder="{{ 'listOfValues.fields.INSERT_KEY' | translate }}" formControlName="key"
+                         />
+                  <span *ngIf="valueGroup.get('key')?.touched && valueGroup.get('key')?.hasError('required')"
+                        class="text-danger">{{'listOfValues.errors.REQUIRED_KEY' | translate}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 d-flex align-items-end mb-5">
+              <app-custom-button [buttonClass]="'btn btn-danger'"
+                                 [buttonIcon]="'fas fa-minus'" [buttonType]="'button'" [buttonDisabled]="false"
+                                 (clicked)="removeChoices(i)" *ngIf="values.controls.length > 1"></app-custom-button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="valueForm.get('values').hasError('hasDuplicates')" class="text-danger">
+          {{'listOfValues.errors.DUPLICATED_KEY' | translate}}
+        </div>
+       <div class="action d-flex justify-content-start">
+          <app-custom-button [buttonText]="'button.ADD' | translate" [buttonClass]="'btn custom-btn-primary'"
+                             [buttonIcon]="'icon-style icon-Add'" [buttonType]="'button'" [buttonDisabled]="false"
+                             (clicked)="addChoices()"></app-custom-button>
+        </div>
+        <br>
+        <div class="action d-flex justify-content-end">
+          <app-custom-button class="ml-2" [buttonDisabled]="valueForm?.invalid" [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary'"
+                             [buttonType]="'submit'" [tooltip]="'button.save' | translate" (clicked)="onSubmit()">
+          </app-custom-button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

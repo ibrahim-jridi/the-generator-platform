@@ -1,0 +1,212 @@
+<div class="card config-card report-section">
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-12 d-flex justify-content-between align-items-center">
+        <div class="col-6 p-0">
+          <h5 class="card-title">{{ 'configuration.report.element-report' | translate }}</h5>
+          <p class="config-card-text text-left">{{ 'configuration.report.reportElementMessage' | translate }}</p>
+        </div>
+        <div class="p-0 d-flex justify-content-end align-items-center form-group max-width">
+          <app-custom-button class="ml-2"
+                             [buttonText]="'configuration.report.display' | translate"
+                             [buttonClass]="'generic-button custom-button'"
+                             [buttonType]="'submit'"
+                             [buttonIcon]="'assets/icons/view_white.svg'"
+                             (clicked)="demoReport()"
+                             [buttonIconClass]="'icon'"
+                             [tooltip]="'button.save' | translate">
+          </app-custom-button>
+          <button class="btn reset-button ml-2" (click)="getCurrentConfig()">
+            <div class="reset-icon"></div>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <form [formGroup]="reportForm">
+      <div class="card-body pl-0 pb-0 pt-0" >
+        <h5 class="card-title">{{ 'configuration.report.header' | translate }}</h5>
+      </div>
+      <div class="row">
+        <div class="col-6 px-0">
+          <div class="card-body pt-0">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ 'configuration.report.label' | translate }}</span>
+              <span style="color: red;">*</span>
+            </label>
+            <div class="w-100">
+              <input type="text" class="form-control form-control-solid"
+                     placeholder="{{'configuration.report.labelPlaceholder' | translate }}"
+                     formControlName="name"
+              />
+              <ng-container
+                  *ngIf="(this.reportForm.get('name')!.touched|| (this.reportForm.get('name')!.dirty)) && this.reportForm.get('name')!.hasError('required')">
+                <div class="text-danger mt-2" role="alert">{{ 'configuration.report.labelRequired' | translate }}</div></ng-container>
+              <ng-container
+                  *ngIf="this.reportForm.hasError('companyName') && this.reportForm.get('name').touched">
+                <div class="text-danger mt-2" role="alert">{{ 'configuration.report.labelInvalid' | translate }}</div></ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 px-0">
+          <div class="card-body pb-0 pt-0">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ 'configuration.report.adresse' | translate }}</span>
+              <span style="color: red;">*</span>
+            </label>
+            <div class="w-100">
+              <input type="text" class="form-control form-control-solid"
+                     placeholder="{{'configuration.report.adressePlaceholder' | translate }}"
+                     formControlName="address"
+              />
+              <ng-container
+                  *ngIf="(this.reportForm.get('address')!.touched|| (this.reportForm.get('address')!.dirty)) && this.reportForm.get('address')!.hasError('required')">
+                <div class="text-danger mt-2" role="alert">{{ 'configuration.report.adresseRequired' | translate }}</div></ng-container>
+              <ng-container
+                  *ngIf="this.reportForm.get('address')!.hasError('pattern')">
+                <div class="text-danger mt-2" role="alert">{{ 'configuration.report.adresseInvalid' | translate }}</div></ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6 px-0">
+          <div class="card-body">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ 'configuration.report.postal' | translate }}</span>
+              <span style="color: red;">*</span>
+            </label>
+            <div class="w-100">
+              <input type="text" class="form-control form-control-solid"
+                     placeholder="{{'configuration.report.postalPlaceholder' | translate }}"
+                     formControlName="postalCode"
+              />
+              <ng-container
+                  *ngIf="(this.reportForm.get('postalCode')!.touched|| (this.reportForm.get('postalCode')!.dirty)) && this.reportForm.get('postalCode')!.hasError('required')">
+                <div class="text-danger mt-2" role="alert">{{ 'configuration.report.postalRequired' | translate }}</div></ng-container>
+              <ng-container
+                  *ngIf="this.reportForm.get('postalCode')!.hasError('pattern')">
+                <div class="text-danger mt-2" role="alert">{{ 'configuration.report.postalInvalid' | translate }}</div></ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 px-0">
+          <div class="card-body">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ 'configuration.report.phone' | translate }}</span>
+              <span style="color: red;">*</span>
+            </label>
+            <div class="w-100">
+              <input type="text" class="form-control form-control-solid"
+                     placeholder="{{'configuration.report.phonePlaceholder' | translate }}"
+                     (input)="onPhoneNumberInput($event)"  formControlName="phone"
+              />
+              <ng-container
+                  *ngIf="(this.reportForm.get('phone')!.touched|| (this.reportForm.get('phone')!.dirty)) && this.reportForm.get('phone')!.hasError('required')"
+              ><div class="text-danger mt-2" role="alert">{{'configuration.report.phoneRequired' | translate}}</div></ng-container>
+              <ng-container *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+                <div *ngIf="phone.errors?.pattern">
+                  <div class="text-danger mt-2" role="alert">
+                    {{'configuration.report.phoneInvalid' | translate}}
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 px-0">
+          <div class="card-body">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ 'configuration.report.fax' | translate }}</span>
+              <span style="color: red;">*</span>
+            </label>
+            <div class="w-100">
+              <input type="text" class="form-control form-control-solid"
+                     placeholder="{{'configuration.report.faxPlaceholder' | translate }}"
+                     formControlName="fax" (input)="onPhoneNumberInput($event)"
+              />
+              <ng-container
+                  *ngIf="(this.reportForm.get('fax')!.touched|| (this.reportForm.get('fax')!.dirty)) && this.reportForm.get('fax')!.hasError('required')">
+                <div class="text-danger mt-2" role="alert">{{'configuration.report.faxRequired' | translate}}</div></ng-container>
+              <ng-container *ngIf="fax.invalid && (fax.dirty || fax.touched)">
+                <div *ngIf="fax.errors?.pattern">
+                  <div class="text-danger mt-2" role="alert">
+                    {{'configuration.report.faxInvalid' | translate}}
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 px-0">
+          <div class="card-body">
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ 'configuration.report.email' | translate }}</span>
+              <span style="color: red;">*</span>
+            </label>
+            <div class="w-100">
+              <input type="text" class="form-control form-control-solid"
+                     placeholder="{{'configuration.report.emailPlaceholder' | translate }}"
+                     formControlName="email"
+              />
+              <ng-container *ngIf="this.reportForm.get('email')!.touched && this.reportForm.get('email')!.hasError('required')">
+                <div class="text-danger mt-2" role="alert">{{'configuration.report.emailRequired' | translate}}</div></ng-container>
+              <ng-container *ngIf="email.invalid && (email.dirty || email.touched)">
+                <div *ngIf="email.errors?.pattern">
+                  <div class="text-danger mt-2" role="alert">
+                    {{'configuration.report.emailInvalid' | translate}}
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-6 px-0">
+          <div class="card-body">
+            <strong>{{ 'configuration.report.logo' | translate }}</strong>
+            <span style="color: red;">*</span>
+            <app-file-upload formControlName="logo" title="{{'upload_file.INPUT_IMAGE' | translate}}"
+                             displayPanelPhotoPlaceholder="{{'upload_file.IMAGE_PLACEHOLDER' | translate}}"
+                             displayPanelPhoto="{{'upload_file.CHOOSE_IMAGE' | translate}}" [allowedExtensions]="allowedExtensions" [showClearButton]="true"
+                             [allowedMimeTypes]="allowedMimeTypes" (fileSelected)="onFileSelected($event)" ></app-file-upload>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6 px-0">
+          <div class="card-body">
+            <h5 class="card-title">{{ 'configuration.report.footer' | translate }}</h5>
+
+            <label class="fs-5 fw-bold form-label mb-2 required-label">
+              <span class="custom-label">{{ 'configuration.report.displayPanelMessageLabel' | translate }}</span>
+            </label>
+            <div class="w-100">
+                        <textarea class="form-control form-control-solid custom-input" rows="6" cols="50"
+                                  [maxLength]="50" placeholder="{{'configuration.report.textPlaceholder' | translate}}"
+                                  formControlName="footer" (keyup)="updateCharacterCount()"></textarea>
+              <span class="textarea-position">
+                            {{ messageLength }}/50
+                        </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="action d-flex justify-content-end mr-3 mb-3">
+    <app-custom-button class="m-4" [buttonText]="('button.SAVE') | translate" [buttonClass]="'generic-button custom-button'"
+                        [buttonDisabled]="isDisabled()" (clicked)="addConfigurationReport()" [buttonType]="'submit'"
+                       [tooltip]="('button.SAVE') | translate"></app-custom-button>
+  </div>
+</div>

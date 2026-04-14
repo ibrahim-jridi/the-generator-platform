@@ -1,0 +1,26 @@
+{
+  "annotations": {
+    "changelogDate": "20240908210918"
+  },
+  "applications": "*",
+  "clientRootFolder": "bsNotificationManagement",
+  "databaseType": "sql",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "userId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "sessionId",
+      "fieldType": "UUID"
+    }
+  ],
+  "microserviceName": "bsNotificationManagement",
+  "name": "ConnectedUsersOfWebSocket",
+  "relationships": [],
+  "searchEngine": "no"
+}

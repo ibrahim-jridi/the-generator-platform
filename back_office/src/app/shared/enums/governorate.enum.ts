@@ -1,0 +1,31 @@
+export enum Governorate {
+    TUNIS = 'TUNIS',
+    ARIANA = 'ARIANA',
+    BEN_AROUS = 'BEN_AROUS',
+    NABEUL = 'NABEUL',
+    ZAGHOUAN = 'ZAGHOUAN',
+    BIZERTE = 'BIZERTE',
+    BEJA = 'BEJA',
+    JENDOUBA = 'JENDOUBA',
+    LE_KEF = 'LE_KEF',
+    SILIANA = 'SILIANA',
+    KAIROUAN = 'KAIROUAN',
+    KASSERINE = 'KASSERINE',
+    SIDI_BOUZID = 'SIDI_BOUZID',
+    SOUSSE = 'SOUSSE',
+    MONASTIR = 'MONASTIR',
+    MAHDIA = 'MAHDIA',
+    SFAX = 'SFAX',
+    GAFSA = 'GAFSA',
+    TOZEUR = 'TOZEUR',
+    KEBILI = 'KEBILI',
+    GABES = 'GABES',
+    MEDENINE = 'MEDENINE',
+    TATAOUINE = 'TATAOUINE',
+    MANOUBA = 'MANOUBA',
+
+
+
+
+
+}

@@ -1,0 +1,171 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card
+        [blockClass]="blockClass"
+        [captionClass]="captionClass"
+        [cardCaption]="cardCaption"
+        [cardClass]="cardClass"
+        [cardTitle]="cardTitle"
+        [customHeader]="customHeader"
+        [footerClass]="footerClass"
+        [headerClass]="headerClass"
+        [hidHeader]="hidHeader"
+        [isCardFooter]="isCardFooter"
+        [options]="options">
+      <div class="dt-responsive table-responsive p-b-5">
+        <table [ngClass]="tableClass" aria-describedby="bstable">
+          <thead>
+          <tr>
+            <th class="text-right p-0">
+              <div class="chk-option p-l-5">
+                <label
+                    [for]="idTable + 'checkAll'"
+                    class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
+                  <input (change)="checkboxAllEmitter($event)" [checked]="checkAllActive"
+                         [id]="idTable + 'checkAll'"
+                         class="custom-control-input"
+                         type="checkbox"/>
+                  <span class="custom-control-label"></span>
+                </label>
+              </div>
+            </th>
+
+              <ng-container *ngFor="let colum of colonnesName">
+                <th>
+                  <span class="mr-2">{{colum.colonneName}}</span>
+                  <span [class]="selectedClass(colum.colonneNameId)"
+                        (click)="changeSorting(colum.colonneNameId)">
+                   </span>
+                </th>
+              </ng-container>
+
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let lineData of bsTableDataLocal;let j=index">
+            <tr (click)="lineClickdAction(lineData)">
+              <td (click)="$event.stopPropagation()" align="left" class="actions"
+                  class="text-right p-0">
+                <div class="chk-option p-l-5">
+                  <label [for]="getLabel(lineData)"
+                      class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
+                    <input (change)="checkboxEmitter($event, lineData)"
+                           [checked]="checkAll && !existInUncheckedLines(lineData) || existInCheckedLines(lineData)"
+                           [id]="getLabel(lineData)"
+                           class="custom-control-input"
+                           type="checkbox"
+                    />
+                    <span class="custom-control-label"></span>
+                  </label>
+                </div>
+              </td>
+              <ng-container *ngFor="let colCurrent of colonnesName let i=index">
+                <ng-container *ngIf="i+1 != colonnesName.length">
+                  <ng-container *ngIf="colCurrent.selectOption; else noSelectOptionN">
+                    <td (click)="$event.stopPropagation()">
+                      todo ng select
+                    </td>
+                  </ng-container>
+                  <ng-template #noSelectOptionN>
+                    <ng-container *ngIf="!colCurrent.isHtlmCode">
+                      <ng-container *ngIf="!isDate(lineData[colCurrent.colonneNameId])">
+                        <td>
+                      <span class="{{colCurrent.styleColonne}}">
+                        {{lineData[colCurrent.colonneNameId]}}</span>
+                        </td>
+                      </ng-container>
+                      <ng-container *ngIf="isDate(lineData[colCurrent.colonneNameId])">
+                        <td>
+                      <span class="{{colCurrent.styleColonne}}">
+                        {{lineData[colCurrent.colonneNameId] | date: "dd/MM/YYYY"}} </span>
+                        </td>
+                      </ng-container>
+
+                    </ng-container>
+                    <ng-container *ngIf="colCurrent.isHtlmCode">
+                      <td [attr.id]="colCurrent.colonneNameId + i" class="htmlToAppend">
+                      </td>
+                    </ng-container>
+                  </ng-template>
+                </ng-container>
+                <ng-container *ngIf="i+1 === colonnesName.length">
+                  <ng-container *ngIf="colCurrent.selectOption; else noSelectOption">
+                    <td (click)="$event.stopPropagation()">
+                      todo ng select
+
+                      <ng-container *ngIf="showButtonOverlay">
+                        <div class="overlay-edit">
+                          <ng-container *ngFor="let buttonOverlay of overlayListButton">
+                            <button (click)="overlayButtonActionDo(buttonOverlay, lineData)"
+                                    [ngClass]="buttonOverlay.classButton"
+                                    [ngbTooltip]="buttonOverlay.tooltipButton"
+                                    type="button">
+                              <em [ngClass]="buttonOverlay.classIcon"></em>
+                            </button>
+                          </ng-container>
+                        </div>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <ng-template #noSelectOption>
+                    <ng-container *ngIf="!colCurrent.isHtlmCode">
+                      <td (click)="$event.stopPropagation()">
+                      <span class="{{colCurrent.styleColonne}}">
+                        {{lineData[colCurrent.colonneNameId]}}</span>
+                        <ng-container *ngIf="showButtonOverlay">
+                          <div class="overlay-edit">
+                            <ng-container *ngFor="let buttonOverlay of overlayListButton">
+                              <button (click)="overlayButtonActionDo(buttonOverlay, lineData)" [hidden]="!isActions(lineData, buttonOverlay, myFields[i+1])"
+                                      [ngClass]="buttonOverlay.classButton"
+                                      [ngbTooltip]="buttonOverlay.tooltipButton"
+                                      type="button">
+                                <em [ngClass]="buttonOverlay.classIcon"></em>
+                              </button>
+                            </ng-container>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="colCurrent.isHtlmCode">
+                      <ng-container *ngIf="colCurrent.isDynamicHtmlCode">
+                        <td>
+                          <span
+                              [innerHTML]="resolve(colCurrent.colonneNameId , lineData)"
+                              class="{{colCurrent.styleColonne}}">
+                            {{lineData[colCurrent.colonneNameId]}}</span>
+                        </td>
+                      </ng-container>
+                      <ng-container *ngIf="!colCurrent.isDynamicHtmlCode">
+                        <td [attr.id]="colCurrent.colonneNameId + i" class="htmlToAppend">
+                        </td>
+                      </ng-container>
+                    </ng-container>
+                  </ng-template>
+                </ng-container>
+              </ng-container>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="!bsTableDataLocal || bsTableDataLocal.length === 0">
+            <tr>
+              <td colspan="100%">
+                <div class="text-center p-10">
+                  <span> {{"demo.table.EMPTY_TABLE" | translate}} </span>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+        <ngb-pagination (pageChange)="loadPage($event)"
+                        *ngIf="totalSize>pageSize"
+                        [(page)]="currentPageNumber" [collectionSize]="totalSize"
+                        [ellipses]="false" [maxSize]="maxSize"
+                        [pageSize]="pageSize" [rotate]="rotate"
+                        class="d-flex justify-content-end p-t-10 text-business-suite-color">
+          <ng-template ngbPaginationPrevious>{{"demo.table.PREVIOUS" | translate}}</ng-template>
+          <ng-template ngbPaginationNext>{{"demo.table.NEXT" | translate}}</ng-template>
+        </ngb-pagination>
+      </div>
+    </app-card>
+  </div>
+</div>

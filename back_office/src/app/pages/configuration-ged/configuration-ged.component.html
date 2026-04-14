@@ -1,0 +1,23 @@
+<div class="station-section">
+  <app-custom-table
+    [hidHeader]="true"
+    [idTable]="'listSizeConfigs'"
+    [customHeader]="true"
+    [tollTableData]="sizeConfig"
+    [colonnesName]="tableColumns"
+    [actionListButton]="actionButton"
+    [activeExport]="false"
+    (loadingNewPage)="nextPage($event)"
+    [actionActiveButton]="true"
+    [pageSize]="pageSize"
+    [lazyLoading]="false"
+    [options]="true"
+    [columnsClass]="'toll-table-style'"
+    [tableClass]="'table table-striped mt-3 toll-table-style'"
+    [noBorder]="true"
+    [totalSize]="totalElements"
+    [activeFilter]="false"
+    (buttonAction)="buttonAction($event)"
+    [Tablename]="'menu.list_of_size_configs' | translate">
+  </app-custom-table>
+</div>
