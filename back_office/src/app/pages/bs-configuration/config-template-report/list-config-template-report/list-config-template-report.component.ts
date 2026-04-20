@@ -7,10 +7,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppToastNotificationService } from '../../../../shared/services/appToastNotification.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { PaginationArgs, PaginationSortArgs, PaginationSortOrderType } from '../../../../shared/models/paginationArgs.model';
-import { FileService } from '../../../../shared/services/file.service';
 import { ReportTemplateService } from '../../../../shared/services/report-template.service';
 import { HttpResponse } from '@angular/common/http';
 import { formatDate } from '@angular/common';
+import { FileManagementService } from '../../../../shared/services/file.service';
 
 @Component({
   selector: 'app-list-config-template-report',
@@ -40,7 +40,7 @@ export class ListConfigTemplateReportComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastrService: AppToastNotificationService,
     private translatePipe: TranslatePipe,
-    private fileService: FileService,
+    private fileService: FileManagementService,
     private reportTemplateService: ReportTemplateService
   ) {}
 

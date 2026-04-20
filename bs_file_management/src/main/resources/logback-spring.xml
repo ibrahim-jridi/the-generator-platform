@@ -27,7 +27,7 @@
     </root>
     -->
 
-    <logger name="com.numeryx.bs" level="INFO"/>
+    <logger name="com.pfe" level="INFO"/>
 
     <logger name="angus.activation" level="WARN"/>
     <logger name="jakarta.activation" level="WARN"/>

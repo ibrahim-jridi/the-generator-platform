@@ -7,22 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-file-mangement.component.scss']
 })
 export class MyFileMangementComponent implements OnInit {
+  checkMyFile: string = 'MyFile';
 
-  constructor(
-    //private authenticationService:AuthenticationService
-  ) { }
-  checkMyFile:string="";
+  constructor() {} //private authenticationService:AuthenticationService
   ngOnInit() {
-    /*
-    if (this.checkPermissions("MY_FILE")){
-        this.checkMyFile="MyFile"
-    }
-     */
+    this.checkMyFile = 'MyFile';
   }
-
-  /*
-  checkPermissions(code: string): boolean {
-    return this.authenticationService.hasCategoriePermission(code);
-   }
-   */
 }

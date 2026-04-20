@@ -6,9 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./all-file-mangement.component.scss']
 })
 export class AllFileMangementComponent implements OnInit {
-  checkMyFileMangement: string = "";
+  checkMyFileMangement: string = 'MyFileMangement';
   constructor() {}
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    this.checkMyFileMangement = 'MyFileMangement';
+  }
 }

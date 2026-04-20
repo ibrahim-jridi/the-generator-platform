@@ -25,7 +25,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
  */
 public final class SecurityUtils {
 
-  public static final String CLAIMS_NAMESPACE = "https://www.numeryx.fr/";
+  public static final String CLAIMS_NAMESPACE = "https://www.esprit.tn/";
   public static final String PREFERRED_USERNAME = "preferred_username";
 
   private SecurityUtils() {

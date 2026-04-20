@@ -9,7 +9,7 @@ import {
 import {ConfigurationReportService} from "../../../shared/services/configuration-report.service";
 import {RegexConstants} from 'src/app/shared/utils/regex-constants';
 import {ConfigurationReportModel} from "../../../shared/models/configuration-report.model";
-import {FileService} from "../../../shared/services/file.service";
+import { FileManagementService } from '../../../shared/services/file.service';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class ConfigReportElementComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private configurationReportService: ConfigurationReportService,
-    private fileService: FileService
+    private fileService: FileManagementService
   ) {}
 
   public ngOnInit(): void {

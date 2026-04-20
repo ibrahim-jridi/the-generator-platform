@@ -344,28 +344,28 @@ const NavigationItems = [
           }
         ]
       },
-      {
-        id: 'ged-management',
-        title: 'GED',
-        type: 'collapse',
-        icon: 'icon-File',
-        children: [
-          {
-            id: 'file-manager',
-            title: 'menu.FILE_MANAGER',
-            type: 'item',
-            icon: 'feather icon-folder',
-            url: '/pages/ged-management/file-manager'
-          },
-          {
-            id: 'my-file',
-            title: 'menu.MY_FILES',
-            type: 'item',
-            icon: 'feather icon-user',
-            url: '/pages/ged-management/my-file'
-          }
-        ]
-      },
+      // {
+      //   id: 'ged-management',
+      //   title: 'GED',
+      //   type: 'collapse',
+      //   icon: 'icon-File',
+      //   children: [
+      //     {
+      //       id: 'file-manager',
+      //       title: 'menu.FILE_MANAGER',
+      //       type: 'item',
+      //       icon: 'feather icon-folder',
+      //       url: '/pages/ged-management/file-manager'
+      //     },
+      //     {
+      //       id: 'my-file',
+      //       title: 'menu.MY_FILES',
+      //       type: 'item',
+      //       icon: 'feather icon-user',
+      //       url: '/pages/ged-management/my-file'
+      //     }
+      //   ]
+      // },
       // {
       //   id: 'report',
       //   title: 'menu.REPORT',

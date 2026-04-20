@@ -69,7 +69,7 @@ pipeline {
             emailext(
                 subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
                 body: "An exception occurred during pipeline execution. Please check the Jenkins console output for more details.",
-                to: "y.shabou@numeryx.fr,f.moalla@numeryx.fr",
+                to: "ibrahim.jridi@esprit.tn",
                 from: "${smtp_username}",
                 replyTo: "${smtp_username}",
                 mimeType: 'text/html',

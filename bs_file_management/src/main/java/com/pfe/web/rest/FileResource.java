@@ -61,8 +61,7 @@ public class FileResource {
    * @throws Exception if an error occurs during file upload.
    */
   @PostMapping("/upload")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""
-      + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""+ AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<FileDto> uploadFile(@RequestParam("file") MultipartFile file,
       @RequestParam("path") String path) {
     if (path == null || path.trim().isEmpty()) {
@@ -72,7 +71,7 @@ public class FileResource {
     return ResponseEntity.ok(fileSaved);
   }
   @PostMapping("/upload-from-report")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<FileDto> uploadFileFromReport(@RequestPart("file") MultipartFile file) {
       FileDto fileSaved = this.fileService.uploadFileFromReport(file);
       return ResponseEntity.ok(fileSaved);
@@ -88,7 +87,7 @@ public class FileResource {
    * @throws Exception if an error occurs during files upload.
    */
   @PostMapping("/uploadMultiple")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<List<FileDto>> uploadFiles(@RequestParam("files") List<MultipartFile> files,
       @RequestParam("path") String path) throws Exception {
     try {
@@ -112,7 +111,7 @@ public class FileResource {
    * {@code 404 (Not Found)} if not found.
    */
   @GetMapping("/{fileName}")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<InputStreamResource> getFile(@PathVariable String fileName) {
     try {
       InputStream file = this.fileService.getFile(fileName);
@@ -142,7 +141,7 @@ public class FileResource {
    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of files.
    */
   @GetMapping("")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<List<FileDto>> getFiles() {
     try {
       List<FileDto> fileList = this.fileService.getFiles();
@@ -160,7 +159,7 @@ public class FileResource {
    * {@code 500 (Internal Server Error)} if download fails.
    */
   @GetMapping("/download/{fileName}")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<String> downloadFile(@PathVariable String fileName) {
     try {
       this.fileService.downloadFile(fileName);
@@ -178,7 +177,7 @@ public class FileResource {
    * successful.
    */
   @DeleteMapping("/delete/{fileName}")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<String> removeFile(@PathVariable UUID fileName) {
     try {
       this.fileService.removeFile(fileName);
@@ -196,7 +195,7 @@ public class FileResource {
    * @return the {@link ResponseEntity} with status {@code 200 (OK)} if successful.
    */
   @PostMapping("/rename")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<String> renameFile(@RequestParam UUID fileId,
       @RequestParam String newName) {
     try {
@@ -208,10 +207,22 @@ public class FileResource {
   }
 
   @GetMapping("/{fileId}")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
   public FileDto getFileById(@PathVariable UUID fileId) {
       FileDto filedto = this.fileService.getFileById(fileId);
       return filedto;
   }
-
+  /**
+   * {@code GET /folder/{folderId}} : Get all files in a folder.
+   */
+  @GetMapping("/folder/{folderId}")
+  public ResponseEntity<List<FileDto>> getFilesByFolderId(@PathVariable UUID folderId) {
+    try {
+      List<FileDto> files = this.fileService.getFilesByFolderId(folderId);
+      return ResponseEntity.ok(files);
+    } catch (Exception e) {
+      log.error("Error getting files by folder ID", e);
+      return ResponseEntity.status(500).body(null);
+    }
+  }
 }

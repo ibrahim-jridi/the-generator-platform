@@ -1,25 +1,222 @@
-<div class="container">
-  <div class="carousel-container">
-    <div class="carousel-buttons">
-      <button class="left-arrow-btn" (click)="scrollCarousel(-1)"></button>
-      <button class="right-arrow-btn" (click)="scrollCarousel(1)"></button>
+<div class="dashboard-wrapper">
+
+  <!-- ── KPI CARDS ── -->
+  <div class="kpi-grid">
+
+    <div class="kpi-card kpi-process" (click)="onKpiClick('process')">
+      <div class="kpi-icon-wrap"><i class="feather icon-git-branch"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">{{ 'menu.TOTAL_PROCESSES' | translate }}</span>
+        <span class="kpi-value">{{ stats.processes.total }}</span>
+        <div class="kpi-badges">
+          <span class="badge-active"><i class="feather icon-check-circle"></i> {{ stats.processes.active }} {{ 'menu.ACTIVE' | translate }}</span>
+          <span class="badge-inactive"><i class="feather icon-pause-circle"></i> {{ stats.processes.inactive }} {{ 'menu.INACTIVE' | translate }}</span>
+        </div>
+      </div>
+      <div class="kpi-trend up"><i class="feather icon-trending-up"></i><span>+{{ stats.processes.trend }}%</span></div>
     </div>
-    <div class="cards-carousel" #carousel>
-      <div class="card-item" *ngFor="let card of filteredCards">
-        <app-info-card
-          [cardData]="card"
-          [isSelected]="selectedCard === card"
-          (click)="onCardClick(card)">
-        </app-info-card>
+
+    <div class="kpi-card kpi-task" (click)="onKpiClick('task')">
+      <div class="kpi-icon-wrap"><i class="feather icon-check-square"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">{{ 'menu.TOTAL_TASKS' | translate }}</span>
+        <span class="kpi-value">{{ stats.tasks.total }}</span>
+        <div class="kpi-badges">
+          <span class="badge-active"><i class="feather icon-activity"></i> {{ stats.tasks.active }} {{ 'menu.ACTIVE' | translate }}</span>
+          <span class="badge-completed"><i class="feather icon-check"></i> {{ stats.tasks.completed }} {{ 'menu.COMPLETED' | translate }}</span>
+        </div>
+      </div>
+      <div class="kpi-trend up"><i class="feather icon-trending-up"></i><span>+{{ stats.tasks.trend }}%</span></div>
+    </div>
+
+    <div class="kpi-card kpi-user" (click)="onKpiClick('users')">
+      <div class="kpi-icon-wrap"><i class="feather icon-users"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">{{ 'menu.TOTAL_USERS' | translate }}</span>
+        <span class="kpi-value">{{ stats.users.total }}</span>
+        <div class="kpi-badges">
+          <span class="badge-active"><i class="feather icon-user-check"></i> {{ stats.users.active }} {{ 'menu.ACTIVE' | translate }}</span>
+          <span class="badge-inactive"><i class="feather icon-user-x"></i> {{ stats.users.inactive }} {{ 'menu.INACTIVE' | translate }}</span>
+        </div>
+      </div>
+      <div class="kpi-trend" [ngClass]="stats.users.trend >= 0 ? 'up' : 'down'">
+        <i class="feather" [ngClass]="stats.users.trend >= 0 ? 'icon-trending-up' : 'icon-trending-down'"></i>
+        <span>{{ stats.users.trend >= 0 ? '+' : '' }}{{ stats.users.trend }}%</span>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div *ngIf="isAdmin" [ngClass]="{ 'fade-in': fadeInEffect }">
-      <app-chart [card]="selectedCard"></app-chart>
+
+    <div class="kpi-card kpi-group" (click)="onKpiClick('groups')">
+      <div class="kpi-icon-wrap"><i class="feather icon-layers"></i></div>
+      <div class="kpi-content">
+        <span class="kpi-label">{{ 'menu.TOTAL_GROUPS' | translate }}</span>
+        <span class="kpi-value">{{ stats.groups.total }}</span>
+        <div class="kpi-badges">
+          <span class="badge-active"><i class="feather icon-shield"></i> {{ stats.groups.active }} {{ 'menu.ACTIVE' | translate }}</span>
+          <span class="badge-inactive"><i class="feather icon-slash"></i> {{ stats.groups.inactive }} {{ 'menu.INACTIVE' | translate }}</span>
+        </div>
+      </div>
+      <div class="kpi-trend up"><i class="feather icon-trending-up"></i><span>+{{ stats.groups.trend }}%</span></div>
     </div>
-<!--    <div *ngIf="!isAdmin" [ngClass]="{ 'fade-in': fadeInEffect }">-->
-<!--      <app-service-panel [cardData]="selectedCard"></app-service-panel>-->
-<!--    </div>-->
+
   </div>
+
+  <!-- ── MAIN CHARTS — shown once chartsReady (no isAdmin guard) ── -->
+  <ng-container *ngIf="chartsReady">
+
+    <div class="charts-row fade-in">
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-title">{{ 'menu.PROCESS_STATUS' | translate }}</span>
+          <span class="chart-card-subtitle">{{ 'menu.ACTIVE_VS_INACTIVE' | translate }}</span>
+        </div>
+        <apx-chart
+          [series]="processDonutOptions.series"
+          [chart]="processDonutOptions.chart"
+          [labels]="processDonutOptions.labels"
+          [colors]="processDonutOptions.colors"
+          [legend]="processDonutOptions.legend"
+          [plotOptions]="processDonutOptions.plotOptions"
+          [dataLabels]="processDonutOptions.dataLabels"
+          [stroke]="processDonutOptions.stroke">
+        </apx-chart>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-title">{{ 'menu.TASK_ACTIVITY' | translate }}</span>
+          <span class="chart-card-subtitle">{{ 'menu.LAST_7_DAYS' | translate }}</span>
+        </div>
+        <apx-chart
+          [series]="taskBarOptions.series"
+          [chart]="taskBarOptions.chart"
+          [xaxis]="taskBarOptions.xaxis"
+          [yaxis]="taskBarOptions.yaxis"
+          [colors]="taskBarOptions.colors"
+          [plotOptions]="taskBarOptions.plotOptions"
+          [dataLabels]="taskBarOptions.dataLabels"
+          [legend]="taskBarOptions.legend"
+          [grid]="taskBarOptions.grid"
+          [stroke]="taskBarOptions.stroke">
+        </apx-chart>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-title">{{ 'menu.USER_GROWTH' | translate }}</span>
+          <span class="chart-card-subtitle">{{ 'menu.MONTHLY_TREND' | translate }}</span>
+        </div>
+        <apx-chart
+          [series]="userSplineOptions.series"
+          [chart]="userSplineOptions.chart"
+          [xaxis]="userSplineOptions.xaxis"
+          [yaxis]="userSplineOptions.yaxis"
+          [fill]="userSplineOptions.fill"
+          [stroke]="userSplineOptions.stroke"
+          [colors]="userSplineOptions.colors"
+          [dataLabels]="userSplineOptions.dataLabels"
+          [grid]="userSplineOptions.grid"
+          [legend]="userSplineOptions.legend">
+        </apx-chart>
+      </div>
+
+    </div>
+
+    <!-- ── AI BPMN SECTION ── -->
+    <div class="section-divider">
+      <div class="divider-label">
+        <i class="feather icon-cpu"></i>
+        <span>{{ 'menu.AI_BPMN_ANALYTICS' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="ai-charts-row fade-in">
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-title">{{ 'menu.AI_GENERATIONS_TIMELINE' | translate }}</span>
+          <span class="chart-card-subtitle">{{ 'menu.BPMN_FILES_GENERATED' | translate }}</span>
+          <div class="ai-badge"><i class="feather icon-zap"></i> {{ stats.aiBpmn.totalGenerated }} total</div>
+        </div>
+        <apx-chart
+          [series]="aiTimelineOptions.series"
+          [chart]="aiTimelineOptions.chart"
+          [xaxis]="aiTimelineOptions.xaxis"
+          [yaxis]="aiTimelineOptions.yaxis"
+          [fill]="aiTimelineOptions.fill"
+          [stroke]="aiTimelineOptions.stroke"
+          [colors]="aiTimelineOptions.colors"
+          [dataLabels]="aiTimelineOptions.dataLabels"
+          [grid]="aiTimelineOptions.grid"
+          [legend]="aiTimelineOptions.legend"
+          [tooltip]="aiTimelineOptions.tooltip">
+        </apx-chart>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-title">{{ 'menu.MODEL_USAGE' | translate }}</span>
+          <span class="chart-card-subtitle">{{ 'menu.BY_LLM_MODEL' | translate }}</span>
+        </div>
+        <apx-chart
+          [series]="modelUsageOptions.series"
+          [chart]="modelUsageOptions.chart"
+          [labels]="modelUsageOptions.labels"
+          [colors]="modelUsageOptions.colors"
+          [legend]="modelUsageOptions.legend"
+          [plotOptions]="modelUsageOptions.plotOptions"
+          [dataLabels]="modelUsageOptions.dataLabels"
+          [stroke]="modelUsageOptions.stroke">
+        </apx-chart>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-title">{{ 'menu.DEPLOY_SUCCESS_RATE' | translate }}</span>
+          <span class="chart-card-subtitle">{{ 'menu.CAMUNDA_DEPLOYMENTS' | translate }}</span>
+        </div>
+        <apx-chart
+          [series]="deployRadialOptions.series"
+          [chart]="deployRadialOptions.chart"
+          [plotOptions]="deployRadialOptions.plotOptions"
+          [colors]="deployRadialOptions.colors"
+          [labels]="deployRadialOptions.labels"
+          [legend]="deployRadialOptions.legend"
+          [stroke]="deployRadialOptions.stroke"
+          [fill]="deployRadialOptions.fill">
+        </apx-chart>
+        <div class="deploy-stats">
+          <div class="deploy-stat">
+            <span class="deploy-stat-value success">{{ stats.aiBpmn.deployedSuccess }}</span>
+            <span class="deploy-stat-label">{{ 'menu.SUCCESS' | translate }}</span>
+          </div>
+          <div class="deploy-stat">
+            <span class="deploy-stat-value fail">{{ stats.aiBpmn.deployedFailed }}</span>
+            <span class="deploy-stat-label">{{ 'menu.FAILED' | translate }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-title">{{ 'menu.COMPLEXITY_DISTRIBUTION' | translate }}</span>
+          <span class="chart-card-subtitle">{{ 'menu.SIMPLE_MEDIUM_COMPLEX' | translate }}</span>
+        </div>
+        <apx-chart
+          [series]="complexityOptions.series"
+          [chart]="complexityOptions.chart"
+          [xaxis]="complexityOptions.xaxis"
+          [yaxis]="complexityOptions.yaxis"
+          [colors]="complexityOptions.colors"
+          [plotOptions]="complexityOptions.plotOptions"
+          [dataLabels]="complexityOptions.dataLabels"
+          [grid]="complexityOptions.grid"
+          [legend]="complexityOptions.legend">
+        </apx-chart>
+      </div>
+
+    </div>
+
+  </ng-container>
+
 </div>

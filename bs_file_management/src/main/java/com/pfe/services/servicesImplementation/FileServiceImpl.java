@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.apache.commons.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -641,5 +642,13 @@ public class FileServiceImpl implements FileService {
 //        return folderDto;
 //    }
 
+    @Override
+    public List<FileDto> getFilesByFolderId(UUID folderId) {
+        Folder folder = this.folderRepository.findById(folderId)
+            .orElseThrow(() -> new RuntimeException("Folder not found"));
 
+        return folder.getFiles().stream()
+            .map(this.fileMapper::toDto)
+            .collect(Collectors.toList());
+    }
 }

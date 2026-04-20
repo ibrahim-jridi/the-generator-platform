@@ -26,6 +26,7 @@ public interface FileService {
   void renameFile(UUID fileId, String newName) throws Exception;
 
   FileDto getFileById(UUID fileId);
+  List<FileDto> getFilesByFolderId(UUID folderId);
 //    void createFolder(String path) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, ErrorResponseException;
 //
 //    Set<FolderDto> getFoldersbyConnectedUser(String folder) throws XmlParserException, ServerException, InvalidResponseException, IOException, InvalidKeyException, NoSuchAlgorithmException, InsufficientDataException, InternalException, ErrorResponseException;

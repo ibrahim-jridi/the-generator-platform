@@ -58,8 +58,8 @@ public class FolderResource {
    * @throws IOException if an I/O error occurs.
    */
   @PostMapping("/create")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
-  public ResponseEntity<FolderDto> createFolder(@RequestBody CreateFolderRequest request) throws IOException {
+//@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""+ AuthoritiesConstants.BS_ADMIN + "\")")
+public ResponseEntity<FolderDto> createFolder(@RequestBody CreateFolderRequest request) throws IOException {
 
       if (request.getNewFolderName() == null ||
           request.getNewFolderName().trim().isEmpty()) {
@@ -83,7 +83,7 @@ public class FolderResource {
    * @throws Exception if an error occurs during folder creation.
    */
   @PostMapping("/createChildFolder")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+//@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""+ AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<FolderDto> createFolderUnderParent(
         @RequestBody CreateFolderRequest request) throws Exception {
 
@@ -105,7 +105,7 @@ public class FolderResource {
    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of folders.
    */
   @GetMapping("")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+//@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""+ AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<List<FolderDto>> listFolders() {
     try {
       List<FolderDto> folderList = this.folderService.listFolders();
@@ -123,7 +123,7 @@ public class FolderResource {
    * deleted.
    */
   @DeleteMapping("/delete/{folderName}")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
+//@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""+ AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<String> removeFolder(@PathVariable String folderName) {
     try {
       this.folderService.removeFolder(folderName);
@@ -134,8 +134,7 @@ public class FolderResource {
   }
 
   @GetMapping("/user")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""
-      + AuthoritiesConstants.BS_ADMIN + "\")")
+  //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""+ AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<FolderDto> getFolderByUserID() throws Exception {
     try {
       FolderDto folderDto = this.folderService.getFolderByConnectedUser()
@@ -148,8 +147,8 @@ public class FolderResource {
   }
 
   @GetMapping("/by-minio-id/{id}")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""
-      + AuthoritiesConstants.BS_ADMIN + "\")")
+//  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""
+//      + AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<List<FolderDto>> getFoldersByParentFolderMinioId(@PathVariable UUID id) {
 
     UUID userConnected = UUID.fromString(SecurityUtils.getUserIdFromCurrentUser());
