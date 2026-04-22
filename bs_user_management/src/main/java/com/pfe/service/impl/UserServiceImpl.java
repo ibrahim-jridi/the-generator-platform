@@ -106,6 +106,7 @@ public class UserServiceImpl implements UserService {
     private final DesignationsListService designationsListService;
 
     private final RoleMapper roleMapper;
+    private final GroupMapper groupMapper;
 
     private final FileServices fileServices;
 
@@ -158,6 +159,7 @@ public class UserServiceImpl implements UserService {
         this.activityTypeMapper = activityTypeMapper;
         this.designationsListService = designationsListService;
         this.designationsListRepository = designationsListRepository;
+        this.groupMapper = groupMapper;
     }
 
 
@@ -343,7 +345,25 @@ public class UserServiceImpl implements UserService {
             log.error("Error decoding token", e);
             throw new IllegalArgumentException("Invalid token");
         }
+        try {
+            Set<RoleDTO> allRoles = this.roleRepository.findAllByDeletedFalse()
+                .stream()
+                .map(this.roleMapper::toDto)
+                .collect(Collectors.toSet());
+            userDTO.setRoles(allRoles);
 
+            Set<GroupDTO> allGroups = this.groupRepository.findAllByDeletedFalse()
+                .stream()
+                .map(this.groupMapper::toDto)
+                .collect(Collectors.toSet());
+            userDTO.setGroups(allGroups);
+
+            log.debug("Assigned {} roles and {} groups to userDTO before validation",
+                allRoles.size(), allGroups.size());
+        } catch (Exception e) {
+            log.error("Error assigning roles/groups to user", e);
+            throw new RuntimeException("Failed to assign roles and groups");
+        }
         try {
             log.debug("Calling beforeSave...");
             this.userValidator.beforeSave(userDTO);

@@ -1,18 +1,468 @@
-<div class="container_welcome">
-  <div class="left-section">
-    <img src="" class="logo">
-  </div>
-  <app-language-switcher></app-language-switcher>
-  <div class="right-section">
-    <div class="text-center">
-      <p *ngIf="isLoading">{{ 'mailActivation.ACTIVATION_IN_PROGRESS' | translate }}</p>
-      <h5 *ngIf="isActivated" [ngClass]="{'activated-text': isActivated}">
-        {{ 'mailActivation.EMAIL_ACTIVATED' | translate }}!</h5>
-      <p *ngIf="isTokenExpired">{{'mailActivation.TOKEN_EXPIRED'| translate }}</p>
-      <p *ngIf="!isActivated && !isLoading && !isTokenExpired">{{ 'mailActivation.ACTIVATION_FAILED' | translate }}</p>
+<div class="glass-activation-container">
+  <div class="glass-activation-card">
+    <!-- Language Switcher -->
+    <div class="glass-language-wrapper">
+      <app-language-switcher class="glass-language-switcher"></app-language-switcher>
     </div>
-    <div class="button-container text-center">
-      <button mat-button  (click)="goToLoginPage()" class="next-button">{{ 'button.INFORM' | translate }}</button>
+
+    <!-- Main Content -->
+    <div class="glass-activation-content">
+      <!-- Icon Section -->
+      <div class="activation-icon-wrapper">
+        <div class="activation-icon" [ngClass]="{
+          'icon-loading': isLoading,
+          'icon-success': isActivated,
+          'icon-error': !isActivated && !isLoading && !isTokenExpired,
+          'icon-expired': isTokenExpired
+        }">
+          <i class="fas" [ngClass]="{
+            'fa-spinner fa-pulse': isLoading,
+            'fa-check-circle': isActivated,
+            'fa-times-circle': !isActivated && !isLoading && !isTokenExpired,
+            'fa-clock': isTokenExpired
+          }"></i>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <h2 class="activation-title">{{ 'mailActivation.ACCOUNT_ACTIVATION' | translate }}</h2>
+
+      <!-- Messages -->
+      <div class="activation-message">
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="message-loading">
+          <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+          </div>
+          <p class="message-text">{{ 'mailActivation.ACTIVATION_IN_PROGRESS' | translate }}</p>
+        </div>
+
+        <!-- Success State -->
+        <div *ngIf="isActivated" class="message-success">
+          <div class="success-animation">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+              <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+          </div>
+          <h5 class="message-title success-text">{{ 'mailActivation.EMAIL_ACTIVATED' | translate }}!</h5>
+          <p class="message-description">{{ 'mailActivation.ACCOUNT_READY' | translate }}</p>
+        </div>
+
+        <!-- Token Expired State -->
+        <div *ngIf="isTokenExpired" class="message-expired">
+          <i class="fas fa-hourglass-half expired-icon"></i>
+          <h5 class="message-title expired-text">{{ 'mailActivation.TOKEN_EXPIRED' | translate }}</h5>
+          <p class="message-description">{{ 'mailActivation.REQUEST_NEW_LINK' | translate }}</p>
+        </div>
+
+        <!-- Failed State -->
+        <div *ngIf="!isActivated && !isLoading && !isTokenExpired" class="message-error">
+          <i class="fas fa-exclamation-triangle error-icon"></i>
+          <h5 class="message-title error-text">{{ 'mailActivation.ACTIVATION_FAILED' | translate }}</h5>
+          <p class="message-description">{{ 'mailActivation.TRY_AGAIN' | translate }}</p>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="activation-button-container">
+        <button mat-button (click)="goToLoginPage()" class="glass-action-btn">
+          <span>{{ 'button.INFORM' | translate }}</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
+
+    <!-- Decorative Elements -->
+    <div class="glass-decoration decoration-1"></div>
+    <div class="glass-decoration decoration-2"></div>
   </div>
 </div>
+
+<style>
+  /* Glassmorphism Container */
+  .glass-activation-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated Background */
+  .glass-activation-container::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: particleMove 20s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes particleMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+
+  /* Glass Card */
+  .glass-activation-card {
+    max-width: 500px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    position: relative;
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Language Switcher */
+  .glass-language-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+  }
+
+  .glass-language-switcher {
+    display: inline-block;
+  }
+
+  /* Main Content */
+  .glass-activation-content {
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Activation Icon */
+  .activation-icon-wrapper {
+    margin-bottom: 1.5rem;
+  }
+
+  .activation-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    transition: all 0.3s;
+  }
+
+  .activation-icon.icon-loading {
+    background: rgba(139, 92, 246, 0.1);
+    color: #8B5CF6;
+  }
+
+  .activation-icon.icon-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+  }
+
+  .activation-icon.icon-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+
+  .activation-icon.icon-expired {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+  }
+
+  /* Title */
+  .activation-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 1rem;
+  }
+
+  /* Messages */
+  .activation-message {
+    margin: 1.5rem 0;
+  }
+
+  /* Loading Spinner */
+  .message-loading {
+    text-align: center;
+  }
+
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .spinner-ring {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #8B5CF6;
+    animation: bounce 1.4s ease-in-out infinite;
+  }
+
+  .spinner-ring:nth-child(1) { animation-delay: -0.32s; }
+  .spinner-ring:nth-child(2) { animation-delay: -0.16s; }
+  .spinner-ring:nth-child(3) { animation-delay: 0s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% {
+      transform: scale(0);
+      opacity: 0.3;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Success Animation */
+  .success-animation {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+  }
+
+  .checkmark {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    stroke-width: 2;
+    stroke: #10b981;
+    stroke-miterlimit: 10;
+    animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+  }
+
+  .checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+  .checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+
+  @keyframes stroke {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes scale {
+    0%, 100% {
+      transform: none;
+    }
+    50% {
+      transform: scale3d(1.1, 1.1, 1);
+    }
+  }
+
+  @keyframes fill {
+    100% {
+      box-shadow: inset 0px 0px 0px 30px #10b981;
+    }
+  }
+
+  /* Message Text */
+  .message-text {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .message-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .message-description {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  .success-text {
+    color: #10b981;
+  }
+
+  .expired-text {
+    color: #f59e0b;
+  }
+
+  .error-text {
+    color: #ef4444;
+  }
+
+  .expired-icon,
+  .error-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .expired-icon {
+    color: #f59e0b;
+  }
+
+  .error-icon {
+    color: #ef4444;
+  }
+
+  /* Action Button */
+  .activation-button-container {
+    margin-top: 2rem;
+  }
+
+  .glass-action-btn {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    border: none;
+    border-radius: 40px;
+    padding: 0.75rem 1.5rem;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  }
+
+  .glass-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+  }
+
+  .glass-action-btn i {
+    font-size: 0.85rem;
+    transition: transform 0.3s;
+  }
+
+  .glass-action-btn:hover i {
+    transform: translateX(4px);
+  }
+
+  /* Decorative Elements */
+  .glass-decoration {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.1), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .decoration-1 {
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+  }
+
+  .decoration-2 {
+    bottom: -50px;
+    left: -50px;
+    width: 180px;
+    height: 180px;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 640px) {
+    .glass-activation-container {
+      padding: 1rem;
+    }
+
+    .glass-activation-content {
+      padding: 2rem 1.5rem;
+    }
+
+    .activation-title {
+      font-size: 1.25rem;
+    }
+
+    .activation-icon {
+      width: 60px;
+      height: 60px;
+      font-size: 2rem;
+    }
+
+    .success-animation {
+      width: 60px;
+      height: 60px;
+    }
+
+    .message-title {
+      font-size: 1rem;
+    }
+
+    .glass-language-wrapper {
+      top: 15px;
+      right: 15px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .glass-activation-content {
+      padding: 1.5rem;
+    }
+
+    .glass-action-btn {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.85rem;
+    }
+
+    .expired-icon,
+    .error-icon {
+      font-size: 2.5rem;
+    }
+  }
+
+  /* RTL Support */
+  [dir="rtl"] .glass-language-wrapper {
+    right: auto;
+    left: 20px;
+  }
+
+  [dir="rtl"] .glass-action-btn i {
+    transform: rotate(180deg);
+  }
+
+  [dir="rtl"] .glass-action-btn:hover i {
+    transform: translateX(-4px) rotate(180deg);
+  }
+</style>

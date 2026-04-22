@@ -46,7 +46,6 @@ export class RoleAddComponent implements OnInit {
     this.authorityService.getAllAuthorities().subscribe((authority) => {
       this.authorities = authority;
     });
-    this.getprefixRole();
   }
 
   private initRoleForm(): void {
@@ -101,7 +100,7 @@ export class RoleAddComponent implements OnInit {
   }
 
   protected addRole(): void {
-    this.role.label = `${this.prefixRole}${this.roleForm.get('labelle')?.value}`;
+    this.role.label = this.roleForm.get('labelle')?.value;
     this.role.description = this.description.value;
     this.role.authorities = this.selectedAuthorities;
     this.roleService.createRole(this.role).subscribe({

@@ -63,9 +63,7 @@
             "outputPath": "dist/bs-back-office",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "src/polyfills.ts"
-            ],
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -88,7 +86,7 @@
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
               "node_modules/datatables.net-select/js/dataTables.select.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
-              ]
+            ]
           },
           "configurations": {
             "production": {

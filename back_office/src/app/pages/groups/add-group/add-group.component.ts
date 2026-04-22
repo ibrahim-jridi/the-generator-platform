@@ -32,7 +32,6 @@ export class AddGroupComponent implements OnInit {
   public ngOnInit(): void {
     this.initGroupsForm();
     this.loadGroups();
-    this.getprefixGroup();
   }
 
   private initGroupsForm(): void {
@@ -61,7 +60,7 @@ export class AddGroupComponent implements OnInit {
   }
 
   public addGroup(): void {
-    this.groupsForm.value.label = `${this.prefixGroup}${this.groupsForm.get('label')?.value}`;
+    //this.groupsForm.value.label = `${this.prefixGroup}${this.groupsForm.get('label')?.value}`;
     this.groupsService.addGroup(this.groupsForm.getRawValue()).subscribe({
       next: (response) => {
         this.toastrService.onSuccess(this.translatePipe.transform('groups.SUCCESS_TO_ADD_GROUP'), this.translatePipe.transform('menu.SUCCESS'));

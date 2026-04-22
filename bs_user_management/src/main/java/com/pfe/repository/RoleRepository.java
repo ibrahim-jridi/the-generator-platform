@@ -28,4 +28,6 @@ public interface RoleRepository extends BaseRepository<Role, UUID> {
     Role findByLabelAndDeletedFalse(String labelRole);
     Set<Role> findAllByIdInAndDeletedFalse(Set<UUID> collect);
     List<Role> findByRoleTypeAndIsActive(RolesType rolesType , boolean isActive);
+    List<Role> findAllByDeletedFalse();
+
 }

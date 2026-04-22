@@ -28,4 +28,6 @@ public interface GroupRepository extends BaseRepository<Group, UUID> {
 
     Boolean existsByLabel(String groupeLabel);
     Set<Group> findAllByIdInAndDeletedFalse(Set<UUID> collect);
+    List<Group> findAllByDeletedFalse();
+
 }
