@@ -2,6 +2,7 @@ package com.pfe.repository;
 
 import com.pfe.domain.Authority;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,6 @@ public interface AuthorityRepository extends BaseRepository<Authority, UUID> {
     void updateFirstInsert(@Param("id") UUID id, @Param("firstInsert") boolean firstInsert);
 
     Set<Authority> findAllByIdInAndDeletedFalse(Set<UUID> collect);
+    Optional<Authority> findByLabel(String label);
+
 }

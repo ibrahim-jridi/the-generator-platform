@@ -9,9 +9,11 @@ import com.pfe.service.dto.RoleDTO;
 import com.pfe.service.mapper.AuthorityMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -119,10 +121,54 @@ public class AuthorityServiceImpl implements AuthorityService {
         return this.authorityRepository.findById(id).map(this.authorityMapper::toDto);
     }
 
-    @Override
-    public List<AuthorityDTO> findAllAuthorities() {
-        return this.authorityMapper.toDto(this.authorityRepository.findAll());
-    }
+//    @Override
+//    public List<AuthorityDTO> findAllAuthorities() {
+//        return this.authorityMapper.toDto(this.authorityRepository.findAll());
+//    }
+//
+//    @Override
+//    public List<AuthorityDTO> getAuthoritiesNotInRole(UUID id) {
+//        RoleDTO roleDTO = this.roleService.findOne(id)
+//            .orElseThrow(() -> new IllegalArgumentException("Role not found with id: " + id));
+//
+//        Set<AuthorityDTO> authorityDTOS = roleDTO.getAuthorities();
+//        List<AuthorityDTO> authorityDTOList = this.authorityMapper.toDto(
+//            this.authorityRepository.findAll());
+//
+//        // Remove authorities that are in authorityDTOS from authorityDTOList
+//        authorityDTOList.removeAll(authorityDTOS);
+//
+//        return authorityDTOList;
+//    }
+@Override
+public List<AuthorityDTO> findAllAuthorities() {
+    String clientId = getClientId();
+
+    List<RoleRepresentation> keycloakRoles = this.keycloak.realm(this.realm)
+        .clients()
+        .get(clientId)
+        .roles()
+        .list();
+
+    // Map Keycloak roles to local Authority entities by label, fallback to label-only DTO
+    List<Authority> localAuthorities = this.authorityRepository.findAll();
+    Map<String, Authority> localByLabel = localAuthorities.stream()
+        .collect(Collectors.toMap(Authority::getLabel, a -> a, (a1, a2) -> a1));
+
+    return keycloakRoles.stream()
+        .map(role -> {
+            Authority local = localByLabel.get(role.getName());
+            if (local != null) {
+                return this.authorityMapper.toDto(local);
+            }
+            // Role exists in Keycloak but not locally — map manually
+            AuthorityDTO dto = new AuthorityDTO();
+            dto.setLabel(role.getName());
+            dto.setDescription(role.getDescription());
+            return dto;
+        })
+        .collect(Collectors.toList());
+}
 
     @Override
     public List<AuthorityDTO> getAuthoritiesNotInRole(UUID id) {
@@ -130,12 +176,23 @@ public class AuthorityServiceImpl implements AuthorityService {
             .orElseThrow(() -> new IllegalArgumentException("Role not found with id: " + id));
 
         Set<AuthorityDTO> authorityDTOS = roleDTO.getAuthorities();
-        List<AuthorityDTO> authorityDTOList = this.authorityMapper.toDto(
-            this.authorityRepository.findAll());
 
-        // Remove authorities that are in authorityDTOS from authorityDTOList
-        authorityDTOList.removeAll(authorityDTOS);
+        // Use the updated findAllAuthorities() which pulls from Keycloak
+        List<AuthorityDTO> allAuthorities = findAllAuthorities();
+        allAuthorities.removeAll(authorityDTOS);
 
-        return authorityDTOList;
+        return allAuthorities;
+    }
+
+// --- private helper ---
+
+    private String getClientId() {
+        List<ClientRepresentation> clients = this.keycloak.realm(this.realm)
+            .clients()
+            .findByClientId(this.clientIdName);
+        if (clients.isEmpty()) {
+            throw new IllegalArgumentException("Client '" + this.clientIdName + "' not found in Keycloak.");
+        }
+        return clients.get(0).getId();
     }
 }

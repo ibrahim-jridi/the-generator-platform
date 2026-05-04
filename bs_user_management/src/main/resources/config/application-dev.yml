@@ -158,7 +158,7 @@ bs-app:
     enabled: false
   keycloak:
     realm: bsrealm
-    auth-server-url: http://localhost:8080  # Remove trailing slash
+    auth-server-url: http://localhost:8180  # Remove trailing slash
     ssl-required: none  # Change to 'none' for development since you're using HTTP
     resource: bs_client
     credentials:

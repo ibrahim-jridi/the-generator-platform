@@ -40,8 +40,8 @@ const NavigationItems = [
         title: 'menu.DASHBOARD',
         type: 'item',
         icon: 'icon-Dashboard',
-        url: '/pages/dashboard'
-        // //authority: ['BS_USER', 'BS_ADMIN']
+        url: '/pages/dashboard',
+        authority: ['BS_USER']
       },
       {
         id: 'users',
@@ -49,7 +49,7 @@ const NavigationItems = [
         type: 'item',
         icon: 'icon-User',
         url: '/pages/user-management/internal-user-management',
-        // //authority: ['BS_USERSMANG', 'BS_ADMIN'],
+        authority: ['BS_USERSMANG'],
         children: [
           {
             id: 'new-user',
@@ -83,7 +83,7 @@ const NavigationItems = [
         type: 'item',
         icon: 'icon-Roles',
         url: '/pages/role-management',
-        // //authority: ['BS_ROLES', 'BS_ADMIN'],
+        authority: ['BS_ROLES'],
         children: [
           {
             id: 'new-role',
@@ -127,7 +127,7 @@ const NavigationItems = [
         type: 'item',
         icon: 'icon-Groupe',
         url: '/pages/group-management',
-        // //authority: ['BS_GROUPS', 'BS_ADMIN'],
+        authority: ['BS_GROUPS'],
         children: [
           {
             id: 'new-group',
@@ -170,7 +170,7 @@ const NavigationItems = [
         title: 'menu.PROCESS',
         type: 'collapse',
         icon: 'icon-process',
-        //authority: ['BS_PROCESS', 'BS_ADMIN'],
+        authority: ['BS_PROCESS'],
         children: [
           {
             id: 'bpmn-modeler',
@@ -244,7 +244,7 @@ const NavigationItems = [
         title: 'menu.TASK',
         type: 'collapse',
         icon: 'icon-task',
-        //authority: [Authorities.BS_TASKS, Authorities.BS_ADMIN],
+        authority: [Authorities.BS_TASKS],
         children: [
           {
             id: 'historic-task',
@@ -283,7 +283,7 @@ const NavigationItems = [
         title: 'menu.FORM',
         type: 'collapse',
         icon: 'icon-Forms',
-        //authority: ['BS_FORMS', 'BS_ADMIN'],
+        authority: ['BS_FORMS'],
         children: [
           {
             // id: 'listOfValue',

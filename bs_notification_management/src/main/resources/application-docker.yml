@@ -1,0 +1,131 @@
+logging:
+  level:
+    ROOT: INFO
+    tech.jhipster: INFO
+    org.hibernate.SQL: INFO
+    com.pfe: INFO
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://bs-discovery:8761/eureka/
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://bs-zipkin:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+
+spring:
+  security:
+    oauth2:
+      client:
+        login-user-admin: BS_A_ROOT
+        password-user-admin: pass
+        provider:
+          oidc:
+            issuer-uri: http://keycloak:8080/realms/bsrealm
+        registration:
+          oidc:
+            client-id: bs_client
+            client-secret: quT1y21Fwf1bAHrV7DprSGuPWtcsUpTE
+            scope: openid, profile, email
+  mail:
+    host: smtp.office365.com
+    username: "bs_smtp@numeryx.fr"
+    password: "N*229970255343af"
+    port: 587
+    properties:
+      mail:
+        protocol: smtp
+        tls: true
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.office365.com
+  cloud:
+    config:
+      enabled: false
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://postgres:5432/bsNotificationManagement
+    username: postgres
+    password: root1234
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  messages:
+    cache-duration: PT1S
+  thymeleaf:
+    cache: false
+  kafka:
+    topic:
+      activity-audit:
+        name: bs-activity-audit
+        group: bs-group
+      error-audit:
+        name: bs-error-audit
+        group: bs-group
+    producer:
+      bootstrap-servers: host.docker.internal:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        request:
+          timeout:
+            ms: 30000
+        retry:
+          backoff:
+            ms: 1000
+        metadata:
+          max:
+            age:
+              ms: 300000
+
+server:
+  port: 8084
+
+jhipster:
+  registry:
+    password: admin
+  logging:
+    use-json-format: false
+    logstash:
+      enabled: false
+      host: localhost
+      port: 5000
+      ring-buffer-size: 512
+# jhipster:
+#   cache:
+#     ehcache:
+#       time-to-live-seconds: 3600
+#       max-entries: 100
+#   registry:
+#     password: admin
+#   security:
+#     authentication:
+#       jwt:
+#         base64-secret: NOT_NEED
+#         token-validity-in-seconds: 86400
+#         token-validity-in-seconds-for-remember-me: 2592000
+#   logging:
+#     use-json-format: false
+#     logstash:
+#       enabled: false
+#       host: localhost
+#       port: 5000
+#       ring-buffer-size: 512
+
+bs-app:
+  endpoint:
+    gateway-url: http://bs-gateway:9999
+    origins: http://bs-gateway:9999
+    front-url: http://localhost:82

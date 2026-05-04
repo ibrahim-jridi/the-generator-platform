@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: bs_gateway
   security:
     oauth2:
       client:
@@ -22,14 +20,9 @@ spring:
             authorization-grant-type: authorization_code
             provider: oidc
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-      resource-server:
-        jwt:
-          jwk-set-uri: http://localhost:8180/realms/bsrealm/protocol/openid-connect/certs
-
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
-
+      bootstrap-servers: host.docker.internal:9092
   cloud:
     config:
       enabled: false
@@ -40,68 +33,55 @@ spring:
           enabled: true
       routes:
         - id: BSUserManagement
-          uri: http://localhost:8082
+          uri: http://bs-user-management:8082
           predicates:
             - Method=GET, POST, PUT, DELETE, OPTIONS
             - Path=/user-management/**
         - id: BSWorkflowManagement
-          uri: http://localhost:8083
+          uri: http://bs-workflow-management:8083
           predicates:
             - Method=GET, POST, PUT, DELETE, OPTIONS
             - Path=/workflow-management/**
         - id: BSNotificationManagement
-          uri: http://localhost:8084
+          uri: http://bs-notification-management:8084
           predicates:
             - Method=GET, POST, PUT, DELETE, OPTIONS
             - Path=/notification-management/**
-        - id: BSReportManagement
-          uri: http://localhost:8085
-          predicates:
-            - Method=GET, POST, PUT, DELETE, OPTIONS
-            - Path=/report-management/**
         - id: BSFileManagement
-          uri: http://localhost:8086
+          uri: http://bs-file-management:8085
           predicates:
             - Method=GET, POST, PUT, DELETE, OPTIONS
             - Path=/file-management/**
         - id: BSFormManagement
-          uri: http://localhost:8087
+          uri: http://bs-form-management:8087
           predicates:
             - Method=GET, POST, PUT, DELETE, OPTIONS
             - Path=/form-management/**
-        - id: BSConnectorManagement
-          uri: http://localhost:8088
-          predicates:
-            - Method=GET, POST, PUT, DELETE, OPTIONS
-            - Path=/connector-management/**
-        - id: BSAuditManagement
-          uri: http://localhost:8089
-          predicates:
-            - Method=GET, POST, PUT, DELETE, OPTIONS
-            - Path=/audit-management/**
-        - id: BSPayment
-          uri: http://localhost:8090
-          predicates:
-            - Method=GET, POST, PUT, DELETE, OPTIONS
-            - Path=/payment-management/**
-
-application:
-  origins: "http://localhost:4200"
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+    service-url:
+      defaultZone: http://bs-discovery:8761/eureka/
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://bs-zipkin:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
 
 tokenvalidator:
   security:
-    url_auth_server: http://localhost:8180/
+    url_auth_server: http://keycloak:8080/
     cache_token_delay: 60
     cache_certs_keys_delay: 600
 
 keycloak:
   realm: bsrealm
-  auth-server-url: http://localhost:8180/
+  auth-server-url: http://keycloak:8080/
   ssl-required: external
   resource: bs_client
   credentials:
@@ -109,45 +89,43 @@ keycloak:
   use-resource-role-mappings: true
   principal-attribute: preferred_username
 
-bs:
-  front-url: http://localhost:4200
-
 endpoint:
-  gateway: http://localhost:9999
-  notification-management: http://localhost:8084
+  gateway: http://bs-gateway:9999
+  notification-management: http://bs-notification-management:8084
 
-server:
-  port: 9999
+application:
+  origins: "http://localhost:82"
+
+bs:
+  front-url: http://localhost:82
 
 ehoweya:
   ehoweya-url: "https://193.95.63.241:8443"
-  responseType : "code"
-  clientId : "bb537508-db77-476f-86b0-d26376e5d4ee"
-  scope : "profile_fr given_name_fr family_name_fr gender identity birthdate address phone name given_name openid email profile"
-  redirectUri : "https://www.esprit.tn"
-  codeChallengeMethod : "S256"
-  grantType : "authorization_code"
-  clientSecret : "secret"
+  responseType: "code"
+  clientId: "bb537508-db77-476f-86b0-d26376e5d4ee"
+  scope: "profile_fr given_name_fr family_name_fr gender identity birthdate address phone name given_name openid email profile"
+  redirectUri: "https://www.esprit.tn"
+  codeChallengeMethod: "S256"
+  grantType: "authorization_code"
+  clientSecret: "secret"
 
 bs-app:
   keycloak:
     realm: bsrealm
-    auth-server-url: http://localhost:8180/
+    auth-server-url: http://keycloak:8080/
     ssl-required: external
     resource: bs_client
     credentials:
       secret: quT1y21Fwf1bAHrV7DprSGuPWtcsUpTE
     use-resource-role-mappings: true
     principal-attribute: preferred_username
-
   keycloak-admin:
     username: bs_root
     password: Numeryx@2024!*
-  #  username: admin
-  #  password: pass
-
   endpoint:
-    gateway-url: http://localhost:9999
-    front-url: http://localhost:4200
-    external-api-url: http://localhost:8088
+    gateway-url: http://bs-gateway:9999
+    front-url: http://localhost:82
+    external-api-url: http://bs-file-management:8085
 
+server:
+  port: 9999

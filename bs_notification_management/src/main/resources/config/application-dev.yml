@@ -43,7 +43,7 @@ spring:
         password-user-admin: pass
         provider:
           oidc:
-            issuer-uri: http://localhost:8080/realms/bsrealm
+            issuer-uri: http://localhost:8180/realms/bsrealm
         registration:
           oidc:
             client-id: bs_client
@@ -52,7 +52,7 @@ spring:
   mail:
     host: smtp.office365.com
     username: "bs_smtp@numeryx.fr"
-    password: "N@420724360654og"
+    password: "N*229970255343af"
     port: 587
     properties:
       mail:

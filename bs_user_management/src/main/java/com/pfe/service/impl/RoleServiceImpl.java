@@ -75,38 +75,95 @@ public class RoleServiceImpl implements RoleService {
     this.roleValidator = roleValidator;
   }
 
-  @Override
-  public RoleDTO save(RoleDTO roleDTO) {
-    log.debug("Request to save Role : {}", roleDTO);
+//  @Override
+//  public RoleDTO save(RoleDTO roleDTO) {
+//    log.debug("Request to save Role : {}", roleDTO);
+//
+//    this.roleValidator.beforeSave(roleDTO);
+//    roleDTO.getAuthorities().forEach(authorityDTO ->
+//        this.authorityRepository.findById(authorityDTO.getId()).orElseThrow(() ->
+//            new ResponseStatusException(HttpStatus.NOT_FOUND,
+//                "Authority not found with id " + authorityDTO.getId()))
+//    );
+//
+//    Role role = this.roleMapper.toEntity(roleDTO);
+//    role.setIsActive(true);
+//    return this.roleMapper.toDto(this.roleRepository.save(role));
+//  }
+@Override
+public RoleDTO save(RoleDTO roleDTO) {
+  log.debug("Request to save Role : {}", roleDTO);
 
-    this.roleValidator.beforeSave(roleDTO);
-    roleDTO.getAuthorities().forEach(authorityDTO ->
-        this.authorityRepository.findById(authorityDTO.getId()).orElseThrow(() ->
-            new ResponseStatusException(HttpStatus.NOT_FOUND,
-                "Authority not found with id " + authorityDTO.getId()))
-    );
+  this.roleValidator.beforeSave(roleDTO);
 
-    Role role = this.roleMapper.toEntity(roleDTO);
-    role.setIsActive(true);
-    return this.roleMapper.toDto(this.roleRepository.save(role));
-  }
+  Set<Authority> resolvedAuthorities = roleDTO.getAuthorities().stream()
+      .map(authorityDTO -> {
+        // If id exists, look up by id; otherwise look up by label
+        if (authorityDTO.getId() != null) {
+          return this.authorityRepository.findById(authorityDTO.getId())
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                  "Authority not found with id " + authorityDTO.getId()));
+        } else {
+          return this.authorityRepository.findByLabel(authorityDTO.getLabel())
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                  "Authority not found with label " + authorityDTO.getLabel()));
+        }
+      })
+      .collect(Collectors.toSet());
 
-  @Override
-  public RoleDTO update(RoleDTO roleDTO) {
-    log.debug("Request to update Role : {}", roleDTO);
-    this.roleValidator.beforeUpdate(roleDTO);
-    Role role = this.roleRepository.findById(roleDTO.getId())
-        .orElseThrow(() -> new RuntimeException("Role with id not found"));
-    Set<Authority> roleAuthorities = this.authorityRepository.findAllByIdInAndDeletedFalse(
-        roleDTO.getAuthorities().stream().map(AuthorityDTO::getId).collect(
-            Collectors.toSet()));
-    role.setAuthorities(roleAuthorities);
-    role.setDescription(roleDTO.getDescription());
-    role.setIsActive(roleDTO.getIsActive());
-    this.roleRepository.save(role);
-    this.updateUserAuthorities(role);
-    return this.roleMapper.toDto(role);
-  }
+  Role role = this.roleMapper.toEntity(roleDTO);
+  role.setAuthorities(resolvedAuthorities);
+  role.setIsActive(true);
+  return this.roleMapper.toDto(this.roleRepository.save(role));
+}
+
+//  @Override
+//  public RoleDTO update(RoleDTO roleDTO) {
+//    log.debug("Request to update Role : {}", roleDTO);
+//    this.roleValidator.beforeUpdate(roleDTO);
+//    Role role = this.roleRepository.findById(roleDTO.getId())
+//        .orElseThrow(() -> new RuntimeException("Role with id not found"));
+//    Set<Authority> roleAuthorities = this.authorityRepository.findAllByIdInAndDeletedFalse(
+//        roleDTO.getAuthorities().stream().map(AuthorityDTO::getId).collect(
+//            Collectors.toSet()));
+//    role.setAuthorities(roleAuthorities);
+//    role.setDescription(roleDTO.getDescription());
+//    role.setIsActive(roleDTO.getIsActive());
+//    this.roleRepository.save(role);
+//    this.updateUserAuthorities(role);
+//    return this.roleMapper.toDto(role);
+//  }
+@Override
+public RoleDTO update(RoleDTO roleDTO) {
+  log.debug("Request to update Role : {}", roleDTO);
+  this.roleValidator.beforeUpdate(roleDTO);
+
+  Role role = this.roleRepository.findById(roleDTO.getId())
+      .orElseThrow(() -> new RuntimeException("Role with id not found"));
+
+  // Resolve authorities by id OR by label
+  Set<Authority> resolvedAuthorities = roleDTO.getAuthorities().stream()
+      .map(authorityDTO -> {
+        if (authorityDTO.getId() != null) {
+          return this.authorityRepository.findById(authorityDTO.getId())
+              .filter(a -> !a.getDeleted())
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                  "Authority not found with id " + authorityDTO.getId()));
+        } else {
+          return this.authorityRepository.findByLabel(authorityDTO.getLabel())
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                  "Authority not found with label " + authorityDTO.getLabel()));
+        }
+      })
+      .collect(Collectors.toSet());
+
+  role.setAuthorities(resolvedAuthorities);
+  role.setDescription(roleDTO.getDescription());
+  role.setIsActive(roleDTO.getIsActive());
+  this.roleRepository.save(role);
+  this.updateUserAuthorities(role);
+  return this.roleMapper.toDto(role);
+}
 
   private void updateUserAuthorities(Role role) {
     Set<Authority> finalListAuthority = new HashSet<>();

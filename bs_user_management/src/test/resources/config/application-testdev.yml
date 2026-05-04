@@ -63,7 +63,7 @@ spring:
 bs-app:
   keycloak:
     realm: bsrealm
-    auth-server-url: http://localhost:8080/
+    auth-server-url: http://localhost:8180/
     ssl-required: external
     resource: bs_client
     credentials:

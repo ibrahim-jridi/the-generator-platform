@@ -262,6 +262,11 @@ jhipster:
     license: unlicensed
     license-url:
   security:
+    authentication:
+      jwt:
+        base64-secret: OTM5ZDUwZjEzMzllY2Y5MmIwM2ZlNjUxNzk0ZTdlMDVhNTc4MzUxMmNkOTJkNzQzMzQxNTA3OWMzYTZiNjg5OWRmMTUyYzZkMjJhODM5NmZhM2ZkM2E5NjQ4MDQzYzBlMmMzYTJlYzllODM5MTdjNzhmNjM0ODBiZmQyNGM4YzM=
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 2592000
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
