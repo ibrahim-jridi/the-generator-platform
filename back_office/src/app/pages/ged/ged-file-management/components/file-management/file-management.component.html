@@ -2,36 +2,34 @@
   <div class="col-sm-12">
     <mat-card class="mat-card-without-elevation">
       <mat-card-content>
-          <div class="col-12 d-flex">
-              <!-- Toggle Button -->
-              <div class="col-8">
-                  <button mat-button (click)="toggleTreeVisibility()">
-                      {{ isTreeVisible ? 'Hide Tree' : 'Show Tree' }}
-                  </button>
-              </div>
-              <!-- Action Buttons -->
-              <div class="col-4 d-flex justify-content-end  mb-5">
-                  <button mat-mini-fab color="primary" (click)="addFolder()" *ngIf="navigationpath() == false">
-                      <mat-icon>add</mat-icon>
-                  </button>
-
-                  <div class="file-upload-wrapper" *ngIf="navigationpath() == false">
-                  <button mat-mini-fab color="primary" (change)="selectFile($event)">
-                      <mat-icon>attach_file</mat-icon>
-                      <input type="file" #myInput name="filename" />
-                  </button>
-                  </div>
-
-                  <button mat-mini-fab color="primary" [disabled]="!currentFile" (click)="preUpload()" *ngIf="navigationpath() == false">
-                      <mat-icon>save</mat-icon>
-                  </button>
-                  <div class="alert alert-light" role="alert" *ngIf="message">{{ message }}</div>
-              </div>
+        <div class="col-12 d-flex">
+          <!-- Toggle Button -->
+          <div class="col-8">
+            <button mat-button (click)="toggleTreeVisibility()">
+              {{ isTreeVisible ? 'Hide Tree' : 'Show Tree' }}
+            </button>
           </div>
+          <!-- Action Buttons -->
+          <div class="col-4 d-flex justify-content-end  mb-5">
+            <button mat-mini-fab color="primary" (click)="addFolder()" *ngIf="navigationpath() == false">
+              <mat-icon>add</mat-icon>
+            </button>
 
+            <div class="file-upload-wrapper" *ngIf="navigationpath() == false">
+              <button mat-mini-fab color="primary">
+                <mat-icon>attach_file</mat-icon>
+                <input type="file" #myInput name="filename" (change)="selectFile($event)" />
+              </button>
+            </div>
 
+            <button mat-mini-fab color="primary" [disabled]="!currentFile" (click)="preUpload()" *ngIf="navigationpath() == false">
+              <mat-icon>save</mat-icon>
+            </button>
+            <div class="alert alert-light" role="alert" *ngIf="message">{{ message }}</div>
+          </div>
+        </div>
 
-          <div class="row">
+        <div class="row">
           <!-- File Tree Section -->
           <div class="col-3 nav-section" *ngIf="isTreeVisible">
             <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
@@ -63,8 +61,7 @@
             </mat-tree>
           </div>
 
-
-          <!-- Main Content Section -->
+          <!-- Main Content Section - Change 'folders' to 'currentItems' -->
           <div [ngClass]="{'col-9': isTreeVisible, 'col-12': !isTreeVisible}" class="flex explorer">
             <div class="row" *ngIf="Admin == 'MyFileMangement'">
               <div class="col-md-4">
@@ -110,14 +107,18 @@
                 </div>
               </ng-container>
 
-
               <ng-container *ngIf="!isLoading">
                 <div class="container" fxFlex fxLayout="row" fxLayoutAlign="space-between stretch">
                   <div class="content" fxFlex fxLayout="row">
-                    <mat-grid-list cols="6" fxFlex *ngIf="folders.length > 0 || add">
-                      <mat-grid-tile *ngFor="let element of folders; let i = index;" class="file-or-folder" (contextmenu)="onContextMenu($event, element)">
+                    <!-- CHANGE: folders -> currentItems -->
+                    <mat-grid-list cols="6" fxFlex *ngIf="currentItems.length > 0 || add">
+                      <!-- CHANGE: folders -> currentItems -->
+                      <mat-grid-tile *ngFor="let element of currentItems; let i = index;" class="file-or-folder" (contextmenu)="onContextMenu($event, element)">
                         <div fxLayout="column" fxLayoutAlign="space-between center" class="text-center">
+                          <!-- Folder icon -->
                           <mat-icon class="file-or-folder-icon pointer iconeGrey" *ngIf="element.isFolder" data-toggle="tooltip" data-placement="top" [matTooltip]="getTooltipTextFolder(element.name, element.creationDate | date:'dd/MM/yyyy HH:mm')" (click)="next(element)">folder</mat-icon>
+
+                          <!-- File icon with extension badge -->
                           <mat-icon class="file-or-folder-icon pointer iconeGrey" *ngIf="!element.isFolder" data-toggle="tooltip" data-placement="top" [matTooltip]="getTooltipTextFile(element.name, element.creationDate | date:'dd/MM/yyyy HH:mm', element.size/1024 | number:'1.2-2', element.type)" (click)="openfileNew(element)">
                             <div *ngIf="!element.isFolder" class="rounded extension" [ngClass]="{
                               'Pdf': element.extension === 'pdf',
@@ -134,6 +135,7 @@
                             }">{{ element.extension }}</div>
                             insert_drive_file
                           </mat-icon>
+
                           <div class="fixed-hidden-position" [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu"></div>
                           <mat-menu #contextMenu="matMenu">
                             <ng-template matMenuContent let-item="element">
@@ -194,6 +196,7 @@
                         </div>
                       </mat-grid-tile>
 
+                      <!-- Add folder tile -->
                       <mat-grid-tile *ngIf="add">
                         <div fxLayout="column" fxLayoutAlign="space-between center">
                           <mat-icon color="primary" class="file-or-folder-icon pointer">folder</mat-icon>
@@ -206,7 +209,8 @@
                       </mat-grid-tile>
                     </mat-grid-list>
 
-                    <div class="d-flex justify-content-center mt-4" *ngIf="folders.length == 0 && !add">
+                    <!-- CHANGE: folders -> currentItems -->
+                    <div class="d-flex justify-content-center mt-4" *ngIf="currentItems.length == 0 && !add">
                       <label>{{ 'Le dossier est vide' | translate }}</label>
                     </div>
                   </div>

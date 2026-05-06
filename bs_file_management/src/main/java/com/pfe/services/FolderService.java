@@ -21,5 +21,8 @@ public interface FolderService {
   Optional<FolderDto> getFolderByConnectedUser();
 
   List<FolderDto> getFoldersByParentFolderMinioId(UUID id);
+  FolderDto getFolderContentsByPath(String encodedPath) throws Exception;
+  FolderDto createFolderInBucket(String parentPath, String folderName) throws Exception;
+  FolderDto renameFolder(String folderPath, String newName) throws Exception;
 
 }

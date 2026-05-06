@@ -99,7 +99,7 @@ public class FileServiceImplTest {
         // TODO: Complete this test.
 
 
-        fileServiceImpl.removeFile(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"));
+        fileServiceImpl.removeFile("123e4567-e89b-12d3-a456-426614174000");
     }
 
     /**

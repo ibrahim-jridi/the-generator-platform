@@ -1,15 +1,20 @@
 package com.pfe.web.rest;
 
+import com.pfe.dto.FileDto;
 import com.pfe.dto.FolderDto;
+import com.pfe.dto.requests.CreateFolderByPathRequest;
 import com.pfe.dto.requests.CreateFolderRequest;
 import com.pfe.repository.FolderRepository;
 import com.pfe.security.AuthoritiesConstants;
 import com.pfe.security.SecurityUtils;
+import com.pfe.services.FileService;
 import com.pfe.services.FolderService;
 import com.pfe.domain.Folder;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -41,12 +47,14 @@ public class FolderResource {
   @Value("${jhipster.clientApp.name}")
   private String applicationName;
   private final FolderService folderService;
+  private final FileService fileService;
 
   private final FolderRepository folderRepository;
 
-  public FolderResource(FolderRepository folderRepository, FolderService folderService) {
+  public FolderResource(FolderRepository folderRepository, FolderService folderService,FileService fileService) {
     this.folderRepository = folderRepository;
     this.folderService = folderService;
+    this.fileService =fileService;
   }
 
   /**
@@ -118,17 +126,18 @@ public ResponseEntity<FolderDto> createFolder(@RequestBody CreateFolderRequest r
   /**
    * {@code DELETE /delete/{folderName}} : Delete the specified folder.
    *
-   * @param folderName the name of the folder to delete.
    * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)} if the folder was
    * deleted.
    */
-  @DeleteMapping("/delete/{folderName}")
+  @DeleteMapping("/delete")
 //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""+ AuthoritiesConstants.BS_ADMIN + "\")")
-  public ResponseEntity<String> removeFolder(@PathVariable String folderName) {
+  public ResponseEntity<String> removeFolder(@RequestParam("path") String folderPath) {
     try {
-      this.folderService.removeFolder(folderName);
+      log.info("Deleting folder at path: {}", folderPath);
+      this.folderService.removeFolder(folderPath);
       return ResponseEntity.ok("Folder removed successfully.");
     } catch (Exception e) {
+      log.error("Error deleting folder: {}", e.getMessage(), e);
       return ResponseEntity.status(500).body("Folder removal failed: " + e.getMessage());
     }
   }
@@ -153,16 +162,57 @@ public ResponseEntity<FolderDto> createFolder(@RequestBody CreateFolderRequest r
 
     UUID userConnected = UUID.fromString(SecurityUtils.getUserIdFromCurrentUser());
     UUID folderMinioId = this.folderRepository.findFolderMinioIdByUserId(userConnected);
-    if (id.equals(folderMinioId)) {
+
       List<FolderDto> folderDtos = this.folderService.getFoldersByParentFolderMinioId(id);
       if (folderDtos.isEmpty()) {
         return ResponseEntity.noContent().build();
       }
       return ResponseEntity.ok(folderDtos);
-    } else {
-      return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.emptyList());
-    }
+    
   }
 
+  @GetMapping("/contents")
+  public ResponseEntity<FolderDto> getFolderContents(
+      @RequestParam("path") String path) throws Exception {
+    return ResponseEntity.ok(folderService.getFolderContentsByPath(path));
+  }
 
+  @PostMapping("/create-by-path")
+  public ResponseEntity<FolderDto> createFolderByPath(
+      @RequestBody CreateFolderByPathRequest request) throws Exception {
+    return ResponseEntity.ok(
+        folderService.createFolderInBucket(request.getParentPath(), request.getFolderName())
+    );
+  }
+
+  @GetMapping("/contents-with-files/{folderId}")
+  public ResponseEntity<Map<String, Object>> getFolderContentsWithFiles(@PathVariable UUID folderId) {
+    try {
+      Map<String, Object> response = new HashMap<>();
+      // Get sub-folders
+      List<FolderDto> subFolders = folderService.getFoldersByParentFolderMinioId(folderId);
+      // Get files in this folder
+      List<FileDto> files = fileService.getFilesByFolderId(folderId);
+
+      response.put("folders", subFolders);
+      response.put("files", files);
+      return ResponseEntity.ok(response);
+    } catch (Exception e) {
+      log.error("Error getting folder contents", e);
+      return ResponseEntity.status(500).body(null);
+    }
+  }
+  @PostMapping("/rename")
+
+  public ResponseEntity<FolderDto> renameFolder(
+      @RequestParam("path") String folderPath,
+      @RequestParam("newName") String newName) throws Exception {
+    try {
+      FolderDto renamedFolder = folderService.renameFolder(folderPath, newName);
+      return ResponseEntity.ok(renamedFolder);
+    } catch (Exception e) {
+      log.error("Error renaming folder: {}", e.getMessage(), e);
+      return ResponseEntity.status(500).body(null);
+    }
+  }
 }

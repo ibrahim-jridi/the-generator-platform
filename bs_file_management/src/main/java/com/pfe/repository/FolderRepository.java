@@ -16,7 +16,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FolderRepository extends BaseRepository<Folder, UUID> {
 
-  FolderDto findByPath(String path);
+  Optional<Folder> findByPath(String path);
+
+  // If you still need a method that returns FolderDto, use this approach:
+  @Query("SELECT new com.pfe.dto.FolderDto(f.id, f.folderMinioId, f.name, f.path, f.recurrence, f.userId, f.parent, f.createdBy, f.createdDate, f.lastModifiedBy, f.lastModifiedDate, f.version, f.deleted) FROM Folder f WHERE f.path = :path")
+  Optional<FolderDto> findFolderDtoByPath(@Param("path") String path);
 
   Optional<Folder> findByName(String name);
 
@@ -29,5 +33,6 @@ public interface FolderRepository extends BaseRepository<Folder, UUID> {
   @Query("SELECT f.folderMinioId FROM Folder f WHERE f.userId = :userId")
   UUID findFolderMinioIdByUserId(@Param("userId") UUID userId);
 
+  List<Folder> findByParent(Folder parent);
 
 }

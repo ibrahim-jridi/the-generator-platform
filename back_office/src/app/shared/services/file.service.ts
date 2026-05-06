@@ -137,8 +137,10 @@ export class FileManagementService {
     return this.globalService.call(RequestType.POST, `${this.FOLDER_API}/createChildFolder`, request);
   }
 
-  deleteFolder(folderName: string): Observable<string> {
-    return this.globalService.call(RequestType.DELETE, `${this.FOLDER_API}/delete/${folderName}`);
+  deleteFolder(folderPath: string): Observable<string> {
+    const params = new HttpParams().set('path', folderPath);
+    // For DELETE, pass the params as the options object
+    return this.globalService.call(RequestType.DELETE, `${this.FOLDER_API}/delete`, { params });
   }
 
   uploadFile(file: File, path: string): Observable<FileDto> {
@@ -152,15 +154,18 @@ export class FileManagementService {
     return this.globalService.call(RequestType.GET, `${this.FILE_API}/${fileName}`, {}, { responseType: 'blob' });
   }
 
-  deleteFile(fileId: string): Observable<string> {
-    return this.globalService.call(RequestType.DELETE, `${this.FILE_API}/delete/${fileId}`);
+  deleteFile(fileName: string): Observable<string> {
+    return this.globalService.call(RequestType.DELETE, `${this.FILE_API}/delete/${fileName}`);
   }
 
-  renameFile(fileId: string, newName: string): Observable<string> {
-    const params = new HttpParams().set('fileId', fileId).set('newName', newName);
+  renameFile(oldFileName: string, newFileName: string): Observable<string> {
+    const params = new HttpParams().set('oldFileName', oldFileName).set('newFileName', newFileName);
     return this.globalService.call(RequestType.POST, `${this.FILE_API}/rename`, {}, { params });
   }
-
+  renameFolder(folderPath: string, newName: string): Observable<FolderDto> {
+    const params = new HttpParams().set('path', folderPath).set('newName', newName);
+    return this.http.post<FolderDto>(`${this.FOLDER_API}/rename`, null, { params });
+  }
   getFileById(fileId: string): Observable<FileDto> {
     return this.globalService.call(RequestType.GET, `${this.FILE_API}/${fileId}`);
   }
@@ -216,5 +221,17 @@ export class FileManagementService {
 
   public deleteReport(id: string): Observable<any> {
     return this.globalService.call(RequestType.DELETE, this.FILE_URI + '/' + id);
+  }
+  getFolderContents(path: string): Observable<FolderDto> {
+    return this.http.get<FolderDto>(`${this.FOLDER_API}/contents`, { params: { path } });
+  }
+  createFolderByPath(parentPath: string, folderName: string): Observable<FolderDto> {
+    return this.http.post<FolderDto>(`${this.FOLDER_API}/create-by-path`, {
+      parentPath,
+      folderName
+    });
+  }
+  getFolderContentsWithFiles(folderId: string): Observable<{ folders: FolderDto[]; files: FileDto[] }> {
+    return this.globalService.call(RequestType.GET, `${this.FOLDER_API}/contents-with-files/${folderId}`);
   }
 }

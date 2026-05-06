@@ -6,8 +6,17 @@ import com.pfe.repository.FileRepository;
 import com.pfe.security.AuthoritiesConstants;
 import com.pfe.services.FileService;
 import com.pfe.domain.File;
+import io.minio.errors.ErrorResponseException;
+import io.minio.errors.InsufficientDataException;
+import io.minio.errors.InternalException;
+import io.minio.errors.InvalidResponseException;
+import io.minio.errors.ServerException;
+import io.minio.errors.XmlParserException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -63,7 +72,8 @@ public class FileResource {
   @PostMapping("/upload")
   //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_USER + "\") or  hasRole(\""+ AuthoritiesConstants.BS_ADMIN + "\")")
   public ResponseEntity<FileDto> uploadFile(@RequestParam("file") MultipartFile file,
-      @RequestParam("path") String path) {
+      @RequestParam("path") String path)
+      throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
     if (path == null || path.trim().isEmpty()) {
       throw new IllegalArgumentException("path cannot be null or empty:" + path);
     }
@@ -72,7 +82,8 @@ public class FileResource {
   }
   @PostMapping("/upload-from-report")
   //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
-  public ResponseEntity<FileDto> uploadFileFromReport(@RequestPart("file") MultipartFile file) {
+  public ResponseEntity<FileDto> uploadFileFromReport(@RequestPart("file") MultipartFile file)
+      throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
       FileDto fileSaved = this.fileService.uploadFileFromReport(file);
       return ResponseEntity.ok(fileSaved);
   }
@@ -178,37 +189,38 @@ public class FileResource {
    */
   @DeleteMapping("/delete/{fileName}")
   //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
-  public ResponseEntity<String> removeFile(@PathVariable UUID fileName) {
+  public ResponseEntity<String> removeFile(@PathVariable String fileName) {
     try {
       this.fileService.removeFile(fileName);
       return ResponseEntity.ok("File removed successfully.");
     } catch (Exception e) {
-      return ResponseEntity.status(500).body("File removal failed.");
+      log.error("Error deleting file: {}", fileName, e);
+      return ResponseEntity.status(500).body("File removal failed: " + e.getMessage());
     }
   }
 
   /**
    * {@code POST /rename} : Rename a file.
    *
-   * @param fileId  the ID of the file to rename.
-   * @param newName the new name for the file.
    * @return the {@link ResponseEntity} with status {@code 200 (OK)} if successful.
    */
   @PostMapping("/rename")
   //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
-  public ResponseEntity<String> renameFile(@RequestParam UUID fileId,
-      @RequestParam String newName) {
+  public ResponseEntity<String> renameFile(@RequestParam String oldFileName,
+      @RequestParam String newFileName) {
     try {
-      this.fileService.renameFile(fileId, newName);
-      return ResponseEntity.ok("File renamed successfully.");
+      this.fileService.renameFile(oldFileName, newFileName);
+      return ResponseEntity.ok("File renamed successfully from '" + oldFileName + "' to '" + newFileName + "'");
     } catch (Exception e) {
+      log.error("Error renaming file: {} to {}", oldFileName, newFileName, e);
       return ResponseEntity.status(500).body("File rename failed: " + e.getMessage());
     }
   }
 
   @GetMapping("/{fileId}")
   //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
-  public FileDto getFileById(@PathVariable UUID fileId) {
+  public FileDto getFileById(@PathVariable UUID fileId)
+      throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
       FileDto filedto = this.fileService.getFileById(fileId);
       return filedto;
   }

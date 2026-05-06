@@ -1,0 +1,20 @@
+.extension {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 8px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: bold;
+
+  &.Pdf { background: #e74c3c; }
+  &.Csv { background: #27ae60; }
+  &.Txt { background: #3498db; }
+  &.Jpg, &.Png { background: #f39c12; }
+  &.Doc, &.Docx { background: #2980b9; }
+  &.Pptx { background: #e67e22; }
+  &.Xlsx { background: #2c3e50; }
+  &.Zip { background: #8e44ad; }
+}
