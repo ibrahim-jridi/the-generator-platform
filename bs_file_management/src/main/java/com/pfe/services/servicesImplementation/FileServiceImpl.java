@@ -241,27 +241,33 @@ public class FileServiceImpl implements FileService {
 
     /*** Download file from MinIO as Base64 ***/
     @Override
-    public String downloadFile(String fileName)
-        throws Exception {
-        String objectName = findFile(fileName);
-        if (objectName == null) {
-            throw new FileNotFoundException("File not found in MinIO: " + fileName);
+    public String downloadFile(String fileName) throws Exception {
+        LOGGER.info("Downloading file as Base64: {}", fileName);
+
+        List<Bucket> buckets = minioClient.listBuckets();
+        for (Bucket bucket : buckets) {
+            Iterable<Result<Item>> results = minioClient.listObjects(
+                ListObjectsArgs.builder()
+                    .bucket(bucket.name())
+                    .recursive(true)
+                    .build());
+
+            for (Result<Item> result : results) {
+                Item item = result.get();
+                if (!item.isDir() && (item.objectName().endsWith("/" + fileName) || item.objectName().equals(fileName))) {
+                    try (InputStream inputStream = minioClient.getObject(
+                        GetObjectArgs.builder()
+                            .bucket(bucket.name())
+                            .object(item.objectName())
+                            .build())) {
+                        byte[] fileBytes = inputStream.readAllBytes();
+                        return Base64.getEncoder().encodeToString(fileBytes);
+                    }
+                }
+            }
         }
 
-        try (InputStream inputStream = minioClient.getObject(
-            GetObjectArgs.builder()
-                .bucket(minioUsername)
-                .object(objectName)
-                .build())) {
-            byte[] fileBytes = inputStream.readAllBytes();
-            return Base64.getEncoder().encodeToString(fileBytes);
-        } catch (MinioException e) {
-            LOGGER.error("MinIO error when downloading the file: {}", e.getMessage(), e);
-            throw e;
-        } catch (IOException e) {
-            LOGGER.error("I/O error when downloading the file: {}", e.getMessage(), e);
-            throw e;
-        }
+        throw new FileNotFoundException("File not found in MinIO: " + fileName);
     }
 
     /*** Delete file from MinIO && DB ***/
@@ -296,36 +302,41 @@ public class FileServiceImpl implements FileService {
 
     /*** Get file InputStream from MinIO ***/
     @Override
-    public InputStream getFile(String fileName)
-        throws Exception {
-        Map<String, Object> hierarchy = new HashMap<>();
-        listObjects(minioClient, minioUsername, "", hierarchy);
-        printHierarchy(hierarchy, 0);
+    public InputStream getFile(String fileName) throws Exception {
+        LOGGER.info("Searching for file: {}", fileName);
 
-        Iterable<Result<Item>> results = minioClient.listObjects(
-            ListObjectsArgs.builder().bucket(minioUsername).recursive(true).build());
+        // Search across all buckets
+        List<Bucket> buckets = minioClient.listBuckets();
+        for (Bucket bucket : buckets) {
+            LOGGER.debug("Searching in bucket: {}", bucket.name());
 
-        Optional<Item> optionalItem = Optional.empty();
-        for (Result<Item> result : results) {
-            try {
-                Item item = result.get();
-                if (item.objectName().endsWith("/" + fileName) || item.objectName().equals(fileName)) {
-                    optionalItem = Optional.of(item);
-                    break;
+            Iterable<Result<Item>> results = minioClient.listObjects(
+                ListObjectsArgs.builder()
+                    .bucket(bucket.name())
+                    .recursive(true)
+                    .build());
+
+            for (Result<Item> result : results) {
+                try {
+                    Item item = result.get();
+                    String objectName = item.objectName();
+
+                    // Check if the object name ends with the requested filename
+                    if (!item.isDir() && (objectName.endsWith("/" + fileName) || objectName.equals(fileName))) {
+                        LOGGER.info("Found file in bucket: {}, path: {}", bucket.name(), objectName);
+                        return minioClient.getObject(
+                            GetObjectArgs.builder()
+                                .bucket(bucket.name())
+                                .object(objectName)
+                                .build());
+                    }
+                } catch (Exception e) {
+                    LOGGER.error("Error reading MinIO result: {}", e.getMessage(), e);
                 }
-            } catch (Exception e) {
-                LOGGER.error("Error reading MinIO result: {}", e.getMessage(), e);
             }
         }
 
-        Item foundItem = optionalItem
-            .orElseThrow(() -> new FileNotFoundException("File not found: " + fileName));
-
-        return minioClient.getObject(
-            GetObjectArgs.builder()
-                .bucket(minioUsername)
-                .object(foundItem.objectName())
-                .build());
+        throw new FileNotFoundException("File not found: " + fileName);
     }
 
     /*** Get all files from MinIO ***/

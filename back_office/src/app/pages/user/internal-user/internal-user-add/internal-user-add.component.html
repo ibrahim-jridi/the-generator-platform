@@ -57,6 +57,14 @@
                     {{'users.errors.INVALID_EMAIL' | translate}}
                   </div>
                 </div>
+                <div *ngIf="userForm.get('email')?.hasError('emailAlreadyExists') && (email.dirty || email.touched)"
+                     class="text-danger">
+                  {{ 'users.errors.EMAIL_ALREADY_EXISTS' | translate }}
+                </div>
+                <div *ngIf="userForm.get('email')?.pending" class="text-muted" style="font-size:0.8rem;">
+                  <i class="feather icon-loader" style="animation: spin 1s linear infinite;"></i>
+                  {{ 'users.errors.CHECKING' | translate }}
+                </div>
               </div>
             </div>
           </div>
@@ -219,6 +227,14 @@
                     {{ 'users.errors.INVALID_CIN' | translate }}
                   </div>
                 </div>
+                <div *ngIf="userForm.get('cin')?.hasError('cinAlreadyExists') && (cin.dirty || cin.touched)"
+                     class="text-danger">
+                  {{ 'users.errors.CIN_ALREADY_EXISTS' | translate }}
+                </div>
+                <div *ngIf="userForm.get('cin')?.pending" class="text-muted" style="font-size:0.8rem;">
+                  <i class="feather icon-loader" style="animation: spin 1s linear infinite;"></i>
+                  {{ 'users.errors.CHECKING' | translate }}
+                </div>
               </div>
             </div>
           </div>
@@ -283,7 +299,8 @@
                              [buttonType]="'button'" [buttonDisabled]="false" [tooltip]="'button.CANCEL' | translate"
                              (clicked)="(userForm?.touched) ? addUserModal.show(): back()"></app-custom-button>
           <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary'"
-                             [buttonType]="'submit'" [buttonDisabled]="userForm?.invalid" [tooltip]="'button.SAVE' | translate"
+                             [buttonType]="'submit'" [buttonDisabled]="userForm?.invalid || userForm?.pending"
+                             [tooltip]="'button.SAVE' | translate"
                              (clicked)="addUser(false)"></app-custom-button>
         </div>
         <app-ui-modal #addUserModal id="addUserModal" dialogClass="modal-dialog-centered" [hideHeader]="true">

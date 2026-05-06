@@ -510,7 +510,9 @@
       "BIRTHDATE_TOO_OLD": "La date de naissance indique un âge de plus de 100 ans",
       "INVALID_LENGTH_ADDRESS": "L'adresse doit comporter un minimum de 10 caractères",
       "VERIFICATION_FAILED_USERNAME": "Username saisi ne correspond pas au compte interne lié à ce CIN. Veuillez vérifier et réessayer.",
-      "ACTIVATION_LINK_USED": "Ce lien de préinscription a déjà été utilisé pour créer un utilisateur. Vous ne pouvez pas créer un autre utilisateur avec le même lien."
+      "ACTIVATION_LINK_USED": "Ce lien de préinscription a déjà été utilisé pour créer un utilisateur. Vous ne pouvez pas créer un autre utilisateur avec le même lien.",
+      "CIN_ALREADY_EXISTS": "Ce numéro CIN est déjà enregistré.",
+      "CHECKING": "Vérification..."
     },
     "nationalities": {
       "afghanistan": "Afghanistan",
@@ -1354,7 +1356,10 @@
     "INVALID_REGIONAL_CODE": "Numéro invalide",
     "SUCCESS-SIGNUP-TEXT": "Félicitations ! Vous êtes à mi-chemin de la création complète de votre compte personnel sur la plateforme. Un e-mail comprenant un lien de validation vous a été envoyé. Cliquez sur ce lien pour accéder à votre espace, compléter votre profil professionnel et bénéficier des services offerts par l'agence.",
     "INVALID_WHITE_SPACE": "Le champs ne peut pas être vide ou contenir uniquement des espaces",
-    "PROTECTIONS": " et j'accepte les conditions liées à la gestion et à la protection de mes données personnelles."
+    "PROTECTIONS": " et j'accepte les conditions liées à la gestion et à la protection de mes données personnelles.",
+    "CIN_ALREADY_EXISTS": "Ce numéro CIN est déjà enregistré.",
+    "EMAIL_ALREADY_EXISTS": "Cette adresse e-mail est déjà utilisée.",
+    "CHECKING": "Vérification..."
   },
   "resetPassword": {
     "RESET_PASSWORD_REQUEST": "Demande de réinitialisation de mot de passe",

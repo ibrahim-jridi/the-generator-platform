@@ -158,4 +158,16 @@ public class OpenResource {
             return ResponseEntity.ok(false);
         }
     }
+
+  @GetMapping("/check-cin")
+  public ResponseEntity<Boolean> checkCinExists(@RequestParam String nationalId) {
+    log.debug("Check if CIN already exists: {}", nationalId);
+    return ResponseEntity.ok(userService.existsByCin(nationalId));
+  }
+
+  @GetMapping("/check-email")
+  public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
+    log.debug("Check if email already exists: {}", email);
+    return ResponseEntity.ok(userService.existsByEmail(email));
+  }
 }

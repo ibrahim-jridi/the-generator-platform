@@ -139,8 +139,10 @@ export class FileManagementService {
 
   deleteFolder(folderPath: string): Observable<string> {
     const params = new HttpParams().set('path', folderPath);
-    // For DELETE, pass the params as the options object
-    return this.globalService.call(RequestType.DELETE, `${this.FOLDER_API}/delete`, { params });
+    return this.http.delete(`${this.FOLDER_API}/delete`, {
+      params,
+      responseType: 'text'
+    });
   }
 
   uploadFile(file: File, path: string): Observable<FileDto> {
@@ -151,7 +153,7 @@ export class FileManagementService {
   }
 
   downloadFile(fileName: string): Observable<Blob> {
-    return this.globalService.call(RequestType.GET, `${this.FILE_API}/${fileName}`, {}, { responseType: 'blob' });
+    return this.http.get(`${this.FILE_API}/download/${fileName}`, { responseType: 'blob' });
   }
 
   deleteFile(fileName: string): Observable<string> {
@@ -167,7 +169,7 @@ export class FileManagementService {
     return this.http.post<FolderDto>(`${this.FOLDER_API}/rename`, null, { params });
   }
   getFileById(fileId: string): Observable<FileDto> {
-    return this.globalService.call(RequestType.GET, `${this.FILE_API}/${fileId}`);
+    return this.globalService.call(RequestType.GET, `${this.FILE_API}/id/${fileId}`);
   }
 
   getAllFiles(): Observable<FileDto[]> {

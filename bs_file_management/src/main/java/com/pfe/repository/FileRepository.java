@@ -1,6 +1,7 @@
 package com.pfe.repository;
 
 import com.pfe.domain.File;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +11,6 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface FileRepository extends BaseRepository<File, UUID> {
+  Optional<File> findByName(String name);
 
 }

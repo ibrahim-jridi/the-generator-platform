@@ -64,6 +64,14 @@
                     {{'users.errors.INVALID_EMAIL' | translate}}
                   </div>
                 </div>
+                <div *ngIf="userForm.get('email')?.hasError('emailAlreadyExists') && (email.dirty || email.touched)"
+                     class="text-danger">
+                  {{ 'users.errors.EMAIL_ALREADY_EXISTS' | translate }}
+                </div>
+                <div *ngIf="userForm.get('email')?.pending" class="text-muted" style="font-size:0.8rem;">
+                  <i class="feather icon-loader" style="animation: spin 1s linear infinite;"></i>
+                  {{ 'users.errors.CHECKING' | translate }}
+                </div>
               </div>
             </div>
           </div>
@@ -292,7 +300,7 @@
                              (clicked)="updateUserModal.show()"
                              ></app-custom-button>
           <app-custom-button class="ms-2" [buttonText]="'button.SAVE' | translate" [buttonClass]="'btn custom-btn-primary custom-btn-update'"
-                             [buttonType]="'submit'" [buttonDisabled]="userForm?.invalid" [tooltip]="'button.SAVE' | translate"
+                             [buttonType]="'submit'" [buttonDisabled]="userForm?.invalid || userForm?.pending" [tooltip]="'button.SAVE' | translate"
                              (clicked)="updateUser()"></app-custom-button>
         </div>
 

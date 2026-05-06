@@ -405,6 +405,17 @@
                          *ngIf="informationFormGroup.get('cin')?.hasError('cinStartWithError')">
                 {{ 'signup.CIN_START_WITH_ERROR' | translate }}
               </mat-error>
+
+              <!-- ✅ ADD THESE TWO -->
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('cin')?.hasError('cinAlreadyExists')">
+                {{ 'signup.CIN_ALREADY_EXISTS' | translate }}
+              </mat-error>
+              <mat-hint *ngIf="informationFormGroup.get('cin')?.pending">
+                <i class="fas fa-circle-notch fa-spin" style="color:#1f6e8a; font-size:0.75rem;"></i>
+                {{ 'signup.CHECKING' | translate }}
+              </mat-hint>
+
             </mat-form-field>
           </div>
 
@@ -548,9 +559,19 @@
                          *ngIf="informationFormGroup.get('email')?.hasError('email') || informationFormGroup.get('email')?.hasError('pattern')">
                 {{ 'signup.EMAIL_INVALIDE' | translate }}
               </mat-error>
+
+              <!-- ✅ ADD THESE TWO -->
+              <mat-error class="error-fields"
+                         *ngIf="informationFormGroup.get('email')?.hasError('emailAlreadyExists')">
+                {{ 'signup.EMAIL_ALREADY_EXISTS' | translate }}
+              </mat-error>
+              <mat-hint *ngIf="informationFormGroup.get('email')?.pending">
+                <i class="fas fa-circle-notch fa-spin" style="color:#1f6e8a; font-size:0.75rem;"></i>
+                {{ 'signup.CHECKING' | translate }}
+              </mat-hint>
+
             </mat-form-field>
           </div>
-
           <!-- Terms Checkbox -->
           <div class="full-width-item">
             <mat-checkbox formControlName="checkbox" id="checkbox" class="mt-3">
@@ -570,7 +591,7 @@
       <!-- Form Actions -->
       <div class="form-actions">
         <button mat-button (click)="onCancel()" class="previous-button">{{ 'signup.PRECEDENT' | translate }}</button>
-        <button mat-button [disabled]="informationFormGroup.invalid" (click)="submit()" class="next-button">
+        <button mat-button [disabled]="informationFormGroup.invalid || informationFormGroup.pending" (click)="submit()" class="next-button">
           {{ 'signup.SINSCRIRE' | translate }}
           <i class="fa fa-arrow-right ms-2"></i>
         </button>

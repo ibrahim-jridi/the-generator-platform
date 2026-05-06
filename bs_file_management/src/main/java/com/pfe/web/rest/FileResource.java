@@ -217,7 +217,7 @@ public class FileResource {
     }
   }
 
-  @GetMapping("/{fileId}")
+  @GetMapping("/id/{fileId}")
   //@PreAuthorize("hasRole(\"" + AuthoritiesConstants.BS_ADMIN + "\")")
   public FileDto getFileById(@PathVariable UUID fileId)
       throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {

@@ -174,5 +174,6 @@ public interface UserService {
      List<UserRepresentation> getAllUsersFromKeycloak();
      void removeEctdCompletely(UserDTO user) ;
      void updateEctdUserAttributes(String username) ;
-
+    boolean existsByCin(String nationalId);
+    boolean existsByEmail(String email);
     }

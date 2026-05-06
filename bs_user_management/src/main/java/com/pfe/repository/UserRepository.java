@@ -108,4 +108,7 @@ public interface UserRepository extends BaseRepository<User, UUID> {
     @Query("SELECT u.username FROM User u WHERE u.nationalId = :nationalId AND u.deleted = false")
     List<String> findUsernameByNationalId(@Param("nationalId") String nationalId);
 
+    boolean existsByEmailAndDeletedFalse(String email);
+
+
 }

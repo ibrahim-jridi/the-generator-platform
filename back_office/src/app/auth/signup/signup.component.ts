@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../../shared/services/login.service';
 import { AppToastNotificationService } from '../../shared/services/appToastNotification.service';
@@ -10,7 +10,7 @@ import { User } from '../../shared/models/user.model';
 import { NationalityList } from '../../shared/utils/Nationalities';
 import { CountryISO } from 'ngx-intl-tel-input';
 import { RegexConstants } from '../../shared/utils/regex-constants';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, firstValueFrom, of, Subscription } from 'rxjs';
 import { Constants } from '../../shared/utils/constants';
 import { GenderEnum } from '../../shared/enums/gender.enum';
 import { ModalService } from '../../shared/services/modal.service';
@@ -23,7 +23,8 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Country } from "ngx-intl-tel-input/lib/model/country.model";
 import { Nationalities } from "../../shared/enums/nationality.enum";
 import { UiModalComponent } from "../../theme/shared/components/modal/ui-modal/ui-modal.component";
-import { UserService } from "../../shared/services/user.service";
+import { UserService } from '../../shared/services/user.service';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup',
@@ -77,8 +78,16 @@ export class SignupComponent implements OnInit {
       age: [{ value: '', disabled: true }, Validators.required],
       phoneNumber: ['', [Validators.required, Validators.maxLength(8), Validators.minLength(8)]],
       address: ['', [Validators.required, Validators.pattern(RegexConstants.ADDRESS_LENGTH)]],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(100), Validators.pattern(this.emailRegex)]],
-      cin: ['', [Validators.required, Validators.maxLength(8), Validators.minLength(8), Validation.cinStartWithValidator()]],
+      cin: [
+        '',
+        [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validation.cinStartWithValidator()],
+        [this.cinExistsValidator()] // async
+      ],
+      email: [
+        '',
+        [Validators.required, Validators.email, Validators.maxLength(100), Validators.pattern(this.emailRegex)],
+        [this.emailExistsValidator()] // async
+      ],
       checkbox: [false, Validators.required]
     });
 
@@ -269,5 +278,32 @@ export class SignupComponent implements OnInit {
   public noOnlyWhitespaceValidator(control: AbstractControl): ValidationErrors | null {
     if (typeof control.value !== 'string') return null;
     return control.value.trim().length === 0 && control.value.length > 0 ? { whitespace: true } : null;
+  }
+  private cinExistsValidator(): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      const value = control.value;
+      if (!value || value.length !== 8) return of(null);
+      return of(value).pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(cin => this.loginService.checkCinExists(cin)),
+        map(exists => exists ? { cinAlreadyExists: true } : null),
+        catchError(() => of(null))
+      );
+    };
+  }
+
+  private emailExistsValidator(): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      const value = control.value;
+      if (!value || !this.emailRegex.test(value)) return of(null);
+      return of(value).pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(email => this.loginService.checkEmailExists(email)),
+        map(exists => exists ? { emailAlreadyExists: true } : null),
+        catchError(() => of(null))
+      );
+    };
   }
 }

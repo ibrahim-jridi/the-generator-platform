@@ -1,11 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder, FormGroup,
-  ValidationErrors,
-  Validators
-} from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Group } from '../../../../shared/models/group.model';
@@ -22,7 +16,7 @@ import { CountryISO } from 'ngx-intl-tel-input';
 import { Constants } from '../../../../shared/utils/constants';
 import { RegexConstants } from '../../../../shared/utils/regex-constants';
 import { nationalitiesEnum } from '../../../../shared/enums/nationalities-enum';
-import {forkJoin, Observable, Subscription, throwError} from 'rxjs';
+import { debounceTime, distinctUntilChanged, forkJoin, Observable, of, Subscription, throwError } from 'rxjs';
 import { GenderEnumsTranslationService } from '../../../../shared/enums/gender.enum';
 import { StatusEnumsTranslationService } from '../../../../shared/enums/status.enum';
 import {ActivityDomainClass} from "../../../../shared/enums/activity-domain.enum";
@@ -31,7 +25,8 @@ import {CompanyUserModel} from "../../../../shared/models/company-user-model";
 import {RegistryStatusClass} from "../../../../shared/enums/registryStatus.enum";
 import {ActivityType} from "../../../../shared/models/activity-type";
 import {ReportService} from "../../../../shared/services/report.service";
-import {catchError, map} from "rxjs/operators";
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { LoginService } from '../../../../shared/services/login.service';
 
 @Component({
   selector: 'app-internal-user-update',
@@ -106,7 +101,8 @@ export class InternalUserUpdateComponent implements OnInit {
     private statusEnumsTranslationService: StatusEnumsTranslationService,
     private reportService: ReportService,
     private legalStatusClass: LegalStatusClass,
-    private registryStatusTranslatioService: RegistryStatusClass
+    private registryStatusTranslatioService: RegistryStatusClass,
+    private loginService: LoginService
   ) {
     this.initUserForm();
     this.legalStatusList = this.legalStatusClass.getLegalStatus();
@@ -323,8 +319,13 @@ export class InternalUserUpdateComponent implements OnInit {
         fileStatus: this.companyUser.fileStatus ?? '',
         filePatent: this.companyUser.filePatent ?? '',
         activityTypes: this.companyUser.activitiesType ?? '',
-        role: [roleLabels?.join(', ') ?? ''],
+        role: [roleLabels?.join(', ') ?? '']
       });
+      const currentEmail = this.user.email;
+      this.userForm.get('email')?.setAsyncValidators(
+        this.emailExistsValidator(() => currentEmail)
+      );
+      this.userForm.get('email')?.updateValueAndValidity();
       if (this.companyUser.activitiesType) {
         if (this.companyUser.activitiesType.length > 0) {
           const activities = [...this.companyUser.activitiesType];
@@ -960,5 +961,18 @@ export class InternalUserUpdateComponent implements OnInit {
         throw error;
       })
     );
+  }
+  private emailExistsValidator(excludeCurrentEmail: () => string): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      const value = control.value;
+      if (!value || value === excludeCurrentEmail()) return of(null);
+      return of(value).pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(email => this.loginService.checkEmailExists(email)),
+        map(exists => exists ? { emailAlreadyExists: true } : null),
+        catchError(() => of(null))
+      );
+    };
   }
 }

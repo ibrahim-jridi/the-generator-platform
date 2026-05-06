@@ -1948,4 +1948,15 @@ public class UserServiceImpl implements UserService {
         log.info("Updated ECTD attributes for {}: applicant=[{}], submitter=[{}]",
             username, applicant, submitter);
     }
+
+    @Override
+    public boolean existsByCin(String nationalId) {
+        return userRepository.findAllByNationalIdAndDeletedFalse(nationalId)
+            .stream()
+            .anyMatch(u -> u.getUsername() != null && u.getUsername().startsWith("ext-"));
+    }
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmailAndDeletedFalse(email);
+    }
 }

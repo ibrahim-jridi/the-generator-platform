@@ -1354,7 +1354,10 @@
     "INVALID_REGIONAL_CODE": "Invalid number",
     "SUCCESS-SIGNUP-TEXT": "Congratulations! You are halfway through creating your personal account on the platform. An email containing a validation link has been sent to you. Click on this link to access your space, complete your professional profile, and take advantage of the services offered by the agency.",
     "INVALID_WHITE_SPACE": "Form field cannot be empty or contain only spaces",
-    "PROTECTIONS": " and I accept the conditions related to the management and protection of my personal data."
+    "PROTECTIONS": " and I accept the conditions related to the management and protection of my personal data.",
+    "CIN_ALREADY_EXISTS": "This CIN number is already registered.",
+    "EMAIL_ALREADY_EXISTS": "This email address is already in use.",
+    "CHECKING": "Checking..."
   },
   "resetPassword": {
     "RESET_PASSWORD_REQUEST": "Password Reset Request",

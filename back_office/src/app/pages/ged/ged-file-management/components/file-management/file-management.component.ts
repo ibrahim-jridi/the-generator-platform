@@ -523,10 +523,23 @@ export class FileManagementComponent implements OnInit {
   downloadFile() {
     if (this.selectedElement && !this.selectedElement.isFolder) {
       this.showLoader();
-      this.fileService.downloadFile(this.selectedElement.name).subscribe({
-        next: (blob) => {
-          saveAs(blob, this.selectedElement.name);
+      const fileName = this.selectedElement.name;
+
+      this.fileService.downloadFile(fileName).subscribe({
+        next: (blob: Blob) => {
+          // Create a blob URL and trigger download
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+
           this.hideLoader();
+          this.message = 'File downloaded successfully';
+          setTimeout(() => (this.message = ''), 3000);
         },
         error: (error) => {
           console.error('Error downloading file:', error);

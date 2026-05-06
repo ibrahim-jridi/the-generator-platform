@@ -6,13 +6,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {
-  AbstractControl, FormArray,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  Validators
-} from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Group } from '../../../../shared/models/group.model';
@@ -30,7 +24,7 @@ import { NationalityList } from '../../../../shared/utils/Nationalities';
 import { Constants } from '../../../../shared/utils/constants';
 import { nationalitiesEnum } from '../../../../shared/enums/nationalities-enum';
 import { GenderEnum, GenderEnumsTranslationService } from '../../../../shared/enums/gender.enum';
-import { forkJoin, Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, forkJoin, Observable, of, Subscription } from 'rxjs';
 import {LegalStatusClass, LegalStatusEnum} from "../../../../shared/enums/legal-status.enum";
 import {ActivityDomainClass} from "../../../../shared/enums/activity-domain.enum";
 import {StatusEnumsTranslationService} from "../../../../shared/enums/status.enum";
@@ -38,9 +32,10 @@ import {CompanyUserModel} from "../../../../shared/models/company-user-model";
 import {RegistryStatusClass} from "../../../../shared/enums/registryStatus.enum";
 import {ActivityType} from "../../../../shared/models/activity-type";
 import {ReportService} from "../../../../shared/services/report.service";
-import {catchError, map} from "rxjs/operators";
+import { catchError, map, switchMap } from 'rxjs/operators';
 import {UiModalComponent} from "../../../../theme/shared/components/modal/ui-modal/ui-modal.component";
 import {LoginService} from "../../../../shared/services/login.service";
+
 @Component({
   selector: 'app-internal-user-add',
   templateUrl: './internal-user-add.component.html',
@@ -160,25 +155,23 @@ export class InternalUserAddComponent implements OnInit {
     this.userForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.pattern(RegexConstants.FIRST_NAME_LAST_NAME_REGEX)]],
       lastName: ['', [Validators.required, Validators.pattern(RegexConstants.FIRST_NAME_LAST_NAME_REGEX)]],
-      email: ['', [Validators.required, Validators.email, Validators.pattern(RegexConstants.EMAIL)]],
       birthdate: ['', [Validators.required], this.dateValidator()],
       group: [[], [Validators.required]],
       role: [[], [Validators.required]],
       country: [this.defaultCountry, [Validators.required]],
       passport: ['', [Validators.required, Validators.pattern(RegexConstants.PASSPORT)]],
-      cin: ['', [Validators.pattern(RegexConstants.CIN)]],
-        phoneNumber: [
-          {   number: this.phoneNumberPrefix,
-            dialCode: this.phoneNumberPrefix,
-            countryCode: this.selectedCountry},
-          {
-            validators: [Validators.required, this.phoneNumberValidator(this.selectedCountry)],
-            updateOn: 'blur'
-          }
-        ],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(RegexConstants.EMAIL)], [this.emailExistsValidator()]],
+      cin: ['', [Validators.pattern(RegexConstants.CIN)], [this.cinExistsValidator()]],
+      phoneNumber: [
+        { number: this.phoneNumberPrefix, dialCode: this.phoneNumberPrefix, countryCode: this.selectedCountry },
+        {
+          validators: [Validators.required, this.phoneNumberValidator(this.selectedCountry)],
+          updateOn: 'blur'
+        }
+      ],
 
       address: ['', [Validators.required, Validators.pattern(RegexConstants.ADDRESS_LENGTH)]],
-      gender: ['', Validators.required],
+      gender: ['', Validators.required]
     });
     this.userForm.get('country')?.setValue(this.defaultCountry);
     this.handleCountryChange(this.defaultCountry);
@@ -834,5 +827,32 @@ export class InternalUserAddComponent implements OnInit {
   public confirmAddUserWithExternalCIN(){
     this.cinVerificationsModal.hide();
     this.addUser(true);
+  }
+  private cinExistsValidator(): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      const value = control.value;
+      if (!value || value.length < 8) return of(null);
+      return of(value).pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(cin => this.loginService.checkCinExists(cin)),
+        map(exists => exists ? { cinAlreadyExists: true } : null),
+        catchError(() => of(null))
+      );
+    };
+  }
+
+  private emailExistsValidator(): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      const value = control.value;
+      if (!value) return of(null);
+      return of(value).pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(email => this.loginService.checkEmailExists(email)),
+        map(exists => exists ? { emailAlreadyExists: true } : null),
+        catchError(() => of(null))
+      );
+    };
   }
 }
