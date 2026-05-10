@@ -20,6 +20,22 @@ spring:
         json.value.default.type: com.pfe.service.dto.RolePermissionUpdate
   cloud:
     gateway:
+      default-filters:
+        - AddRequestHeader=ngrok-skip-browser-warning, true
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: false
+            maxAge: 3600
       httpclient:
         connect-timeout: 30000
         response-timeout: 30000

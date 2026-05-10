@@ -44,7 +44,9 @@ public class TokenValidatorFilter implements WebFilter {
    */
   @Override
   public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-
+    if (exchange.getRequest().getMethod().name().equals("OPTIONS")) {
+      return chain.filter(exchange);
+    }
     ServerHttpRequest requestHttp = exchange.getRequest();
     try {
       String authorization =
@@ -77,7 +79,7 @@ public class TokenValidatorFilter implements WebFilter {
       }
       //continue
       chain.filter(exchange);
-
+      return chain.filter(exchange);
     } catch (Exception ex) {
       this.logger.error("Error Validation token " + ex.getMessage());
       return this.authenticationEntryPoint.commence(
@@ -89,7 +91,7 @@ public class TokenValidatorFilter implements WebFilter {
     } finally {
       this.logger.debug("End Check Security JWT Token By TokenValidatorFilter");
     }
-    return chain.filter(exchange);
+//    return chain.filter(exchange);
   }
 
 }

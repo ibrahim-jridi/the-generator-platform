@@ -15,6 +15,11 @@ export class RequestInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const isLoginRequest = request.url.includes('/oauth') || request.url.includes('/send-email') || request.url.includes('/resend-email');
+    request = request.clone({
+    setHeaders: {
+      'ngrok-skip-browser-warning': 'true'
+    }
+  });
     if (!request.url.includes('rss2json') && !request.url.includes('assets') && !isLoginRequest) {
       const token = sessionStorage.getItem('token');
       if ( token != null) {

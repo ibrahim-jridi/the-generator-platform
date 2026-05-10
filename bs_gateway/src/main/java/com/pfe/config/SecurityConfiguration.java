@@ -58,11 +58,12 @@ public class SecurityConfiguration {
           this.delayCacheCertsKeys);
 
       http
+          .cors(Customizer.withDefaults())
           .csrf(csrf -> csrf.disable())
           .authorizeExchange(authz ->
               // prettier-ignore
               authz
-                  .pathMatchers(HttpMethod.OPTIONS)
+                  .pathMatchers(HttpMethod.OPTIONS, "/**")
                   .permitAll()
                   .pathMatchers(("/open-api/**"))
                   .permitAll()

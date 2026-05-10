@@ -39,28 +39,36 @@ public class WebConfigurer implements WebFluxConfigurer {
   public CorsConfigurationSource corsConfigurationSource() {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(this.authorizedOrigins);
+
+    // ✅ Replace setAllowedOrigins with setAllowedOriginPatterns for wildcard support
+    if (!CollectionUtils.isEmpty(this.authorizedOrigins)) {
+      config.setAllowedOriginPatterns(this.authorizedOrigins);
+    } else {
+      config.setAllowedOriginPatterns(List.of("*"));
+    }
+
     config.setAllowedMethods(List.of("*"));
     config.setAllowedHeaders(List.of("*"));
     config.setExposedHeaders(List.of("Authorization", "Link", "X-Total-Count", "X-Warning", "Location"));
     config.setAllowCredentials(true);
-    if (!CollectionUtils.isEmpty(config.getAllowedOrigins()) || !CollectionUtils.isEmpty(
-        config.getAllowedOriginPatterns())) {
-      this.log.debug("Registering CORS filter");
-      source.registerCorsConfiguration("/api/**", config);
-      source.registerCorsConfiguration("/user-management/**", config);
-      source.registerCorsConfiguration("/workflow-management/**", config);
-      source.registerCorsConfiguration("/report-management/**", config);
-      source.registerCorsConfiguration("/file-management/**", config);
-      source.registerCorsConfiguration("/connector-management/**", config);
-      source.registerCorsConfiguration("/form-management/**", config);
-      source.registerCorsConfiguration("/notification-management/api/**", config);
-      source.registerCorsConfiguration("/audit-management/**", config);
-      source.registerCorsConfiguration("/payment-management/**", config);
-      source.registerCorsConfiguration("/open-api/**", config);
-      source.registerCorsConfiguration("/redirect/ectd", config);
 
-    }
+    this.log.debug("Registering CORS filter");
+    source.registerCorsConfiguration("/api/**", config);
+    source.registerCorsConfiguration("/user-management/**", config);
+    source.registerCorsConfiguration("/workflow-management/**", config);
+    source.registerCorsConfiguration("/report-management/**", config);
+    source.registerCorsConfiguration("/file-management/**", config);
+    source.registerCorsConfiguration("/connector-management/**", config);
+    source.registerCorsConfiguration("/form-management/**", config);
+    source.registerCorsConfiguration("/notification-management/api/**", config);
+    source.registerCorsConfiguration("/audit-management/**", config);
+    source.registerCorsConfiguration("/payment-management/**", config);
+    source.registerCorsConfiguration("/open-api/**", config);
+    source.registerCorsConfiguration("/redirect/ectd", config);
+
+    // ✅ Also add wildcard to catch all preflight requests
+    source.registerCorsConfiguration("/**", config);
+
     return source;
   }
 }

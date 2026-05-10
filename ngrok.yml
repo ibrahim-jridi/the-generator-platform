@@ -1,0 +1,12 @@
+version: "2"
+authtoken: 2fSZrvknmmUp66wTFDwmRN0ICav_4YqT9tvRgrX6fitmJd6SD
+tunnels:
+  frontend:
+    addr: 82
+    proto: http
+  gateway:
+    addr: 9999
+    proto: http
+  keycloak:
+    addr: 8180
+    proto: http
