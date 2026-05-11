@@ -104,6 +104,7 @@ spring:
             age:
               ms: 300000
     admin:
+      bootstrap-servers: localhost:29092
       auto-create-topics: true
 
 server:

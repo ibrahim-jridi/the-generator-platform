@@ -2,8 +2,7 @@ export const environment = {
   production: false,
   showdemo: true,
   BACK_END_POINT: "http://localhost:9999/",
-  ECTD_FULL_URL:  "",
-  KEYCLOACK_URL:  "http://localhost:8180",
+  KEYCLOACK_URL: "http://localhost:8180",
   REALM: "bsrealm",
   ECTD_CLIENT_ID: "docubridge-ectd",
 }

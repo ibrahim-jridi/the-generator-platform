@@ -73,6 +73,7 @@ spring:
             age:
               ms: 300000
     admin:
+      bootstrap-servers: kafka:9092
       auto-create-topics: true
 
 server:

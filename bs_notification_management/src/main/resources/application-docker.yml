@@ -37,7 +37,7 @@ spring:
   mail:
     host: smtp.office365.com
     username: "bs_smtp@numeryx.fr"
-    password: "N*229970255343af"
+    password: "J%782166239030oj"
     port: 587
     properties:
       mail:
