@@ -16,18 +16,18 @@
       <div class="kpi-trend up"><i class="feather icon-trending-up"></i><span>+{{ stats.processes.trend }}%</span></div>
     </div>
 
-    <div class="kpi-card kpi-task" (click)="onKpiClick('task')">
-      <div class="kpi-icon-wrap"><i class="feather icon-check-square"></i></div>
-      <div class="kpi-content">
-        <span class="kpi-label">{{ 'menu.TOTAL_TASKS' | translate }}</span>
-        <span class="kpi-value">{{ stats.tasks.total }}</span>
-        <div class="kpi-badges">
-          <span class="badge-active"><i class="feather icon-activity"></i> {{ stats.tasks.active }} {{ 'menu.ACTIVE' | translate }}</span>
-          <span class="badge-completed"><i class="feather icon-check"></i> {{ stats.tasks.completed }} {{ 'menu.COMPLETED' | translate }}</span>
-        </div>
-      </div>
-      <div class="kpi-trend up"><i class="feather icon-trending-up"></i><span>+{{ stats.tasks.trend }}%</span></div>
-    </div>
+<!--    <div class="kpi-card kpi-task" (click)="onKpiClick('task')">-->
+<!--      <div class="kpi-icon-wrap"><i class="feather icon-check-square"></i></div>-->
+<!--      <div class="kpi-content">-->
+<!--        <span class="kpi-label">{{ 'menu.TOTAL_TASKS' | translate }}</span>-->
+<!--        <span class="kpi-value">{{ stats.tasks.total }}</span>-->
+<!--        <div class="kpi-badges">-->
+<!--          <span class="badge-active"><i class="feather icon-activity"></i> {{ stats.tasks.active }} {{ 'menu.ACTIVE' | translate }}</span>-->
+<!--          <span class="badge-completed"><i class="feather icon-check"></i> {{ stats.tasks.completed }} {{ 'menu.COMPLETED' | translate }}</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="kpi-trend up"><i class="feather icon-trending-up"></i><span>+{{ stats.tasks.trend }}%</span></div>-->
+<!--    </div>-->
 
     <div class="kpi-card kpi-user" (click)="onKpiClick('users')">
       <div class="kpi-icon-wrap"><i class="feather icon-users"></i></div>
@@ -170,32 +170,32 @@
         </apx-chart>
       </div>
 
-      <div class="chart-card">
-        <div class="chart-card-header">
-          <span class="chart-card-title">{{ 'menu.DEPLOY_SUCCESS_RATE' | translate }}</span>
-          <span class="chart-card-subtitle">{{ 'menu.CAMUNDA_DEPLOYMENTS' | translate }}</span>
-        </div>
-        <apx-chart
-          [series]="deployRadialOptions.series"
-          [chart]="deployRadialOptions.chart"
-          [plotOptions]="deployRadialOptions.plotOptions"
-          [colors]="deployRadialOptions.colors"
-          [labels]="deployRadialOptions.labels"
-          [legend]="deployRadialOptions.legend"
-          [stroke]="deployRadialOptions.stroke"
-          [fill]="deployRadialOptions.fill">
-        </apx-chart>
-        <div class="deploy-stats">
-          <div class="deploy-stat">
-            <span class="deploy-stat-value success">{{ stats.aiBpmn.deployedSuccess }}</span>
-            <span class="deploy-stat-label">{{ 'menu.SUCCESS' | translate }}</span>
-          </div>
-          <div class="deploy-stat">
-            <span class="deploy-stat-value fail">{{ stats.aiBpmn.deployedFailed }}</span>
-            <span class="deploy-stat-label">{{ 'menu.FAILED' | translate }}</span>
-          </div>
-        </div>
-      </div>
+<!--      <div class="chart-card">-->
+<!--        <div class="chart-card-header">-->
+<!--          <span class="chart-card-title">{{ 'menu.DEPLOY_SUCCESS_RATE' | translate }}</span>-->
+<!--          <span class="chart-card-subtitle">{{ 'menu.CAMUNDA_DEPLOYMENTS' | translate }}</span>-->
+<!--        </div>-->
+<!--        <apx-chart-->
+<!--          [series]="deployRadialOptions.series"-->
+<!--          [chart]="deployRadialOptions.chart"-->
+<!--          [plotOptions]="deployRadialOptions.plotOptions"-->
+<!--          [colors]="deployRadialOptions.colors"-->
+<!--          [labels]="deployRadialOptions.labels"-->
+<!--          [legend]="deployRadialOptions.legend"-->
+<!--          [stroke]="deployRadialOptions.stroke"-->
+<!--          [fill]="deployRadialOptions.fill">-->
+<!--        </apx-chart>-->
+<!--        <div class="deploy-stats">-->
+<!--          <div class="deploy-stat">-->
+<!--            <span class="deploy-stat-value success">{{ stats.aiBpmn.deployedSuccess }}</span>-->
+<!--            <span class="deploy-stat-label">{{ 'menu.SUCCESS' | translate }}</span>-->
+<!--          </div>-->
+<!--          <div class="deploy-stat">-->
+<!--            <span class="deploy-stat-value fail">{{ stats.aiBpmn.deployedFailed }}</span>-->
+<!--            <span class="deploy-stat-label">{{ 'menu.FAILED' | translate }}</span>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <div class="chart-card">
         <div class="chart-card-header">

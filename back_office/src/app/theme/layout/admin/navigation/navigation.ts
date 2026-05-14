@@ -349,6 +349,7 @@ const NavigationItems = [
         title: 'GED',
         type: 'collapse',
         icon: 'icon-File',
+        authority: ['BS_FILES'],
         children: [
           {
             id: 'file-manager',
